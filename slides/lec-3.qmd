@@ -91,7 +91,7 @@ knitr::opts_chunk$set(
 
 ::: columns
 ::: {.column width="70%"}
--   Data behind the FiveThirtyEight story [*Be Suspicious Of Online Movie Ratings, Especially Fandango's*](%22Be%20Suspicious%20Of%20Online%20Movie%20Ratings,%20Especially%20Fandango's%22)
+-   Data behind the FiveThirtyEight story
 -   In the **fivethirtyeight** package: [`fandango`](https://fivethirtyeight-r.netlify.app/reference/fandango.html)
 -   Contains every film that has at least 30 fan reviews on Fandango, an IMDb score, Rotten Tomatoes critic and user ratings, and Metacritic critic and user scores
 :::
