@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Mine Çetinkaya-Rundel">
+
+<title>STA 210 - Spring 2022 - Feature engineering</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta property="og:title" content="STA 210 - Spring 2022 - Feature engineering">
+<meta property="og:description" content="STA 210 - Spring 2022">
+<meta property="og:image" content="https://sta210-s22.github.io/website/slides/images/lec-13/the-office.jpeg">
+<meta property="og:site-name" content="STA 210 - Spring 2022">
+<meta name="twitter:title" content="STA 210 - Spring 2022 - Feature engineering">
+<meta name="twitter:description" content="STA 210 - Spring 2022">
+<meta name="twitter:image" content="https://sta210-s22.github.io/website/slides/images/twitter-card.png">
+<meta name="twitter:creator" content="@minebocek">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Feature engineering</li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/sta210-s22" rel="" title="GitHub organization" class="quarto-navigation-tool px-1" aria-label="GitHub organization"><i class="bi bi-github"></i></a>
+    <a href="https://cmgr.oit.duke.edu/containers" rel="" title="RStudio Containers" class="quarto-navigation-tool px-1" aria-label="RStudio Containers"><i class="bi bi-code-square"></i></a>
+    <div class="dropdown">
+      <a href="" title="Sakai" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Sakai"><i class="bi bi-person-fill"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://sakai.duke.edu/portal/site/779c3ebe-3b88-4bcc-bd01-1813e8396a23/tool/13b6446a-a6c6-4222-8cfb-c36d1f70802b">
+            Discussion forum
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://sakai.duke.edu/portal/site/779c3ebe-3b88-4bcc-bd01-1813e8396a23/page/aec742dc-2972-4f02-a35b-1dd3315af889">
+            Gradescope
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://sakai.duke.edu/portal/site/779c3ebe-3b88-4bcc-bd01-1813e8396a23/tool/69078433-67a6-4054-a2e7-9e6c202ecdc3/">
+            Gradebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Course information</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-syllabus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-support.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Support</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-team.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Teaching team</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-links.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Useful links</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-faq.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">FAQ</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+ <span class="menu-text">Computing</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../computing-access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Access</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../computing-troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Troubleshooting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">Project</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project-description.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Description</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project-tips-resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tips + resources</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+ <span class="menu-text">Weekly materials</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 10</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 13</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 14</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 15</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">Supplemental notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../supplemental/slr-derivations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SLR derivations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../supplemental/model-diagnostics-matrix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model diagnostics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../supplemental/mlr-matrix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MLR matrix notation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../supplemental/log-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Log transformations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../supplemental/model-selection-criteria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model selection criteria</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
+  <ul class="collapse">
+  <li><a href="#announcements" id="toc-announcements" class="nav-link" data-scroll-target="#announcements">Announcements</a></li>
+  <li><a href="#topics" id="toc-topics" class="nav-link" data-scroll-target="#topics">Topics</a></li>
+  <li><a href="#computational-setup" id="toc-computational-setup" class="nav-link" data-scroll-target="#computational-setup">Computational setup</a></li>
+  </ul></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#the-office" id="toc-the-office" class="nav-link" data-scroll-target="#the-office">The Office</a></li>
+  <li><a href="#data-goal" id="toc-data-goal" class="nav-link" data-scroll-target="#data-goal">Data &amp; goal</a></li>
+  </ul></li>
+  <li><a href="#modeling" id="toc-modeling" class="nav-link" data-scroll-target="#modeling">Modeling</a>
+  <ul class="collapse">
+  <li><a href="#train-test" id="toc-train-test" class="nav-link" data-scroll-target="#train-test">Train / test</a></li>
+  <li><a href="#training-data" id="toc-training-data" class="nav-link" data-scroll-target="#training-data">Training data</a></li>
+  <li><a href="#recap-feature-engineering" id="toc-recap-feature-engineering" class="nav-link" data-scroll-target="#recap-feature-engineering">Recap: Feature engineering</a></li>
+  <li><a href="#recap-modeling-workflow-revisited" id="toc-recap-modeling-workflow-revisited" class="nav-link" data-scroll-target="#recap-modeling-workflow-revisited">Recap: Modeling workflow, revisited</a></li>
+  </ul></li>
+  <li><a href="#building-recipes" id="toc-building-recipes" class="nav-link" data-scroll-target="#building-recipes">Building recipes</a>
+  <ul class="collapse">
+  <li><a href="#initiate-a-recipe" id="toc-initiate-a-recipe" class="nav-link" data-scroll-target="#initiate-a-recipe">Initiate a recipe</a></li>
+  <li><a href="#step-1-alter-roles" id="toc-step-1-alter-roles" class="nav-link" data-scroll-target="#step-1-alter-roles">Step 1: Alter roles</a></li>
+  <li><a href="#step-2-add-features" id="toc-step-2-add-features" class="nav-link" data-scroll-target="#step-2-add-features">Step 2: Add features</a></li>
+  <li><a href="#working-with-recipes" id="toc-working-with-recipes" class="nav-link" data-scroll-target="#working-with-recipes">Working with recipes</a></li>
+  <li><a href="#step-2-prep-and-bake" id="toc-step-2-prep-and-bake" class="nav-link" data-scroll-target="#step-2-prep-and-bake">Step 2: Prep and bake</a></li>
+  <li><a href="#step-3-add-more-features" id="toc-step-3-add-more-features" class="nav-link" data-scroll-target="#step-3-add-more-features">Step 3: Add more features</a></li>
+  <li><a href="#step-3-prep-and-bake" id="toc-step-3-prep-and-bake" class="nav-link" data-scroll-target="#step-3-prep-and-bake">Step 3: Prep and bake</a></li>
+  <li><a href="#step-4-convert-numbers-to-factors" id="toc-step-4-convert-numbers-to-factors" class="nav-link" data-scroll-target="#step-4-convert-numbers-to-factors">Step 4: Convert numbers to factors</a></li>
+  <li><a href="#step-4-prep-and-bake" id="toc-step-4-prep-and-bake" class="nav-link" data-scroll-target="#step-4-prep-and-bake">Step 4: Prep and bake</a></li>
+  <li><a href="#step-5-make-dummy-variables" id="toc-step-5-make-dummy-variables" class="nav-link" data-scroll-target="#step-5-make-dummy-variables">Step 5: Make dummy variables</a></li>
+  <li><a href="#step-5-prep-and-bake" id="toc-step-5-prep-and-bake" class="nav-link" data-scroll-target="#step-5-prep-and-bake">Step 5: Prep and bake</a></li>
+  <li><a href="#step-6-remove-zero-variance-predictors" id="toc-step-6-remove-zero-variance-predictors" class="nav-link" data-scroll-target="#step-6-remove-zero-variance-predictors">Step 6: Remove zero variance predictors</a></li>
+  <li><a href="#step-6-prep-and-bake" id="toc-step-6-prep-and-bake" class="nav-link" data-scroll-target="#step-6-prep-and-bake">Step 6: Prep and bake</a></li>
+  <li><a href="#putting-it-altogether" id="toc-putting-it-altogether" class="nav-link" data-scroll-target="#putting-it-altogether">Putting it altogether</a></li>
+  <li><a href="#putting-it-altogether-1" id="toc-putting-it-altogether-1" class="nav-link" data-scroll-target="#putting-it-altogether-1">Putting it altogether</a></li>
+  </ul></li>
+  <li><a href="#building-workflows" id="toc-building-workflows" class="nav-link" data-scroll-target="#building-workflows">Building workflows</a>
+  <ul class="collapse">
+  <li><a href="#specify-model" id="toc-specify-model" class="nav-link" data-scroll-target="#specify-model">Specify model</a></li>
+  <li><a href="#build-workflow" id="toc-build-workflow" class="nav-link" data-scroll-target="#build-workflow">Build workflow</a></li>
+  <li><a href="#view-workflow" id="toc-view-workflow" class="nav-link" data-scroll-target="#view-workflow">View workflow</a></li>
+  <li><a href="#fit-model-to-training-data" id="toc-fit-model-to-training-data" class="nav-link" data-scroll-target="#fit-model-to-training-data">Fit model to training data</a></li>
+  <li><a href="#model-fit-summary" id="toc-model-fit-summary" class="nav-link" data-scroll-target="#model-fit-summary">Model fit summary</a></li>
+  </ul></li>
+  <li><a href="#evaluate-model" id="toc-evaluate-model" class="nav-link" data-scroll-target="#evaluate-model">Evaluate model</a>
+  <ul class="collapse">
+  <li><a href="#make-predictions-for-training-data" id="toc-make-predictions-for-training-data" class="nav-link" data-scroll-target="#make-predictions-for-training-data">Make predictions for training data</a></li>
+  <li><a href="#r-squared" id="toc-r-squared" class="nav-link" data-scroll-target="#r-squared">R-squared</a></li>
+  <li><a href="#rmse" id="toc-rmse" class="nav-link" data-scroll-target="#rmse">RMSE</a></li>
+  <li><a href="#interpreting-rmse" id="toc-interpreting-rmse" class="nav-link" data-scroll-target="#interpreting-rmse">Interpreting RMSE</a></li>
+  <li><a href="#but-really" id="toc-but-really" class="nav-link" data-scroll-target="#but-really">But, really…</a></li>
+  <li><a href="#make-predictions-for-testing-data" id="toc-make-predictions-for-testing-data" class="nav-link" data-scroll-target="#make-predictions-for-testing-data">Make predictions for testing data</a></li>
+  <li><a href="#evaluate-performance-for-testing-data" id="toc-evaluate-performance-for-testing-data" class="nav-link" data-scroll-target="#evaluate-performance-for-testing-data">Evaluate performance for testing data</a></li>
+  <li><a href="#training-vs.-testing" id="toc-training-vs.-testing" class="nav-link" data-scroll-target="#training-vs.-testing">Training vs.&nbsp;testing</a></li>
+  <li><a href="#evaluating-performance-on-training-data" id="toc-evaluating-performance-on-training-data" class="nav-link" data-scroll-target="#evaluating-performance-on-training-data">Evaluating performance on training data</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sta210-s22/website/edit/main/slides/lec-13.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sta210-s22/website/issues/new" class="toc-action">Report an issue</a></p></div></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lec-13.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Feature engineering</h1>
+<p class="subtitle lead">STA 210 - Spring 2022</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Mine Çetinkaya-Rundel </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="welcome" class="level1">
+<h1>Welcome</h1>
+<section id="announcements" class="level2">
+<h2 class="anchored" data-anchor-id="announcements">Announcements</h2>
+<div class="nonincremental">
+<ul>
+<li>My Monday office hours moved to 8-9pm</li>
+</ul>
+</div>
+</section>
+<section id="topics" class="level2">
+<h2 class="anchored" data-anchor-id="topics">Topics</h2>
+<div class="nonincremental">
+<ul>
+<li>Feature engineering with recipes</li>
+<li>Workflows to bring together models and recipes</li>
+<li>RMSE and <span class="math inline">\(R^2\)</span> for model evaluation</li>
+<li>Cross validation</li>
+</ul>
+</div>
+</section>
+<section id="computational-setup" class="level2">
+<h2 class="anchored" data-anchor-id="computational-setup">Computational setup</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gghighlight)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># set default theme and larger font size for ggplot2</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">theme_set</span>(ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">20</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<section id="the-office" class="level2">
+<h2 class="anchored" data-anchor-id="the-office">The Office</h2>
+<p><img src="images/lec-13/the-office.jpeg" class="img-fluid"></p>
+</section>
+<section id="data-goal" class="level2">
+<h2 class="anchored" data-anchor-id="data-goal">Data &amp; goal</h2>
+<ul>
+<li><p>Data: The data come from <a href="https://data.world/anujjain7/the-office-imdb-ratings-dataset">data.world</a>, by way of <a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-03-17/readme.md">TidyTuesday</a></p></li>
+<li><p>Goal: Predict <code>imdb_rating</code> from other variables in the dataset</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>office_ratings <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"slides"</span>, <span class="st">"data/office_ratings.csv"</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>office_ratings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 188 × 6
+   season episode title             imdb_rating total_votes air_date  
+    &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;                   &lt;dbl&gt;       &lt;dbl&gt; &lt;date&gt;    
+ 1      1       1 Pilot                     7.6        3706 2005-03-24
+ 2      1       2 Diversity Day             8.3        3566 2005-03-29
+ 3      1       3 Health Care               7.9        2983 2005-04-05
+ 4      1       4 The Alliance              8.1        2886 2005-04-12
+ 5      1       5 Basketball                8.4        3179 2005-04-19
+ 6      1       6 Hot Girl                  7.8        2852 2005-04-26
+ 7      2       1 The Dundies               8.7        3213 2005-09-20
+ 8      2       2 Sexual Harassment         8.2        2736 2005-09-27
+ 9      2       3 Office Olympics           8.4        2742 2005-10-04
+10      2       4 The Fire                  8.4        2713 2005-10-11
+# … with 178 more rows</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="modeling" class="level1">
+<h1>Modeling</h1>
+<section id="train-test" class="level2">
+<h2 class="anchored" data-anchor-id="train-test">Train / test</h2>
+<p><strong>Step 1:</strong> Create an initial split:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>office_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(office_ratings) <span class="co"># prop = 3/4 by default</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Step 2:</strong> Save training data</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>office_train <span class="ot">&lt;-</span> <span class="fu">training</span>(office_split)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(office_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 141   6</code></pre>
+</div>
+</div>
+<p><strong>Step 3:</strong> Save testing data</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>office_test  <span class="ot">&lt;-</span> <span class="fu">testing</span>(office_split)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(office_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 47  6</code></pre>
+</div>
+</div>
+</section>
+<section id="training-data" class="level2">
+<h2 class="anchored" data-anchor-id="training-data">Training data</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>office_train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 141 × 6
+   season episode title               imdb_rating total_votes air_date  
+    &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;                     &lt;dbl&gt;       &lt;dbl&gt; &lt;date&gt;    
+ 1      8      18 Last Day in Florida         7.8        1429 2012-03-08
+ 2      9      14 Vandalism                   7.6        1402 2013-01-31
+ 3      2       8 Performance Review          8.2        2416 2005-11-15
+ 4      9       5 Here Comes Treble           7.1        1515 2012-10-25
+ 5      3      22 Beach Games                 9.1        2783 2007-05-10
+ 6      7       1 Nepotism                    8.4        1897 2010-09-23
+ 7      3      15 Phyllis' Wedding            8.3        2283 2007-02-08
+ 8      9      21 Livin' the Dream            8.9        2041 2013-05-02
+ 9      9      18 Promos                      8          1445 2013-04-04
+10      8      12 Pool Party                  8          1612 2012-01-19
+# … with 131 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="recap-feature-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="recap-feature-engineering">Recap: Feature engineering</h2>
+<ul>
+<li><p>We prefer simple models when possible, but <strong>parsimony</strong> does not mean sacrificing accuracy (or predictive performance) in the interest of simplicity</p></li>
+<li><p>Variables that go into the model and how they are represented are just as critical to success of the model</p></li>
+<li><p><strong>Feature engineering</strong> allows us to get creative with our predictors in an effort to make them more useful for our model (to increase its predictive performance)</p></li>
+</ul>
+</section>
+<section id="recap-modeling-workflow-revisited" class="level2">
+<h2 class="anchored" data-anchor-id="recap-modeling-workflow-revisited">Recap: Modeling workflow, revisited</h2>
+<ul>
+<li><p>Create a <strong>recipe</strong> for feature engineering steps to be applied to the training data</p></li>
+<li><p>Fit the model to the training data after these steps have been applied</p></li>
+<li><p>Using the model estimates from the training data, predict outcomes for the test data</p></li>
+<li><p>Evaluate the performance of the model on the test data</p></li>
+</ul>
+</section>
+</section>
+<section id="building-recipes" class="level1">
+<h1>Building recipes</h1>
+<section id="initiate-a-recipe" class="level2">
+<h2 class="anchored" data-anchor-id="initiate-a-recipe">Initiate a recipe</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>office_rec <span class="ot">&lt;-</span> <span class="fu">recipe</span>(</span>
+<span id="cb11-2"><a href="#cb11-2"></a>  imdb_rating <span class="sc">~</span> .,    <span class="co"># formula</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="at">data =</span> office_train <span class="co"># data for cataloguing names and types of variables</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  )</span>
+<span id="cb11-5"><a href="#cb11-5"></a></span>
+<span id="cb11-6"><a href="#cb11-6"></a>office_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Recipe
+
+Inputs:
+
+      role #variables
+   outcome          1
+ predictor          5</code></pre>
+</div>
+</div>
+</section>
+<section id="step-1-alter-roles" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-alter-roles">Step 1: Alter roles</h2>
+<p><code>title</code> isn’t a predictor, but we might want to keep it around as an ID</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>office_rec <span class="ot">&lt;-</span> office_rec <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">update_role</span>(title, <span class="at">new_role =</span> <span class="st">"ID"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a>office_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Recipe
+
+Inputs:
+
+      role #variables
+        ID          1
+   outcome          1
+ predictor          4</code></pre>
+</div>
+</div>
+</section>
+<section id="step-2-add-features" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-add-features">Step 2: Add features</h2>
+<p>New features for day of week and month</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>office_rec <span class="ot">&lt;-</span> office_rec <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">step_date</span>(air_date, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">"dow"</span>, <span class="st">"month"</span>))</span>
+<span id="cb15-3"><a href="#cb15-3"></a></span>
+<span id="cb15-4"><a href="#cb15-4"></a>office_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Recipe
+
+Inputs:
+
+      role #variables
+        ID          1
+   outcome          1
+ predictor          4
+
+Operations:
+
+Date features from air_date</code></pre>
+</div>
+</div>
+</section>
+<section id="working-with-recipes" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="working-with-recipes">Working with recipes</h2>
+<ul>
+<li>When building recipes you in a pipeline, you don’t get to see the effect of the recipe on your data, which can be unsettling</li>
+<li>You can take a peek at what will happen when you ultimately apply the recipe to your data at the time of fitting the model</li>
+<li>This requires two functions: <code>prep()</code> to train the recipe and <code>bake()</code> to apply it to your data</li>
+</ul>
+<p>. . .</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is optional, we’ll show the results for demonstrative purposes. It doesn’t need to be part of your modeling pipeline, but I find it assuring to see the effects of the recipe steps as I build the recipe.</p>
+</div>
+</div>
+</section>
+<section id="step-2-prep-and-bake" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-prep-and-bake">Step 2: Prep and bake</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>office_rec_trained <span class="ot">&lt;-</span> <span class="fu">prep</span>(office_rec)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bake</span>(office_rec_trained, office_train) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Rows: 141
+Columns: 8
+$ season         &lt;dbl&gt; 8, 9, 2, 9, 3, 7, 3, 9, 9, 8, 5, 5, 9, 6, 7, 6, 5, 2, 2…
+$ episode        &lt;dbl&gt; 18, 14, 8, 5, 22, 1, 15, 21, 18, 12, 25, 26, 12, 1, 20,…
+$ title          &lt;fct&gt; "Last Day in Florida", "Vandalism", "Performance Review…
+$ total_votes    &lt;dbl&gt; 1429, 1402, 2416, 1515, 2783, 1897, 2283, 2041, 1445, 1…
+$ air_date       &lt;date&gt; 2012-03-08, 2013-01-31, 2005-11-15, 2012-10-25, 2007-0…
+$ imdb_rating    &lt;dbl&gt; 7.8, 7.6, 8.2, 7.1, 9.1, 8.4, 8.3, 8.9, 8.0, 8.0, 8.7, …
+$ air_date_dow   &lt;fct&gt; Thu, Thu, Tue, Thu, Thu, Thu, Thu, Thu, Thu, Thu, Thu, …
+$ air_date_month &lt;fct&gt; Mar, Jan, Nov, Oct, May, Sep, Feb, May, Apr, Jan, May, …</code></pre>
+</div>
+</div>
+</section>
+<section id="step-3-add-more-features" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="step-3-add-more-features">Step 3: Add more features</h2>
+<p>Identify holidays in <code>air_date</code>, then remove <code>air_date</code></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>office_rec <span class="ot">&lt;-</span> office_rec <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">step_holiday</span>(</span>
+<span id="cb19-3"><a href="#cb19-3"></a>    air_date, </span>
+<span id="cb19-4"><a href="#cb19-4"></a>    <span class="at">holidays =</span> <span class="fu">c</span>(<span class="st">"USThanksgivingDay"</span>, <span class="st">"USChristmasDay"</span>, <span class="st">"USNewYearsDay"</span>, <span class="st">"USIndependenceDay"</span>), </span>
+<span id="cb19-5"><a href="#cb19-5"></a>    <span class="at">keep_original_cols =</span> <span class="cn">FALSE</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a>  )</span>
+<span id="cb19-7"><a href="#cb19-7"></a></span>
+<span id="cb19-8"><a href="#cb19-8"></a>office_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Recipe
+
+Inputs:
+
+      role #variables
+        ID          1
+   outcome          1
+ predictor          4
+
+Operations:
+
+Date features from air_date
+Holiday features from air_date</code></pre>
+</div>
+</div>
+</section>
+<section id="step-3-prep-and-bake" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="step-3-prep-and-bake">Step 3: Prep and bake</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>office_rec_trained <span class="ot">&lt;-</span> <span class="fu">prep</span>(office_rec)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bake</span>(office_rec_trained, office_train) <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Rows: 141
+Columns: 11
+$ season                     &lt;dbl&gt; 8, 9, 2, 9, 3, 7, 3, 9, 9, 8, 5, 5, 9, 6, 7…
+$ episode                    &lt;dbl&gt; 18, 14, 8, 5, 22, 1, 15, 21, 18, 12, 25, 26…
+$ title                      &lt;fct&gt; "Last Day in Florida", "Vandalism", "Perfor…
+$ total_votes                &lt;dbl&gt; 1429, 1402, 2416, 1515, 2783, 1897, 2283, 2…
+$ imdb_rating                &lt;dbl&gt; 7.8, 7.6, 8.2, 7.1, 9.1, 8.4, 8.3, 8.9, 8.0…
+$ air_date_dow               &lt;fct&gt; Thu, Thu, Tue, Thu, Thu, Thu, Thu, Thu, Thu…
+$ air_date_month             &lt;fct&gt; Mar, Jan, Nov, Oct, May, Sep, Feb, May, Apr…
+$ air_date_USThanksgivingDay &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_USChristmasDay    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_USNewYearsDay     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_USIndependenceDay &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</code></pre>
+</div>
+</div>
+</section>
+<section id="step-4-convert-numbers-to-factors" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="step-4-convert-numbers-to-factors">Step 4: Convert numbers to factors</h2>
+<p>Convert <code>season</code> to factor</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>office_rec <span class="ot">&lt;-</span> office_rec <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">step_num2factor</span>(season, <span class="at">levels =</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>))</span>
+<span id="cb23-3"><a href="#cb23-3"></a></span>
+<span id="cb23-4"><a href="#cb23-4"></a>office_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Recipe
+
+Inputs:
+
+      role #variables
+        ID          1
+   outcome          1
+ predictor          4
+
+Operations:
+
+Date features from air_date
+Holiday features from air_date
+Factor variables from season</code></pre>
+</div>
+</div>
+</section>
+<section id="step-4-prep-and-bake" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="step-4-prep-and-bake">Step 4: Prep and bake</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>office_rec_trained <span class="ot">&lt;-</span> <span class="fu">prep</span>(office_rec)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bake</span>(office_rec_trained, office_train) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Rows: 141
+Columns: 11
+$ season                     &lt;fct&gt; 8, 9, 2, 9, 3, 7, 3, 9, 9, 8, 5, 5, 9, 6, 7…
+$ episode                    &lt;dbl&gt; 18, 14, 8, 5, 22, 1, 15, 21, 18, 12, 25, 26…
+$ title                      &lt;fct&gt; "Last Day in Florida", "Vandalism", "Perfor…
+$ total_votes                &lt;dbl&gt; 1429, 1402, 2416, 1515, 2783, 1897, 2283, 2…
+$ imdb_rating                &lt;dbl&gt; 7.8, 7.6, 8.2, 7.1, 9.1, 8.4, 8.3, 8.9, 8.0…
+$ air_date_dow               &lt;fct&gt; Thu, Thu, Tue, Thu, Thu, Thu, Thu, Thu, Thu…
+$ air_date_month             &lt;fct&gt; Mar, Jan, Nov, Oct, May, Sep, Feb, May, Apr…
+$ air_date_USThanksgivingDay &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_USChristmasDay    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_USNewYearsDay     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_USIndependenceDay &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</code></pre>
+</div>
+</div>
+</section>
+<section id="step-5-make-dummy-variables" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="step-5-make-dummy-variables">Step 5: Make dummy variables</h2>
+<p>Convert all nominal (categorical) predictors to factors</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>office_rec <span class="ot">&lt;-</span> office_rec <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>())</span>
+<span id="cb27-3"><a href="#cb27-3"></a></span>
+<span id="cb27-4"><a href="#cb27-4"></a>office_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Recipe
+
+Inputs:
+
+      role #variables
+        ID          1
+   outcome          1
+ predictor          4
+
+Operations:
+
+Date features from air_date
+Holiday features from air_date
+Factor variables from season
+Dummy variables from all_nominal_predictors()</code></pre>
+</div>
+</div>
+</section>
+<section id="step-5-prep-and-bake" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="step-5-prep-and-bake">Step 5: Prep and bake</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>office_rec_trained <span class="ot">&lt;-</span> <span class="fu">prep</span>(office_rec)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bake</span>(office_rec_trained, office_train) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Rows: 141
+Columns: 33
+$ episode                    &lt;dbl&gt; 18, 14, 8, 5, 22, 1, 15, 21, 18, 12, 25, 26…
+$ title                      &lt;fct&gt; "Last Day in Florida", "Vandalism", "Perfor…
+$ total_votes                &lt;dbl&gt; 1429, 1402, 2416, 1515, 2783, 1897, 2283, 2…
+$ imdb_rating                &lt;dbl&gt; 7.8, 7.6, 8.2, 7.1, 9.1, 8.4, 8.3, 8.9, 8.0…
+$ air_date_USThanksgivingDay &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_USChristmasDay    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_USNewYearsDay     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_USIndependenceDay &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ season_X2                  &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ season_X3                  &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0…
+$ season_X4                  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ season_X5                  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0…
+$ season_X6                  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0…
+$ season_X7                  &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1…
+$ season_X8                  &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0…
+$ season_X9                  &lt;dbl&gt; 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0…
+$ air_date_dow_Mon           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_dow_Tue           &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_dow_Wed           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_dow_Thu           &lt;dbl&gt; 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ air_date_dow_Fri           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_dow_Sat           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_month_Feb         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_month_Mar         &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_month_Apr         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1…
+$ air_date_month_May         &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0…
+$ air_date_month_Jun         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_month_Jul         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_month_Aug         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_month_Sep         &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0…
+$ air_date_month_Oct         &lt;dbl&gt; 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_month_Nov         &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ air_date_month_Dec         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</code></pre>
+</div>
+</div>
+</section>
+<section id="step-6-remove-zero-variance-predictors" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="step-6-remove-zero-variance-predictors">Step 6: Remove zero variance predictors</h2>
+<p>Remove all predictors that contain only a single value</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>office_rec <span class="ot">&lt;-</span> office_rec <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>())</span>
+<span id="cb31-3"><a href="#cb31-3"></a></span>
+<span id="cb31-4"><a href="#cb31-4"></a>office_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Recipe
+
+Inputs:
+
+      role #variables
+        ID          1
+   outcome          1
+ predictor          4
+
+Operations:
+
+Date features from air_date
+Holiday features from air_date
+Factor variables from season
+Dummy variables from all_nominal_predictors()
+Zero variance filter on all_predictors()</code></pre>
+</div>
+</div>
+</section>
+<section id="step-6-prep-and-bake" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="step-6-prep-and-bake">Step 6: Prep and bake</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>office_rec_trained <span class="ot">&lt;-</span> <span class="fu">prep</span>(office_rec)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bake</span>(office_rec_trained, office_train) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Rows: 141
+Columns: 22
+$ episode            &lt;dbl&gt; 18, 14, 8, 5, 22, 1, 15, 21, 18, 12, 25, 26, 12, 1,…
+$ title              &lt;fct&gt; "Last Day in Florida", "Vandalism", "Performance Re…
+$ total_votes        &lt;dbl&gt; 1429, 1402, 2416, 1515, 2783, 1897, 2283, 2041, 144…
+$ imdb_rating        &lt;dbl&gt; 7.8, 7.6, 8.2, 7.1, 9.1, 8.4, 8.3, 8.9, 8.0, 8.0, 8…
+$ season_X2          &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ season_X3          &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ season_X4          &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ season_X5          &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, …
+$ season_X6          &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, …
+$ season_X7          &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …
+$ season_X8          &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, …
+$ season_X9          &lt;dbl&gt; 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, …
+$ air_date_dow_Tue   &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ air_date_dow_Thu   &lt;dbl&gt; 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+$ air_date_month_Feb &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ air_date_month_Mar &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ air_date_month_Apr &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, …
+$ air_date_month_May &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, …
+$ air_date_month_Sep &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, …
+$ air_date_month_Oct &lt;dbl&gt; 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, …
+$ air_date_month_Nov &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, …
+$ air_date_month_Dec &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</code></pre>
+</div>
+</div>
+</section>
+<section id="putting-it-altogether" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="putting-it-altogether">Putting it altogether</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>office_rec <span class="ot">&lt;-</span> <span class="fu">recipe</span>(imdb_rating <span class="sc">~</span> ., <span class="at">data =</span> office_train) <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make title's role ID</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_role</span>(title, <span class="at">new_role =</span> <span class="st">"ID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extract day of week and month of air_date</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_date</span>(air_date, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">"dow"</span>, <span class="st">"month"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># identify holidays and add indicators</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_holiday</span>(</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    air_date, </span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">holidays =</span> <span class="fu">c</span>(<span class="st">"USThanksgivingDay"</span>, <span class="st">"USChristmasDay"</span>, <span class="st">"USNewYearsDay"</span>, <span class="st">"USIndependenceDay"</span>), </span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">keep_original_cols =</span> <span class="cn">FALSE</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># turn season into factor</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_num2factor</span>(season, <span class="at">levels =</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make dummy variables</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove zero variance predictors</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="putting-it-altogether-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="putting-it-altogether-1">Putting it altogether</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>office_rec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Recipe
+
+Inputs:
+
+      role #variables
+        ID          1
+   outcome          1
+ predictor          4
+
+Operations:
+
+Date features from air_date
+Holiday features from air_date
+Factor variables from season
+Dummy variables from all_nominal_predictors()
+Zero variance filter on all_predictors()</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="building-workflows" class="level1">
+<h1>Building workflows</h1>
+<section id="specify-model" class="level2">
+<h2 class="anchored" data-anchor-id="specify-model">Specify model</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>office_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>office_spec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Linear Regression Model Specification (regression)
+
+Computational engine: lm </code></pre>
+</div>
+</div>
+</section>
+<section id="build-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="build-workflow">Build workflow</h2>
+<p><strong>Workflows</strong> bring together models and recipes so that they can be easily applied to both the training and test data.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>office_wflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(office_spec) <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(office_rec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p><em>See next slide for workflow…</em></p>
+</section>
+<section id="view-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="view-workflow">View workflow</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>office_wflow</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>══ Workflow ════════════════════════════════════════════════════════════════════
+Preprocessor: Recipe
+Model: linear_reg()
+
+── Preprocessor ────────────────────────────────────────────────────────────────
+5 Recipe Steps
+
+• step_date()
+• step_holiday()
+• step_num2factor()
+• step_dummy()
+• step_zv()
+
+── Model ───────────────────────────────────────────────────────────────────────
+Linear Regression Model Specification (regression)
+
+Computational engine: lm </code></pre>
+</div>
+</div>
+</section>
+<section id="fit-model-to-training-data" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="fit-model-to-training-data">Fit model to training data</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>office_fit <span class="ot">&lt;-</span> office_wflow <span class="sc">%&gt;%</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> office_train)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(office_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 21 × 5
+   term         estimate std.error statistic  p.value
+   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+ 1 (Intercept)  6.40     0.510        12.5   1.51e-23
+ 2 episode     -0.00393  0.0171       -0.230 8.18e- 1
+ 3 total_votes  0.000375 0.0000414     9.07  2.75e-15
+ 4 season_X2    0.811    0.327         2.48  1.44e- 2
+ 5 season_X3    1.04     0.343         3.04  2.91e- 3
+ 6 season_X4    1.09     0.295         3.70  3.32e- 4
+ 7 season_X5    1.08     0.348         3.11  2.34e- 3
+ 8 season_X6    1.00     0.367         2.74  7.18e- 3
+ 9 season_X7    1.02     0.352         2.89  4.52e- 3
+10 season_X8    0.497    0.348         1.43  1.55e- 1
+# … with 11 more rows</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>. . .</p>
+<p><em>So many predictors!</em></p>
+</section>
+<section id="model-fit-summary" class="level2">
+<h2 class="anchored" data-anchor-id="model-fit-summary">Model fit summary</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(office_fit) <span class="sc">%&gt;%</span> <span class="fu">print</span>(<span class="at">n =</span> <span class="dv">21</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 21 × 5
+   term                estimate std.error statistic  p.value
+   &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+ 1 (Intercept)         6.40     0.510        12.5   1.51e-23
+ 2 episode            -0.00393  0.0171       -0.230 8.18e- 1
+ 3 total_votes         0.000375 0.0000414     9.07  2.75e-15
+ 4 season_X2           0.811    0.327         2.48  1.44e- 2
+ 5 season_X3           1.04     0.343         3.04  2.91e- 3
+ 6 season_X4           1.09     0.295         3.70  3.32e- 4
+ 7 season_X5           1.08     0.348         3.11  2.34e- 3
+ 8 season_X6           1.00     0.367         2.74  7.18e- 3
+ 9 season_X7           1.02     0.352         2.89  4.52e- 3
+10 season_X8           0.497    0.348         1.43  1.55e- 1
+11 season_X9           0.621    0.345         1.80  7.41e- 2
+12 air_date_dow_Tue    0.382    0.422         0.904 3.68e- 1
+13 air_date_dow_Thu    0.284    0.389         0.731 4.66e- 1
+14 air_date_month_Feb -0.0597   0.132        -0.452 6.52e- 1
+15 air_date_month_Mar -0.0752   0.156        -0.481 6.31e- 1
+16 air_date_month_Apr  0.0954   0.177         0.539 5.91e- 1
+17 air_date_month_May  0.156    0.213         0.734 4.64e- 1
+18 air_date_month_Sep -0.0776   0.223        -0.348 7.28e- 1
+19 air_date_month_Oct -0.176    0.174        -1.01  3.13e- 1
+20 air_date_month_Nov -0.156    0.149        -1.05  2.98e- 1
+21 air_date_month_Dec  0.170    0.149         1.14  2.55e- 1</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="evaluate-model" class="level1">
+<h1>Evaluate model</h1>
+<section id="make-predictions-for-training-data" class="level2">
+<h2 class="anchored" data-anchor-id="make-predictions-for-training-data">Make predictions for training data</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>office_train_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(office_fit, office_train) <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(office_train <span class="sc">%&gt;%</span> <span class="fu">select</span>(imdb_rating, title))</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>office_train_pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 141 × 3
+   .pred imdb_rating title              
+   &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;              
+ 1  7.57         7.8 Last Day in Florida
+ 2  7.77         7.6 Vandalism          
+ 3  8.31         8.2 Performance Review 
+ 4  7.67         7.1 Here Comes Treble  
+ 5  8.84         9.1 Beach Games        
+ 6  8.33         8.4 Nepotism           
+ 7  8.46         8.3 Phyllis' Wedding   
+ 8  8.14         8.9 Livin' the Dream   
+ 9  7.87         8   Promos             
+10  7.74         8   Pool Party         
+# … with 131 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="r-squared" class="level2">
+<h2 class="anchored" data-anchor-id="r-squared">R-squared</h2>
+<p>Percentage of variability in the IMDB ratings explained by the model.</p>
+<p>. . .</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rsq</span>(office_train_pred, <span class="at">truth =</span> imdb_rating, <span class="at">estimate =</span> .pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rsq     standard       0.670</code></pre>
+</div>
+</div>
+<p>. . .</p>
+<div class="question">
+<p>Are models with high or low <span class="math inline">\(R^2\)</span> more preferable?</p>
+</div>
+</section>
+<section id="rmse" class="level2">
+<h2 class="anchored" data-anchor-id="rmse">RMSE</h2>
+<p>An alternative model performance statistic: <strong>root mean square error</strong>.</p>
+<p><span class="math display">\[ RMSE = \sqrt{\frac{\sum_{i = 1}^n (y_i - \hat{y}_i)^2}{n}} \]</span></p>
+<p>. . .</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(office_train_pred, <span class="at">truth =</span> imdb_rating, <span class="at">estimate =</span> .pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard       0.302</code></pre>
+</div>
+</div>
+<p>. . .</p>
+<div class="question">
+<p>Are models with high or low RMSE are more preferable?</p>
+</div>
+</section>
+<section id="interpreting-rmse" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-rmse">Interpreting RMSE</h2>
+<div class="question">
+<p>Is this RMSE considered low or high?</p>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(office_train_pred, <span class="at">truth =</span> imdb_rating, <span class="at">estimate =</span> .pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard       0.302</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>. . .</p>
+<p>Depends…</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>office_train <span class="sc">%&gt;%</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">min =</span> <span class="fu">min</span>(imdb_rating), <span class="at">max =</span> <span class="fu">max</span>(imdb_rating))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+    min   max
+  &lt;dbl&gt; &lt;dbl&gt;
+1   6.7   9.7</code></pre>
+</div>
+</div>
+</section>
+<section id="but-really" class="level2">
+<h2 class="anchored" data-anchor-id="but-really">But, really…</h2>
+<p><em>who cares about predictions on <strong>training</strong> data?</em></p>
+</section>
+<section id="make-predictions-for-testing-data" class="level2">
+<h2 class="anchored" data-anchor-id="make-predictions-for-testing-data">Make predictions for testing data</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>office_test_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(office_fit, office_test) <span class="sc">%&gt;%</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(office_test <span class="sc">%&gt;%</span> <span class="fu">select</span>(imdb_rating, title))</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>office_test_pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 47 × 3
+   .pred imdb_rating title              
+   &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;              
+ 1  8.03         8.3 Diversity Day      
+ 2  7.98         7.9 Health Care        
+ 3  8.41         8.4 The Fire           
+ 4  8.35         8.2 Halloween          
+ 5  8.35         8.4 E-Mail Surveillance
+ 6  8.68         9   The Injury         
+ 7  8.32         7.9 The Carpet         
+ 8  8.93         9.3 Casino Night       
+ 9  8.80         8.9 Gay Witch Hunt     
+10  8.37         8.2 Initiation         
+# … with 37 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="evaluate-performance-for-testing-data" class="level2">
+<h2 class="anchored" data-anchor-id="evaluate-performance-for-testing-data">Evaluate performance for testing data</h2>
+<p>RMSE of model fit to <strong>testing</strong> data</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(office_test_pred, <span class="at">truth =</span> imdb_rating, <span class="at">estimate =</span> .pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard       0.411</code></pre>
+</div>
+</div>
+<p>R-sq of model fit to <strong>testing</strong> data</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rsq</span>(office_test_pred, <span class="at">truth =</span> imdb_rating, <span class="at">estimate =</span> .pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rsq     standard       0.468</code></pre>
+</div>
+</div>
+</section>
+<section id="training-vs.-testing" class="level2">
+<h2 class="anchored" data-anchor-id="training-vs.-testing">Training vs.&nbsp;testing</h2>
+<table class="table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 21%">
+<col style="width: 20%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">metric</th>
+<th style="text-align: right;">train</th>
+<th style="text-align: right;">test</th>
+<th style="text-align: left;">comparison</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: right;">0.302</td>
+<td style="text-align: right;">0.411</td>
+<td style="text-align: left;">RMSE lower for training</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R-squared</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.468</td>
+<td style="text-align: left;">R-squared higher for training</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="evaluating-performance-on-training-data" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="evaluating-performance-on-training-data">Evaluating performance on training data</h2>
+<ul>
+<li><p>The training set does not have the capacity to be a good arbiter of performance.</p></li>
+<li><p>It is not an independent piece of information; predicting the training set can only reflect what the model already knows.</p></li>
+<li><p>Suppose you give a class a test, then give them the answers, then provide the same test. The student scores on the second test do not accurately reflect what they know about the subject; these scores would probably be higher than their results on the first test.</p></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+
+<script>
+  // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+  // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+  // slide changes (different for each slide format).
+  (function () {
+    function fireSlideChanged(previousSlide, currentSlide) {
+
+      // dispatch for htmlwidgets
+      const event = window.document.createEvent("Event");
+      event.initEvent("slideenter", true, true);
+      window.document.dispatchEvent(event);
+
+      // dispatch for shiny
+      if (window.jQuery) {
+        if (previousSlide) {
+          window.jQuery(previousSlide).trigger("hidden");
+        }
+        if (currentSlide) {
+          window.jQuery(currentSlide).trigger("shown");
+        }
+      }
+    }
+
+    // hookup for reveal
+    if (window.Reveal) {
+      window.Reveal.addEventListener("slidechanged", function(event) {
+        fireSlideChanged(event.previousSlide, event.currentSlide);
+      });
+    }
+
+    // hookup for slidy
+    if (window.w3c_slidy) {
+      window.w3c_slidy.add_observer(function (slide_num) {
+        // slide_num starts at position 1
+        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+      });
+    }
+
+  })();
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© Copyright 2022, Mine Çetinkaya-Rundel</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

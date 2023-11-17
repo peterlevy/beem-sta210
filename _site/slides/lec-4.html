@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Mine Çetinkaya-Rundel">
+
+<title>STA 210 - Spring 2022 - SLR: Prediction + model evaluation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta property="og:title" content="STA 210 - Spring 2022 - SLR: Prediction + model evaluation">
+<meta property="og:description" content="STA 210 - Spring 2022">
+<meta property="og:image" content="https://sta210-s22.github.io/website/slides/lec-4_files/figure-revealjs/unnamed-chunk-1-1.png">
+<meta property="og:site-name" content="STA 210 - Spring 2022">
+<meta property="og:image:height" content="4449">
+<meta property="og:image:width" content="7200">
+<meta name="twitter:title" content="STA 210 - Spring 2022 - SLR: Prediction + model evaluation">
+<meta name="twitter:description" content="STA 210 - Spring 2022">
+<meta name="twitter:image" content="https://sta210-s22.github.io/website/slides/images/twitter-card.png">
+<meta name="twitter:creator" content="@minebocek">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">SLR: Prediction + model evaluation</li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/sta210-s22" rel="" title="GitHub organization" class="quarto-navigation-tool px-1" aria-label="GitHub organization"><i class="bi bi-github"></i></a>
+    <a href="https://cmgr.oit.duke.edu/containers" rel="" title="RStudio Containers" class="quarto-navigation-tool px-1" aria-label="RStudio Containers"><i class="bi bi-code-square"></i></a>
+    <div class="dropdown">
+      <a href="" title="Sakai" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Sakai"><i class="bi bi-person-fill"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://sakai.duke.edu/portal/site/779c3ebe-3b88-4bcc-bd01-1813e8396a23/tool/13b6446a-a6c6-4222-8cfb-c36d1f70802b">
+            Discussion forum
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://sakai.duke.edu/portal/site/779c3ebe-3b88-4bcc-bd01-1813e8396a23/page/aec742dc-2972-4f02-a35b-1dd3315af889">
+            Gradescope
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://sakai.duke.edu/portal/site/779c3ebe-3b88-4bcc-bd01-1813e8396a23/tool/69078433-67a6-4054-a2e7-9e6c202ecdc3/">
+            Gradebook
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Course information</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-syllabus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-support.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Support</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-team.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Teaching team</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-links.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Useful links</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-faq.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">FAQ</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+ <span class="menu-text">Computing</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../computing-access.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Access</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../computing-troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Troubleshooting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">Project</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project-description.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Description</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../project-tips-resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tips + resources</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+ <span class="menu-text">Weekly materials</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 9</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 10</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 11</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 12</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-13.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 13</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-14.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 14</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../weeks/week-15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 15</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">Supplemental notes</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../supplemental/slr-derivations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SLR derivations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../supplemental/model-diagnostics-matrix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model diagnostics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../supplemental/mlr-matrix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MLR matrix notation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../supplemental/log-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Log transformations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../supplemental/model-selection-criteria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model selection criteria</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
+  <ul class="collapse">
+  <li><a href="#announcements" id="toc-announcements" class="nav-link" data-scroll-target="#announcements">Announcements</a></li>
+  <li><a href="#hybrid-teaching" id="toc-hybrid-teaching" class="nav-link" data-scroll-target="#hybrid-teaching">Hybrid teaching</a></li>
+  <li><a href="#computational-setup" id="toc-computational-setup" class="nav-link" data-scroll-target="#computational-setup">Computational setup</a></li>
+  </ul></li>
+  <li><a href="#application-exercise" id="toc-application-exercise" class="nav-link" data-scroll-target="#application-exercise">Application exercise</a></li>
+  <li><a href="#uninsurance-and-high-school-graduation-rates-in-nc" id="toc-uninsurance-and-high-school-graduation-rates-in-nc" class="nav-link" data-scroll-target="#uninsurance-and-high-school-graduation-rates-in-nc">Uninsurance and high school graduation rates in NC</a>
+  <ul class="collapse">
+  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data source</a></li>
+  <li><a href="#uninsurance-rate" id="toc-uninsurance-rate" class="nav-link" data-scroll-target="#uninsurance-rate">Uninsurance rate</a></li>
+  <li><a href="#high-school-graduation-rate" id="toc-high-school-graduation-rate" class="nav-link" data-scroll-target="#high-school-graduation-rate">High school graduation rate</a></li>
+  <li><a href="#examining-the-relationship" id="toc-examining-the-relationship" class="nav-link" data-scroll-target="#examining-the-relationship">Examining the relationship</a></li>
+  <li><a href="#data-prep" id="toc-data-prep" class="nav-link" data-scroll-target="#data-prep">Data prep</a></li>
+  <li><a href="#uninsurance-vs.-hs-graduation-rates" id="toc-uninsurance-vs.-hs-graduation-rates" class="nav-link" data-scroll-target="#uninsurance-vs.-hs-graduation-rates">Uninsurance vs.&nbsp;HS graduation rates</a></li>
+  <li><a href="#modeling-the-relationship" id="toc-modeling-the-relationship" class="nav-link" data-scroll-target="#modeling-the-relationship">Modeling the relationship</a></li>
+  <li><a href="#fitting-the-model" id="toc-fitting-the-model" class="nav-link" data-scroll-target="#fitting-the-model">Fitting the model</a></li>
+  <li><a href="#augmenting-the-data" id="toc-augmenting-the-data" class="nav-link" data-scroll-target="#augmenting-the-data">Augmenting the data</a></li>
+  <li><a href="#visualizing-the-model-i" id="toc-visualizing-the-model-i" class="nav-link" data-scroll-target="#visualizing-the-model-i">Visualizing the model I</a></li>
+  <li><a href="#visualizing-the-model-ii" id="toc-visualizing-the-model-ii" class="nav-link" data-scroll-target="#visualizing-the-model-ii">Visualizing the model II</a></li>
+  <li><a href="#visualizing-the-model-iii" id="toc-visualizing-the-model-iii" class="nav-link" data-scroll-target="#visualizing-the-model-iii">Visualizing the model III</a></li>
+  <li><a href="#visualizing-the-model-iv" id="toc-visualizing-the-model-iv" class="nav-link" data-scroll-target="#visualizing-the-model-iv">Visualizing the model IV</a></li>
+  <li><a href="#evaluating-the-model-fit" id="toc-evaluating-the-model-fit" class="nav-link" data-scroll-target="#evaluating-the-model-fit">Evaluating the model fit</a></li>
+  </ul></li>
+  <li><a href="#model-evaluation" id="toc-model-evaluation" class="nav-link" data-scroll-target="#model-evaluation">Model evaluation</a>
+  <ul class="collapse">
+  <li><a href="#two-statistics" id="toc-two-statistics" class="nav-link" data-scroll-target="#two-statistics">Two statistics</a></li>
+  <li><a href="#r-squared" id="toc-r-squared" class="nav-link" data-scroll-target="#r-squared">R-squared</a></li>
+  <li><a href="#interpreting-r-squared" id="toc-interpreting-r-squared" class="nav-link" data-scroll-target="#interpreting-r-squared">Interpreting R-squared</a></li>
+  <li><a href="#alternative-approach-for-r-squared" id="toc-alternative-approach-for-r-squared" class="nav-link" data-scroll-target="#alternative-approach-for-r-squared">Alternative approach for R-squared</a></li>
+  <li><a href="#rmse" id="toc-rmse" class="nav-link" data-scroll-target="#rmse">RMSE</a></li>
+  <li><a href="#obtaining-r-squared-and-rmse" id="toc-obtaining-r-squared-and-rmse" class="nav-link" data-scroll-target="#obtaining-r-squared-and-rmse">Obtaining R-squared and RMSE</a></li>
+  <li><a href="#purpose-of-model-evaluation" id="toc-purpose-of-model-evaluation" class="nav-link" data-scroll-target="#purpose-of-model-evaluation">Purpose of model evaluation</a></li>
+  </ul></li>
+  <li><a href="#splitting-data" id="toc-splitting-data" class="nav-link" data-scroll-target="#splitting-data">Splitting data</a>
+  <ul class="collapse">
+  <li><a href="#spending-our-data" id="toc-spending-our-data" class="nav-link" data-scroll-target="#spending-our-data">Spending our data</a></li>
+  <li><a href="#simulation-data-splitting" id="toc-simulation-data-splitting" class="nav-link" data-scroll-target="#simulation-data-splitting">Simulation: data splitting</a></li>
+  <li><a href="#predictive-performance" id="toc-predictive-performance" class="nav-link" data-scroll-target="#predictive-performance">Predictive performance</a></li>
+  </ul></li>
+  <li><a href="#bootstrapping" id="toc-bootstrapping" class="nav-link" data-scroll-target="#bootstrapping">Bootstrapping</a>
+  <ul class="collapse">
+  <li><a href="#bootstrapping-our-data" id="toc-bootstrapping-our-data" class="nav-link" data-scroll-target="#bootstrapping-our-data">Bootstrapping our data</a></li>
+  <li><a href="#simulation-bootstrapping" id="toc-simulation-bootstrapping" class="nav-link" data-scroll-target="#simulation-bootstrapping">Simulation: bootstrapping</a></li>
+  <li><a href="#predictive-performance-1" id="toc-predictive-performance-1" class="nav-link" data-scroll-target="#predictive-performance-1">Predictive performance</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sta210-s22/website/edit/main/slides/lec-4.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sta210-s22/website/issues/new" class="toc-action">Report an issue</a></p></div></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lec-4.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">SLR: Prediction + model evaluation</h1>
+<p class="subtitle lead">STA 210 - Spring 2022</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Mine Çetinkaya-Rundel </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="welcome" class="level1">
+<h1>Welcome</h1>
+<section id="announcements" class="level2">
+<h2 class="anchored" data-anchor-id="announcements">Announcements</h2>
+<ul>
+<li>New on the course website: <a href="../course-faq.html">FAQ</a></li>
+<li>New communication tool: Slack
+<ul>
+<li>Find the invite link in your inbox / on Sakai announcements</li>
+<li>Use #general for questions, #random for random 🤪</li>
+<li>Use code formatting for for questions involving code (see Course FAQ for a demo video)</li>
+</ul></li>
+<li>My office hours: All virtual for now, hope to move 1 hour / week to in person later in the semester</li>
+</ul>
+</section>
+<section id="hybrid-teaching" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="hybrid-teaching">Hybrid teaching</h2>
+<ul>
+<li>Lectures:
+<ul>
+<li>In person as long as university says so (and I don’t have COVID)</li>
+<li>If you can’t be in class (and you’re well enough to follow along), watch live (or the recording later) on <a href="https://duke.hosted.panopto.com/Panopto/Pages/Sessions/List.aspx#folderID=%22d6c1d58a-cb6d-4732-9d4b-ae0c011bf767%22">Panopto</a></li>
+<li>Watching live and have questions? Post on Slack!</li>
+<li>In class and see someone ask a question on Slack? Please raise it to me!</li>
+</ul></li>
+<li>Labs:
+<ul>
+<li>Not live streamed / recorded</li>
+<li>Lab 2 (next Monday) - individual</li>
+<li>Lab 3 onwards - in teams, if teammates are in isolation, set up team Zoom calls</li>
+</ul></li>
+</ul>
+</section>
+<section id="computational-setup" class="level2">
+<h2 class="anchored" data-anchor-id="computational-setup">Computational setup</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)   <span class="co"># for data wrangling and visualization</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)  <span class="co"># for modeling</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usdata)      <span class="co"># for the county_2019 dataset</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)      <span class="co"># for pretty axis labels</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)        <span class="co"># for constructing character strings</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># set default theme and larger font size for ggplot2</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">theme_set</span>(ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">16</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="application-exercise" class="level1">
+<h1>Application exercise</h1>
+<div class="appex">
+<p>📋 <a href="https://github.com/sta210-s22/?q=ae-2-dcbikeshare&amp;type=all&amp;language=&amp;sort=">github.com/sta210-s22/ae-2-dcbikeshare</a></p>
+</div>
+</section>
+<section id="uninsurance-and-high-school-graduation-rates-in-nc" class="level1">
+<h1>Uninsurance and high school graduation rates in NC</h1>
+<section id="data-source" class="level2">
+<h2 class="anchored" data-anchor-id="data-source">Data source</h2>
+<ul>
+<li>The data come from <a href="https://openintrostat.github.io/usdata/reference/county_2019.html"><code>usdata::county_2019</code></a></li>
+<li>These data have been compiled from the 2019 American Community Survey</li>
+</ul>
+</section>
+<section id="uninsurance-rate" class="level2">
+<h2 class="anchored" data-anchor-id="uninsurance-rate">Uninsurance rate</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec-4_files/figure-revealjs/unnamed-chunk-1-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</section>
+<section id="high-school-graduation-rate" class="level2">
+<h2 class="anchored" data-anchor-id="high-school-graduation-rate">High school graduation rate</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec-4_files/figure-revealjs/unnamed-chunk-2-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</section>
+<section id="examining-the-relationship" class="level2">
+<h2 class="anchored" data-anchor-id="examining-the-relationship">Examining the relationship</h2>
+<ul>
+<li>The <a href="https://www.nc.gov/agency/labor-and-economic-analysis-division">NC Labor and Economic Analysis Division (LEAD)</a>, which “administers and collects data, conducts research, and publishes information on the state’s economy, labor force, educational, and workforce-related issues”.</li>
+<li>Suppose that an analyst working for LEAD is interested in the relationship between uninsurance and high school graduation rates in NC counties.</li>
+</ul>
+<p>. . .</p>
+<div class="question">
+<p>What type of visualization should the analyst make to examine the relationship between these two variables?</p>
+</div>
+</section>
+<section id="data-prep" class="level2">
+<h2 class="anchored" data-anchor-id="data-prep">Data prep</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>county_2019_nc <span class="ot">&lt;-</span> county_2019 <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">"North Carolina"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, hs_grad, uninsured)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>county_2019_nc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 100 × 3
+   name             hs_grad uninsured
+   &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Alamance County     86.3      11.2
+ 2 Alexander County    82.4       8.9
+ 3 Alleghany County    77.5      11.3
+ 4 Anson County        80.7      11.1
+ 5 Ashe County         85.1      12.6
+ 6 Avery County        83.6      15.9
+ 7 Beaufort County     87.7      12  
+ 8 Bertie County       78.4      11.9
+ 9 Bladen County       81.3      12.9
+10 Brunswick County    91.3       9.8
+# … with 90 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="uninsurance-vs.-hs-graduation-rates" class="level2">
+<h2 class="anchored" data-anchor-id="uninsurance-vs.-hs-graduation-rates">Uninsurance vs.&nbsp;HS graduation rates</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(county_2019_nc,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> hs_grad, <span class="at">y =</span> uninsured)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> <span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"High school graduate"</span>, <span class="at">y =</span> <span class="st">"Uninsured"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Uninsurance vs. HS graduation rates"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"North Carolina counties, 2015 - 2019"</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> county_2019_nc <span class="sc">%&gt;%</span> <span class="fu">filter</span>(name <span class="sc">==</span> <span class="st">"Durham County"</span>), <span class="fu">aes</span>(<span class="at">x =</span> hs_grad, <span class="at">y =</span> uninsured), <span class="at">shape =</span> <span class="st">"circle open"</span>, <span class="at">color =</span> <span class="st">"#8F2D56"</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">stroke =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> county_2019_nc <span class="sc">%&gt;%</span> <span class="fu">filter</span>(name <span class="sc">==</span> <span class="st">"Durham County"</span>), <span class="fu">aes</span>(<span class="at">x =</span> hs_grad, <span class="at">y =</span> uninsured, <span class="at">label =</span> name), <span class="at">color =</span> <span class="st">"#8F2D56"</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">nudge_y =</span> <span class="dv">3</span>, <span class="at">nudge_x =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="lec-4_files/figure-revealjs/nc-uninsured-hsgrad-scatter-1.png" class="img-fluid" style="width:80.0%"></p>
+</div>
+</div>
+</section>
+<section id="modeling-the-relationship" class="level2">
+<h2 class="anchored" data-anchor-id="modeling-the-relationship">Modeling the relationship</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(county_2019_nc, <span class="fu">aes</span>(<span class="at">x =</span> hs_grad, <span class="at">y =</span> uninsured)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"#8F2D56"</span>) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> <span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"High school graduate"</span>, <span class="at">y =</span> <span class="st">"Uninsured"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Uninsurance vs. HS graduation rates"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"North Carolina counties, 2015 - 2019"</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="lec-4_files/figure-revealjs/nc-uninsured-hsgrad-scatter-line-1.png" class="img-fluid" style="width:80.0%"></p>
+</div>
+</div>
+</section>
+<section id="fitting-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-the-model">Fitting the model</h2>
+<p>With <code>fit()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nc_fit <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(uninsured <span class="sc">~</span> hs_grad, <span class="at">data =</span> county_2019_nc)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(nc_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error statistic  p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)   33.9      3.99        8.50 2.12e-13
+2 hs_grad       -0.262    0.0468     -5.61 1.88e- 7</code></pre>
+</div>
+</div>
+</section>
+<section id="augmenting-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="augmenting-the-data">Augmenting the data</h2>
+<p>With <code>augment()</code> to add columns for predicted values (<code>.fitted</code>), residuals (<code>.resid</code>), etc.:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nc_aug <span class="ot">&lt;-</span> <span class="fu">augment</span>(nc_fit<span class="sc">$</span>fit)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>nc_aug</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 100 × 8
+   uninsured hs_grad .fitted  .resid   .hat .sigma    .cooksd .std.resid
+       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+ 1      11.2    86.3   11.3  -0.0633 0.0107   2.10 0.00000501    -0.0305
+ 2       8.9    82.4   12.3  -3.39   0.0138   2.07 0.0186        -1.63  
+ 3      11.3    77.5   13.6  -2.27   0.0393   2.09 0.0252        -1.11  
+ 4      11.1    80.7   12.7  -1.63   0.0199   2.09 0.00633       -0.790 
+ 5      12.6    85.1   11.6   1.02   0.0100   2.10 0.00122        0.492 
+ 6      15.9    83.6   12.0   3.93   0.0112   2.06 0.0203         1.89  
+ 7      12      87.7   10.9   1.10   0.0133   2.10 0.00191        0.532 
+ 8      11.9    78.4   13.3  -1.44   0.0328   2.09 0.00830       -0.700 
+ 9      12.9    81.3   12.6   0.324  0.0174   2.10 0.000218       0.157 
+10       9.8    91.3    9.95 -0.151  0.0291   2.10 0.0000806     -0.0734
+# … with 90 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="visualizing-the-model-i" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="visualizing-the-model-i">Visualizing the model I</h2>
+<div class="columns">
+<div class="column" style="width:25%;">
+<div class="nonincremental">
+<ul>
+<li><strong>Black circles:</strong> Observed values (<code>y = uninsured</code>)</li>
+</ul>
+</div>
+</div><div class="column" style="width:75%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec-4_files/figure-revealjs/unnamed-chunk-6-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizing-the-model-ii" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="visualizing-the-model-ii">Visualizing the model II</h2>
+<div class="columns">
+<div class="column" style="width:25%;">
+<div class="nonincremental">
+<ul>
+<li>Black circles: Observed values (<code>y = uninsured</code>)</li>
+<li><strong>Pink solid line:</strong> Least squares regression line</li>
+</ul>
+</div>
+</div><div class="column" style="width:75%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec-4_files/figure-revealjs/unnamed-chunk-7-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizing-the-model-iii" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="visualizing-the-model-iii">Visualizing the model III</h2>
+<div class="columns">
+<div class="column" style="width:25%;">
+<div class="nonincremental">
+<ul>
+<li>Black circles: Observed values (<code>y = uninsured</code>)</li>
+<li>Pink solid line: Least squares regression line</li>
+<li><strong>Maroon triangles:</strong> Predicted values (<code>y = .fitted</code>)</li>
+</ul>
+</div>
+</div><div class="column" style="width:75%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec-4_files/figure-revealjs/unnamed-chunk-8-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizing-the-model-iv" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="visualizing-the-model-iv">Visualizing the model IV</h2>
+<div class="columns">
+<div class="column" style="width:25%;">
+<div class="nonincremental">
+<ul>
+<li>Black circles: Observed values (<code>y = uninsured</code>)</li>
+<li>Pink solid line: Least squares regression line</li>
+<li>Maroon triangles: Predicted values (<code>y = .fitted</code>)</li>
+<li><strong>Gray dashed lines:</strong> Residuals</li>
+</ul>
+</div>
+</div><div class="column" style="width:75%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec-4_files/figure-revealjs/unnamed-chunk-9-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluating-the-model-fit" class="level2">
+<h2 class="anchored" data-anchor-id="evaluating-the-model-fit">Evaluating the model fit</h2>
+<div class="question">
+<p>How can we evaluate whether the model for predicting uninsurance rate from high school graduation rate for NC counties is a good fit?</p>
+</div>
+</section>
+</section>
+<section id="model-evaluation" class="level1">
+<h1>Model evaluation</h1>
+<section id="two-statistics" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="two-statistics">Two statistics</h2>
+<ul>
+<li><p><strong>R-squared</strong>, <span class="math inline">\(R^2\)</span> : Percentage of variability in the outcome explained by the regression model (in the context of SLR, the predictor)</p>
+<p><span class="math display">\[
+R^2 = Cor(x,y)^2 = Cor(y, \hat{y})^2
+\]</span></p></li>
+<li><p><strong>Root mean square error, RMSE</strong>: A measure of the average error (average difference between observed and predicted values of the outcome)</p>
+<p><span class="math display">\[
+RMSE = \sqrt{\frac{\sum_{i = 1}^n (y_i - \hat{y}_i)^2}{n}}
+\]</span></p></li>
+</ul>
+<p>. . .</p>
+<div class="question">
+<p>What indicates a good model fit? Higher or lower <span class="math inline">\(R^2\)</span>? Higher or lower RMSE?</p>
+</div>
+</section>
+<section id="r-squared" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="r-squared">R-squared</h2>
+<ul>
+<li><p>Ranges between 0 (terrible predictor) and 1 (perfect predictor)</p></li>
+<li><p>Unitless</p></li>
+<li><p>Calculate with <code>rsq()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rsq</span>(nc_aug, <span class="at">truth =</span> uninsured, <span class="at">estimate =</span> .fitted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rsq     standard       0.243</code></pre>
+</div>
+</div></li>
+</ul>
+</section>
+<section id="interpreting-r-squared" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="interpreting-r-squared">Interpreting R-squared</h2>
+<div class="poll">
+<p>🗳️ <strong>Vote on Slack</strong></p>
+<p>The <span class="math inline">\(R^2\)</span> of the model for predicting uninsurance rate from high school graduation rate for NC counties is 24.3%. Which of the following is the correct interpretation of this value?</p>
+<div class="nonincremental">
+<ul>
+<li>High school graduation rates correctly predict 24.3% of uninsurance rates in NC counties.</li>
+<li>24.3% of the variability in uninsurance rates in NC counties can be explained by high school graduation rates.</li>
+<li>24.3% of the variability in high school graduation rates in NC counties can be explained by uninsurance rates.</li>
+<li>24.3% of the time uninsurance rates in NC counties can be predicted by high school graduation rates.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="alternative-approach-for-r-squared" class="level2">
+<h2 class="anchored" data-anchor-id="alternative-approach-for-r-squared">Alternative approach for R-squared</h2>
+<p>Alternatively, use <code>glance()</code> to construct a single row summary of the model fit, including <span class="math inline">\(R^2\)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(nc_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 1 × 12
+  r.squared adj.r.squared sigma statistic     p.value    df logLik   AIC   BIC
+      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     0.243         0.235  2.09      31.5 0.000000188     1  -214.  435.  443.
+# … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(nc_fit)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] 0.2430694</code></pre>
+</div>
+</div>
+</section>
+<section id="rmse" class="level2">
+<h2 class="anchored" data-anchor-id="rmse">RMSE</h2>
+<ul>
+<li><p>Ranges between 0 (perfect predictor) and infinity (terrible predictor)</p></li>
+<li><p>Same units as the outcome variable</p></li>
+<li><p>Calculate with <code>rmse()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(nc_aug, <span class="at">truth =</span> uninsured, <span class="at">estimate =</span> .fitted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard        2.07</code></pre>
+</div>
+</div></li>
+<li><p>The value of RMSE is not very meaningful on its own, but it’s useful for comparing across models (more on this when we get to regression with multiple predictors)</p></li>
+</ul>
+</section>
+<section id="obtaining-r-squared-and-rmse" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="obtaining-r-squared-and-rmse">Obtaining R-squared and RMSE</h2>
+<ul>
+<li><p>Use <code>rsq()</code> and <code>rmse()</code>, respectively</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rsq</span>(nc_aug, <span class="at">truth =</span> uninsured, <span class="at">estimate =</span> .fitted)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(nc_aug, <span class="at">truth =</span> uninsured, <span class="at">estimate =</span> .fitted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p>First argument: data frame containing <code>truth</code> and <code>estimate</code> columns</p></li>
+<li><p>Second argument: name of the column containing <code>truth</code> (observed outcome)</p></li>
+<li><p>Third argument: name of the column containing <code>estimate</code> (predicted outcome)</p></li>
+</ul>
+</section>
+<section id="purpose-of-model-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="purpose-of-model-evaluation">Purpose of model evaluation</h2>
+<ul>
+<li><span class="math inline">\(R^2\)</span> tells us how our model is doing to predict the data we <em>already have</em></li>
+<li>But generally we are interested in prediction for a new observation, not for one that is already in our sample, i.e.&nbsp;<strong>out-of-sample prediction</strong></li>
+<li>We have a couple ways of <em>simulating</em> out-of-sample prediction before actually getting new data to evaluate the performance of our models</li>
+</ul>
+</section>
+</section>
+<section id="splitting-data" class="level1">
+<h1>Splitting data</h1>
+<section id="spending-our-data" class="level2">
+<h2 class="anchored" data-anchor-id="spending-our-data">Spending our data</h2>
+<ul>
+<li>There are several steps to create a useful model: parameter estimation, model selection, performance assessment, etc.</li>
+<li>Doing all of this on the entire data we have available leaves us with no other data to assess our choices</li>
+<li>We can allocate specific subsets of data for different tasks, as opposed to allocating the largest possible amount to the model parameter estimation only (which is what we’ve done so far)</li>
+</ul>
+</section>
+<section id="simulation-data-splitting" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="simulation-data-splitting">Simulation: data splitting</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div class="nonincremental">
+<ul>
+<li>Take a random sample of 10% of the data and set aside (testing data)</li>
+<li>Fit a model on the remaining 90% of the data (training data)</li>
+<li>Use the coefficients from this model to make predictions for the testing data</li>
+<li>Repeat 10 times</li>
+</ul>
+</div>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec-4_files/figure-revealjs/unnamed-chunk-15-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="predictive-performance" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="predictive-performance">Predictive performance</h2>
+<div class="columns">
+<div class="column" style="width:25%;">
+<div class="question">
+<div class="nonincremental">
+<ul>
+<li>How consistent are the predictions for different testing datasets?</li>
+<li>How consistent are the predictions for counties with high school graduation rates in the middle of the plot vs.&nbsp;in the edges?</li>
+</ul>
+</div>
+</div>
+</div><div class="column" style="width:75%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec-4_files/figure-revealjs/unnamed-chunk-16-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="bootstrapping" class="level1">
+<h1>Bootstrapping</h1>
+<section id="bootstrapping-our-data" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="bootstrapping-our-data">Bootstrapping our data</h2>
+<ul>
+<li>The idea behind bootstrapping is that if a given observation exists in a sample, there may be more like it in the population</li>
+<li>With bootstrapping, we simulate resampling from the population by resampling from the sample we observed</li>
+<li>Bootstrap samples are the sampled <em>with replacement</em> from the original sample and same size as the original sample
+<ul>
+<li>For example, if our sample consists of the observations {A, B, C}, bootstrap samples could be {A, A, B}, {A, C, A}, {B, C, C}, {A, B, C}, etc.</li>
+</ul></li>
+</ul>
+</section>
+<section id="simulation-bootstrapping" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="simulation-bootstrapping">Simulation: bootstrapping</h2>
+<div class="columns">
+<div class="column" style="width:25%;">
+<div class="nonincremental">
+<ul>
+<li>Take a bootstrap sample – sample with replacement from the original data, same size as the original data</li>
+<li>Fit model to the sample and make predictions for that sample</li>
+<li>Repeat many times</li>
+</ul>
+</div>
+</div><div class="column" style="width:75%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec-4_files/figure-revealjs/unnamed-chunk-17-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="predictive-performance-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="predictive-performance-1">Predictive performance</h2>
+<div class="columns">
+<div class="column" style="width:25%;">
+<div class="question">
+<div class="nonincremental">
+<ul>
+<li>How consistent are the predictions for different bootstrap datasets?</li>
+<li>How consistent are the predictions for counties with high school graduation rates in the middle of the plot vs.&nbsp;in the edges?</li>
+</ul>
+</div>
+</div>
+</div><div class="column" style="width:75%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="lec-4_files/figure-revealjs/unnamed-chunk-18-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+
+<script>
+  // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+  // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+  // slide changes (different for each slide format).
+  (function () {
+    function fireSlideChanged(previousSlide, currentSlide) {
+
+      // dispatch for htmlwidgets
+      const event = window.document.createEvent("Event");
+      event.initEvent("slideenter", true, true);
+      window.document.dispatchEvent(event);
+
+      // dispatch for shiny
+      if (window.jQuery) {
+        if (previousSlide) {
+          window.jQuery(previousSlide).trigger("hidden");
+        }
+        if (currentSlide) {
+          window.jQuery(currentSlide).trigger("shown");
+        }
+      }
+    }
+
+    // hookup for reveal
+    if (window.Reveal) {
+      window.Reveal.addEventListener("slidechanged", function(event) {
+        fireSlideChanged(event.previousSlide, event.currentSlide);
+      });
+    }
+
+    // hookup for slidy
+    if (window.w3c_slidy) {
+      window.w3c_slidy.add_observer(function (slide_num) {
+        // slide_num starts at position 1
+        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+      });
+    }
+
+  })();
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© Copyright 2022, Mine Çetinkaya-Rundel</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

@@ -10,6 +10,5 @@ staging/
 .Ruserdata
 
 /.quarto/
-_site/
 *.key
 *speaker.html
