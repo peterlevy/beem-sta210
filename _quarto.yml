@@ -1,6 +1,7 @@
 project:
   type: website
-
+  output-dir: docs
+  
 website:
   page-navigation: true
   title: "STA 210 - Spring 2022"
@@ -12,12 +13,8 @@ website:
 
   open-graph: true
 
-  twitter-card:
-    creator: "@minebocek"
-    image: "images/twitter-card.png"
-
   page-footer:
-    right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
+    right: "This page is built with [Quarto](https://quarto.org/)."
     left: "&copy; Copyright 2022, Mine Çetinkaya-Rundel"
     background: "#D9E3E4"
 
