@@ -1,1 +1,1 @@
-Sitemap: https://sta210-s22.github.io/website/sitemap.xml
+Sitemap: https://peterlevy.github.io/beem-sta210/sitemap.xml

@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "STA 210: Regression Analysis",
+    "title": "BEEM - Bayesian methods for Ecological and Environmental Modelling",
     "section": "",
-    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek\nDate\nTopic\nPrepare\nSlides\nAE\nLab\nHW\nExam\nProject\n\n\n\n\n1\nWed, Jan 5\nLab 0 - Meet + greet\n\n🖥️\n\n💻\n\n\n\n\n\n\nThu, Jan 6\nWelcome to STA 210!\n📖\n🖥️\n📋\n\n\n\n\n\n\n2\nMon, Jan 10\nLab 1 - Meet the toolkit\n\n🖥️\n\n💻\n\n\n\n\n\n\nTue, Jan 11\nSimple linear regression (SLR)\n📖\n🖥️\n\n\n\n\n\n\n\n\nThu, Jan 13\nSLR: Model fitting in R with tidymodels\n\n🖥️\n📋\n\n\n\n\n\n\n\nFri, Jan 14\nReleased: HW 5\n\n\n\n\n✍️\n\n\n\n\n\n\nDue: Lab 1\n\n\n\n💻 🗝️\n\n\n\n\n\n3\nMon, Jan 17\nMartin Luther King, Jr. Day\n\n\n\n\n\n\n\n\n\n\nTue, Jan 18\nSLR: Prediction + model evaluation\n📖\n🖥️\n📋\n\n\n\n\n\n\n\nThu, Jan 20\nSLR: Simulation-based inference\n\n🖥️\n\n\n\n\n\n\n\n\nFri, Jan 21\nReleased: HW 1\n\n\n\n\n✍️\n\n\n\n\n4\nMon, Jan 24\nLab 2 - College scorecard\n\n🖥️\n\n💻\n\n\n\n\n\n\nTue, Jan 25\nSLR: Mathematical models for inference\n📖\n🖥️\n\n\n\n\n\n\n\n\nThu, Jan 27\nSLR: Model diagnostics\n\n🖥️\n📋\n\n\n\n\n\n\n\nFri, Jan 28\nDue: HW 1 + Lab 2\n\n\n\n💻 🗝️\n✍️ 🗝️\n\n\n\n\n5\nMon, Jan 31\nLab 3 - Coffee ratings\n\n🖥️\n\n💻\n\n\n\n\n\n\nTue, Feb 1\nMultiple linear regression (MLR)\n📖\n🖥️\n\n\n\n\n\n\n\n\nThu, Feb 3\nExam 1 review\n\n🖥️\n📋\n\n\n\n\n\n\n\nFri, Feb 4\nReleased: Exam 1\n\n\n\n\n\n✅\n\n\n\n\n\nDue: Lab 3\n\n\n\n💻 🗝️\n\n\n\n\n\n6\nMon, Feb 7\nNo lab: Work on Exam 1\n\n\n\n\n\n\n\n\n\n\n\nDue: Exam 1\n\n\n\n\n\n✅\n\n\n\n\nTue, Feb 8\nMLR: Types of predictors\n📖\n🖥️\n\n\n\n\n\n\n\n\nThu, Feb 10\nMLR: Model comparison\n\n🖥️\n\n\n\n\n\n\n\n\nFri, Feb 11\nReleased: HW 2\n\n\n\n\n✍️\n\n\n\n\n7\nMon, Feb 14\nLab: Project topic ideas\n\n\n\n\n\n\n📂\n\n\n\nTue, Feb 15\nMLR: Feature engineering\n📖\n🖥️\n📋\n\n\n\n\n\n\n\nThu, Feb 17\nMLR: Feature engineering\n\n🖥️\n\n\n\n\n\n\n\n\nFri, Feb 18\nDue: HW 2 + Project topic ideas\n\n\n\n\n✍️ 🗝️\n\n📂\n\n\n8\nMon, Feb 21\nLab 4: The Office\n\n\n\n💻\n\n\n\n\n\n\nTue, Feb 22\nMLR: Cross validation\n📖\n🖥️\n📋\n\n\n\n\n\n\n\nThu, Feb 24\nExam 2 review\n\n🖥️\n📋\n\n\n\n\n\n\n\nFri, Feb 25\nReleased: Exam 2\n\n\n\n\n\n✅\n\n\n\n\n\nDue: Lab 4\n\n\n\n💻 🗝️\n\n\n\n\n\n9\nMon, Feb 28\nNo lab: Work on Exam 2\n\n\n\n\n\n\n\n\n\n\n\nDue: Exam 2\n\n\n\n\n\n✅\n\n\n\n\nTue, Mar 1\nMLR: Inference\n📖\n🖥️\n📋\n\n\n\n\n\n\n\nThu, Mar 3\nMLR: Inference conditions + multicollinearity\n\n🖥️\n\n\n\n\n\n\n\n\nMon, Mar 7\nSpring break\n\n\n\n\n\n\n\n\n\n\nTue, Mar 8\nSpring break\n\n\n\n\n\n\n\n\n\n\nThu, Mar 10\nSpring break\n\n\n\n\n\n\n\n\n\n10\nMon, Mar 14\nLab: Work on project proposals\n\n\n\n\n\n\n📂\n\n\n\nTue, Mar 15\nLogistic regression (LR)\n📖\n🖥️\n📋\n\n\n\n\n\n\n\nThu, Mar 17\nProbabilities, odds, and odds ratios\n\n🖥️\n\n\n\n\n\n\n\n\nFri, Mar 18\nDue: Project proposals\n\n\n\n\n\n\n📂\n\n\n\n\nReleased: HW 3\n\n\n\n\n✍️\n\n\n\n\n11\nMon, Mar 21\nLab 5: General Social Survey\n\n\n\n💻\n\n\n\n\n\n\nTue, Mar 22\nLR: Prediction / classification\n📖\n🖥️\n\n\n\n\n\n\n\n\nThu, Mar 24\nLR: Model comparison\n\n🖥️\n📋\n\n\n\n\n\n\n\nFri, Mar 25\nDue: HW 3 + Lab 5\n\n\n\n💻 🗝️\n✍️ 🗝️\n\n\n\n\n12\nMon, Mar 28\nLab: Work on project drafts\n\n\n\n\n\n\n📂\n\n\n\nTue, Mar 29\nLR: Inference + conditions\n📖\n🖥️\n\n\n\n\n\n\n\n\nThu, Mar 31\nMultinomial Logistic Regression (MultiLR)\n\n🖥️\n\n\n\n\n\n\n\n\nFri, Apr 1\nReleased: HW 4\n\n\n\n\n✍️\n\n\n\n\n13\nMon, Apr 4\nLab 6: Why Many Americans Don’t Vote\n\n\n\n💻\n\n\n\n\n\n\nTue, Apr 5\nMultiLR: Prediction + inferential models\n📖\n🖥️\n\n\n\n\n\n\n\n\nThu, Apr 7\nMultiLR: Predictive models\n\n🖥️\n📋\n\n\n\n\n\n\n\nFri, Apr 8\nDue: Lab 6\n\n\n\n💻 🗝️\n\n\n\n\n\n\nSun, Apr 10\nDue: Project drafts\n\n\n\n\n\n\n📂\n\n\n14\nMon, Apr 11\nLab: Project peer review of drafts\n\n\n\n\n\n\n📂\n\n\n\nTue, Apr 12\nMultiLR: Predictive models (cont.)\n📖\n🖥️\n\n\n\n\n\n\n\n\n\nDue: HW 4\n\n\n\n\n✍️ 🗝️\n\n\n\n\n\nThu, Apr 14\nExam 3 review\n\n🖥️\n📋\n\n\n\n\n\n\n\n\nDue: Peer review\n\n\n\n\n\n\n📂\n\n\n\nFri, Apr 15\nReleased: Exam 3\n\n\n\n\n\n✅\n\n\n\n15\nMon, Apr 18\nNo lab: Work on Exam 3\n\n\n\n\n\n\n\n\n\n\n\nDue: Exam 3\n\n\n\n\n\n✅\n\n\n\n\nTue, Apr 19\nWrap-up\n📖\n🖥️\n📋\n\n\n\n\n\n\n\n\nDue: HW 5\n\n\n\n\n✍️\n\n\n\n\n16\nMon, Apr 25\nDue: Project write-up\n\n\n\n\n\n\n📂\n\n\n\nThu, Apr 28\nDue: Video presentation + repo\n\n\n\n\n\n\n📂\n\n\n\nSat, Apr 30\nDue: Video comments\n\n\n\n\n\n\n📂"
+    "text": "This page contains an outline of the topics, content, and assignments for the semester. Note that this schedule will be updated as the semester progresses, with all changes documented here.\n\n\n\n\n\n\n\n\n\n\n\n\n\nSession\nDay & time\nTopic\nWho\nReading\nSlides\nPractical\n\n\n\n\n1\nMon, 1-2 pm\nWelcome & Overview of the course\n\n\n🖥️\n📋\n\n\n\nMon, 2-5 pm\nBayesian basics\n?\n📖\n🖥️\n📋\n\n\n2\nTue, 9.30-11 am\nMore Basics\n?\n\n🖥️\n\n\n\n\n\nBreak\n\n\n\n\n\n\n\nTue, 11.30- 1 pm\nMCMC\nDC\n📖\n🖥️\n📋\n\n\n\n\nLunch\n\n\n\n\n\n\n3\nTue, 2-3.30 pm\nLinear modelling\nPL\n\n🖥️\n📋\n\n\n\n\nBreak\n\n\n\n\n\n\n\nTue, 4-5 pm\nLinear modelling\nPL\n\n🖥️\n📋\n\n\n4\nWed, 9.30-11 am\nModel selection & comparison\nPH?\n\n🖥️\n\n\n\n\n\nBreak\n\n\n\n\n\n\n\nWed, 11.30- 1 pm\nDiagnosing weakness\nDC\n📖\n🖥️\n\n\n\n\n\nLunch\n\n\n\n\n\n\n5\nWed, 2-3.30 pm\nHierarchical modelling\nLB\n\n🖥️\n📋\n\n\n\n\nBreak\n\n\n\n\n\n\n\nWed, 4-5 pm\nSpatial modelling?\nLB?\n\n🖥️\n📋\n\n\n6\nThu, 9.30-11 am\nMeasurement and uncertainty\nPL\n\n🖥️\n\n\n\n\n\nBreak\n\n\n\n\n\n\n\nThu, 11.30- 1 pm\nCommunication of results\nLB/DM?\n📖\n🖥️\n\n\n\n\nThu, 12.30- 1 pm\nSoftware choices\n?\n📖\n🖥️\n\n\n\n\n\nLunch\n\n\n\n\n\n\n7\nThu, 2-3.30 pm\nProcess-based modelling\nDC\n\n🖥️\n📋\n\n\n\n\nBreak\n\n\n\n\n\n\n\nThu, 4-5 pm\nMachine learning\nDC/PL\n\n🖥️\n📋\n\n\n8\nFri, 9.30-11 am\nGroup Discussion\nall\n\n🖥️\n\n\n\n\n\nBreak\n\n\n\n\n\n\n\nFri, 11.30- 1 pm\nGroup Discussion cont.\nall\n📖\n🖥️"
   },
   {
     "objectID": "weeks/week-9.html",
@@ -2154,5 +2154,222 @@
     "title": "Welcome to STA 210!",
     "section": "Midori says…",
     "text": "Midori says…"
+  },
+  {
+    "objectID": "slides/lab-0.html#meet-your-ta",
+    "href": "slides/lab-0.html#meet-your-ta",
+    "title": "Lab 0 - Meet + greet",
+    "section": "Meet your TA!",
+    "text": "Meet your TA!"
+  },
+  {
+    "objectID": "slides/lab-0.html#meet-each-other",
+    "href": "slides/lab-0.html#meet-each-other",
+    "title": "Lab 0 - Meet + greet",
+    "section": "Meet each other!",
+    "text": "Meet each other!\nIn breakout rooms:\n\nName, year, major, hometown\nWhat did you do over the winter break?\nWhat do you hope to get out of this course?\nAnything else you want to share/ask?\n\n\n\n\n08:00"
+  },
+  {
+    "objectID": "slides/lab-0.html#take-the-survey",
+    "href": "slides/lab-0.html#take-the-survey",
+    "title": "Lab 0 - Meet + greet",
+    "section": "Take the survey",
+    "text": "Take the survey\n\nGo to the course website:\nhttps://sta210-s22.github.io/website\nClick on the instructions for Lab 0 on the course schedule\nTake the Getting to know you survey"
+  },
+  {
+    "objectID": "slides/lab-0.html#what-to-expect-in-lab",
+    "href": "slides/lab-0.html#what-to-expect-in-lab",
+    "title": "Lab 0 - Meet + greet",
+    "section": "What to expect in lab",
+    "text": "What to expect in lab\n\nIntroduction to the lab assignment (~ 5 - 10 minutes)\nWork on the lab assignment (individual at first, but in teams for the rest of the semester)\nLab instructions posted on the course website.\nStart each lab by finding your assignment repo in the course GitHub organization\nMore on all of these tools in lecture tomorrow and in lab next week"
+  },
+  {
+    "objectID": "slides/lab-0.html#wrap-up",
+    "href": "slides/lab-0.html#wrap-up",
+    "title": "Lab 0 - Meet + greet",
+    "section": "Wrap up",
+    "text": "Wrap up\nAny questions about the course?\n\n\n\nsta210-s22.github.io/website"
+  },
+  {
+    "objectID": "ae/ae-2-dcbikeshare.html",
+    "href": "ae/ae-2-dcbikeshare.html",
+    "title": "Literate programming using R Markdown",
+    "section": "",
+    "text": "This document shows some very basic examples of literate programming using R Markdown.\n\n\nLiterate programming = combining live code and text in one file. Special software is needed to “weave” such a file into a nicely readable document that combines the code-output with the text. The only weaving-software that we discuss here is knitr, which comes with RStudio (the ‘integrated development environment’, or IDE, for R). Use of RStudio is highly recommended: it helps not only with literate programming but also with using and testing any R-code.\nSo in our literate prgramming we combine code-chunks written in R with text. To allow knitr to do its magic (i.e. create pretty documents with nice layout etc.), we should follow some rules when writing the text-bits. We choose the rules of the simplest mark-up language, markdown. RStudio understands markdown documents.\nOnce we have created our code-text mixture, i.e. our markdown-file (with extension .Rmd), we want to use knitr to weave it into something nice. RStudio gives us the options of knitr-export to three different file-types: HTML, pdf, Word."
+  },
+  {
+    "objectID": "ae/ae-2-dcbikeshare.html#literate-programming",
+    "href": "ae/ae-2-dcbikeshare.html#literate-programming",
+    "title": "Literate programming using R Markdown",
+    "section": "",
+    "text": "Literate programming = combining live code and text in one file. Special software is needed to “weave” such a file into a nicely readable document that combines the code-output with the text. The only weaving-software that we discuss here is knitr, which comes with RStudio (the ‘integrated development environment’, or IDE, for R). Use of RStudio is highly recommended: it helps not only with literate programming but also with using and testing any R-code.\nSo in our literate prgramming we combine code-chunks written in R with text. To allow knitr to do its magic (i.e. create pretty documents with nice layout etc.), we should follow some rules when writing the text-bits. We choose the rules of the simplest mark-up language, markdown. RStudio understands markdown documents.\nOnce we have created our code-text mixture, i.e. our markdown-file (with extension .Rmd), we want to use knitr to weave it into something nice. RStudio gives us the options of knitr-export to three different file-types: HTML, pdf, Word."
+  },
+  {
+    "objectID": "ae/ae-2-dcbikeshare.html#setting-global-options",
+    "href": "ae/ae-2-dcbikeshare.html#setting-global-options",
+    "title": "Literate programming using R Markdown",
+    "section": "Setting global options",
+    "text": "Setting global options\nThe following global options change nothing (they are the defaults):\n\nknitr::opts_chunk$set(echo=TRUE,results=\"asis\")\n\nIf you only want the results from R-code-chunks to be shown in the final document, then choose echo=FALSE. Many such options can be set. One important one is cache=TRUE which stores the results of calculations in separate files, and loads them when you re-weave the file. That is useful when you have finished your work on the code-chunks but are busy editing the text-bits, because then the HTML-, pdf- or Word-document are created faster."
+  },
+  {
+    "objectID": "ae/ae-2-dcbikeshare.html#fonts-italics-and-bold",
+    "href": "ae/ae-2-dcbikeshare.html#fonts-italics-and-bold",
+    "title": "Literate programming using R Markdown",
+    "section": "Fonts: italics and bold",
+    "text": "Fonts: italics and bold\nYou can write text in italics and in boldface."
+  },
+  {
+    "objectID": "ae/ae-2-dcbikeshare.html#quotes",
+    "href": "ae/ae-2-dcbikeshare.html#quotes",
+    "title": "Literate programming using R Markdown",
+    "section": "Quotes",
+    "text": "Quotes\nA quote is written by starting a line with the &gt; symbol:\n\nModellers never write proper documentation!"
+  },
+  {
+    "objectID": "ae/ae-2-dcbikeshare.html#link-to-a-webpage",
+    "href": "ae/ae-2-dcbikeshare.html#link-to-a-webpage",
+    "title": "Literate programming using R Markdown",
+    "section": "Link to a webpage",
+    "text": "Link to a webpage\nA link to a file or website looks like this: Helophilus pendulus."
+  },
+  {
+    "objectID": "ae/ae-2-dcbikeshare.html#math-equations",
+    "href": "ae/ae-2-dcbikeshare.html#math-equations",
+    "title": "Literate programming using R Markdown",
+    "section": "Math equations",
+    "text": "Math equations\nLet’s write some mathematics:\n\n\\(\\alpha^2+\\beta^2=\\gamma^2\\).\n\nSo the “LaTeX-way” to write variable names with a subscript or superscript is: \\(x_2\\) and \\(x^2\\). But there is also a markdown way for the superscript: x2.\nLet’s write some more:\n“If r equals 2, then \\(r^2\\) is 4. And \\(\\pi*r^2\\) is 12.5663706.”\nFinally, here is a complicated equation: \\[ J_\\alpha(x) = \\sum\\limits_{m=0}^\\infty \\frac{(-1)^m}{m! \\, \\Gamma(m + \\alpha + 1)}{\\left({\\frac{x}{2}}\\right)}^{2 m + \\alpha} \\]"
+  },
+  {
+    "objectID": "ae/ae-2-dcbikeshare.html#examples-of-code-chunks",
+    "href": "ae/ae-2-dcbikeshare.html#examples-of-code-chunks",
+    "title": "Literate programming using R Markdown",
+    "section": "Examples of code-chunks",
+    "text": "Examples of code-chunks\nNow we’ll show some code-chunks. Each of them consists of a few lines of code in R. RStudio has a drop-down menu that allows you to easily navigate between the code-chunks in your file. The drop-down menu also shows the keyboard shortcuts. Two very useful ones are Ctrl-Alt-C for running the current code-chunk, and Ctrl-Alt-R for running all of them. If you run code-chunks in such a way, their output will go to the regular places, i.e. the console and the Plots-window. So that is different from weaving the file using knitr, which makes the outputs part of your new external HTML-, pdf- or Word-document. So using these Ctrl-Alt commands is good for testing your code before weaving.\n\nR-code 1\nLet’s have some text first. OK, now the code:\nset.seed(1)\nx &lt;- rnorm(100)\nmean(x)\n[1] 0.1088874\n\n\nR-code 2\nThis time we use the same R-code but following option: results=“hide”:\n\nset.seed(1)\nx &lt;- rnorm(100)\nmean(x)\n\nThat second bit of code was evaluated, but no results were shown in the final document.\n\n\nR-code 3: inline\nR-code does not have to be placed in code-chunks beginning and ending in ```. Code can also be used inline, as part of a regular text-sentence. In this example we do first use a code-chunk, but just to calculate the variables ‘time’ and ‘rand’. Thereafter the values of those variables can be included inline.\ntime &lt;- format(Sys.time(), \"%a %b %d %X %Y\")\nrand &lt;- rnorm(1)\nThe time is now Mon Nov 20 15:48:46 2023, and our random number of the day is: -0.6203667. Another example of an inline calculation is this: pi^2 is equal to 9.8696044.\n\n\nR-code 4: Creating plots\nLet’s first get some numbers to plot:\nx &lt;- rnorm(50); y &lt;- x + rnorm(50,sd=0.3)\nNow we create a scatterplot of those numbers:\npar(mar=c(5,4,1,1),las=1)\nplot(x,y,main=\"Some random numbers\")\n\nNote: if we export to an HTML-file, that plot will embedded! That is good (stand-alone file) and bad (big file).\n\n\nR-code 5: Results from statistical analysis\nWe’ll get some data that come with R, and fit a linear model:\nlibrary(datasets)\ndata(airquality)\nfit &lt;- lm(Ozone ~ Wind + Temp + Solar.R, data=airquality)\nknitr::kable(anova(fit))\n\n\n\n\n\nDf\nSum Sq\nMean Sq\nF value\nPr(&gt;F)\n\n\n\n\nWind\n1\n45694.237\n45694.2369\n101.85415\n0.0000000\n\n\nTemp\n1\n25118.710\n25118.7095\n55.99054\n0.0000000\n\n\nSolar.R\n1\n2986.173\n2986.1731\n6.65629\n0.0112366\n\n\nResiduals\n107\n48002.790\n448.6242\nNA\nNA"
+  },
+  {
+    "objectID": "ae/ae-2-dcbikeshare.html#further-reading",
+    "href": "ae/ae-2-dcbikeshare.html#further-reading",
+    "title": "Literate programming using R Markdown",
+    "section": "Further reading",
+    "text": "Further reading\n\nKarl Broman: “knitr in a knutshell: a minimal tutorial”\nRStudio website: “R Markdown - Dynamic Documents for R”\nRichard Layton: “Happy collaboration with Rmd to docx”\nDean Attali: “Knitr’s best hidden gem: spin”"
+  },
+  {
+    "objectID": "ae/ae-1-markdown.html",
+    "href": "ae/ae-1-markdown.html",
+    "title": "Literate programming using R Markdown",
+    "section": "",
+    "text": "This document shows some very basic examples of literate programming using R Markdown.\n\n\nLiterate programming = combining live code and text in one file. Special software is needed to “weave” such a file into a nicely readable document that combines the code-output with the text. The only weaving-software that we discuss here is knitr, which comes with RStudio (the ‘integrated development environment’, or IDE, for R). Use of RStudio is highly recommended: it helps not only with literate programming but also with using and testing any R-code.\nSo in our literate prgramming we combine code-chunks written in R with text. To allow knitr to do its magic (i.e. create pretty documents with nice layout etc.), we should follow some rules when writing the text-bits. We choose the rules of the simplest mark-up language, markdown. RStudio understands markdown documents.\nOnce we have created our code-text mixture, i.e. our markdown-file (with extension .Rmd), we want to use knitr to weave it into something nice. RStudio gives us the options of knitr-export to three different file-types: HTML, pdf, Word."
+  },
+  {
+    "objectID": "ae/ae-1-markdown.html#literate-programming",
+    "href": "ae/ae-1-markdown.html#literate-programming",
+    "title": "Literate programming using R Markdown",
+    "section": "",
+    "text": "Literate programming = combining live code and text in one file. Special software is needed to “weave” such a file into a nicely readable document that combines the code-output with the text. The only weaving-software that we discuss here is knitr, which comes with RStudio (the ‘integrated development environment’, or IDE, for R). Use of RStudio is highly recommended: it helps not only with literate programming but also with using and testing any R-code.\nSo in our literate prgramming we combine code-chunks written in R with text. To allow knitr to do its magic (i.e. create pretty documents with nice layout etc.), we should follow some rules when writing the text-bits. We choose the rules of the simplest mark-up language, markdown. RStudio understands markdown documents.\nOnce we have created our code-text mixture, i.e. our markdown-file (with extension .Rmd), we want to use knitr to weave it into something nice. RStudio gives us the options of knitr-export to three different file-types: HTML, pdf, Word."
+  },
+  {
+    "objectID": "ae/ae-1-markdown.html#setting-global-options",
+    "href": "ae/ae-1-markdown.html#setting-global-options",
+    "title": "Literate programming using R Markdown",
+    "section": "Setting global options",
+    "text": "Setting global options\nThe following global options change nothing (they are the defaults):\n\nknitr::opts_chunk$set(echo=TRUE,results=\"asis\")\n\nIf you only want the results from R-code-chunks to be shown in the final document, then choose echo=FALSE. Many such options can be set. One important one is cache=TRUE which stores the results of calculations in separate files, and loads them when you re-weave the file. That is useful when you have finished your work on the code-chunks but are busy editing the text-bits, because then the HTML-, pdf- or Word-document are created faster."
+  },
+  {
+    "objectID": "ae/ae-1-markdown.html#fonts-italics-and-bold",
+    "href": "ae/ae-1-markdown.html#fonts-italics-and-bold",
+    "title": "Literate programming using R Markdown",
+    "section": "Fonts: italics and bold",
+    "text": "Fonts: italics and bold\nYou can write text in italics and in boldface."
+  },
+  {
+    "objectID": "ae/ae-1-markdown.html#quotes",
+    "href": "ae/ae-1-markdown.html#quotes",
+    "title": "Literate programming using R Markdown",
+    "section": "Quotes",
+    "text": "Quotes\nA quote is written by starting a line with the &gt; symbol:\n\nModellers never write proper documentation!"
+  },
+  {
+    "objectID": "ae/ae-1-markdown.html#link-to-a-webpage",
+    "href": "ae/ae-1-markdown.html#link-to-a-webpage",
+    "title": "Literate programming using R Markdown",
+    "section": "Link to a webpage",
+    "text": "Link to a webpage\nA link to a file or website looks like this: Helophilus pendulus."
+  },
+  {
+    "objectID": "ae/ae-1-markdown.html#math-equations",
+    "href": "ae/ae-1-markdown.html#math-equations",
+    "title": "Literate programming using R Markdown",
+    "section": "Math equations",
+    "text": "Math equations\nLet’s write some mathematics:\n\n\\(\\alpha^2+\\beta^2=\\gamma^2\\).\n\nSo the “LaTeX-way” to write variable names with a subscript or superscript is: \\(x_2\\) and \\(x^2\\). But there is also a markdown way for the superscript: x2.\nLet’s write some more:\n“If r equals 2, then \\(r^2\\) is 4. And \\(\\pi*r^2\\) is 12.5663706.”\nFinally, here is a complicated equation: \\[ J_\\alpha(x) = \\sum\\limits_{m=0}^\\infty \\frac{(-1)^m}{m! \\, \\Gamma(m + \\alpha + 1)}{\\left({\\frac{x}{2}}\\right)}^{2 m + \\alpha} \\]"
+  },
+  {
+    "objectID": "ae/ae-1-markdown.html#examples-of-code-chunks",
+    "href": "ae/ae-1-markdown.html#examples-of-code-chunks",
+    "title": "Literate programming using R Markdown",
+    "section": "Examples of code-chunks",
+    "text": "Examples of code-chunks\nNow we’ll show some code-chunks. Each of them consists of a few lines of code in R. RStudio has a drop-down menu that allows you to easily navigate between the code-chunks in your file. The drop-down menu also shows the keyboard shortcuts. Two very useful ones are Ctrl-Alt-C for running the current code-chunk, and Ctrl-Alt-R for running all of them. If you run code-chunks in such a way, their output will go to the regular places, i.e. the console and the Plots-window. So that is different from weaving the file using knitr, which makes the outputs part of your new external HTML-, pdf- or Word-document. So using these Ctrl-Alt commands is good for testing your code before weaving.\n\nR-code 1\nLet’s have some text first. OK, now the code:\nset.seed(1)\nx &lt;- rnorm(100)\nmean(x)\n[1] 0.1088874\n\n\nR-code 2\nThis time we use the same R-code but following option: results=“hide”:\n\nset.seed(1)\nx &lt;- rnorm(100)\nmean(x)\n\nThat second bit of code was evaluated, but no results were shown in the final document.\n\n\nR-code 3: inline\nR-code does not have to be placed in code-chunks beginning and ending in ```. Code can also be used inline, as part of a regular text-sentence. In this example we do first use a code-chunk, but just to calculate the variables ‘time’ and ‘rand’. Thereafter the values of those variables can be included inline.\ntime &lt;- format(Sys.time(), \"%a %b %d %X %Y\")\nrand &lt;- rnorm(1)\nThe time is now Mon Nov 20 16:03:35 2023, and our random number of the day is: -0.6203667. Another example of an inline calculation is this: pi^2 is equal to 9.8696044.\n\n\nR-code 4: Creating plots\nLet’s first get some numbers to plot:\nx &lt;- rnorm(50); y &lt;- x + rnorm(50,sd=0.3)\nNow we create a scatterplot of those numbers:\npar(mar=c(5,4,1,1),las=1)\nplot(x,y,main=\"Some random numbers\")\n\nNote: if we export to an HTML-file, that plot will embedded! That is good (stand-alone file) and bad (big file).\n\n\nR-code 5: Results from statistical analysis\nWe’ll get some data that come with R, and fit a linear model:\nlibrary(datasets)\ndata(airquality)\nfit &lt;- lm(Ozone ~ Wind + Temp + Solar.R, data=airquality)\nknitr::kable(anova(fit))\n\n\n\n\n\nDf\nSum Sq\nMean Sq\nF value\nPr(&gt;F)\n\n\n\n\nWind\n1\n45694.237\n45694.2369\n101.85415\n0.0000000\n\n\nTemp\n1\n25118.710\n25118.7095\n55.99054\n0.0000000\n\n\nSolar.R\n1\n2986.173\n2986.1731\n6.65629\n0.0112366\n\n\nResiduals\n107\n48002.790\n448.6242\nNA\nNA"
+  },
+  {
+    "objectID": "ae/ae-1-markdown.html#further-reading",
+    "href": "ae/ae-1-markdown.html#further-reading",
+    "title": "Literate programming using R Markdown",
+    "section": "Further reading",
+    "text": "Further reading\n\nKarl Broman: “knitr in a knutshell: a minimal tutorial”\nRStudio website: “R Markdown - Dynamic Documents for R”\nRichard Layton: “Happy collaboration with Rmd to docx”\nDean Attali: “Knitr’s best hidden gem: spin”"
+  },
+  {
+    "objectID": "ae/ae-2-mcmc.html",
+    "href": "ae/ae-2-mcmc.html",
+    "title": "MCMC",
+    "section": "",
+    "text": "This document gives a basic introduction to Markov Chain Monte Carlo sampling (MCMC). MCMC is a method for sampling from a probability distribution p(x). The method is completely generic, it can produce a representative sample from any kind of distribution. So p(x) can be continuous or discrete, univariate or multivariate."
+  },
+  {
+    "objectID": "ae/ae-2-mcmc.html#example-1-mc-sampling-using-accept-reject-not-mcmc",
+    "href": "ae/ae-2-mcmc.html#example-1-mc-sampling-using-accept-reject-not-mcmc",
+    "title": "MCMC",
+    "section": "EXAMPLE 1: MC-sampling using Accept-Reject (not MCMC)",
+    "text": "EXAMPLE 1: MC-sampling using Accept-Reject (not MCMC)\n\n  n         &lt;- 5000\n  xproposed &lt;- cbind( runif(n,0,1), runif(n,0,1) )\n  plot(xproposed, asp=1)\n\n\n\n  iaccept   &lt;- xproposed[,1]^2 + xproposed[,2]^2 &lt; 1\n  x         &lt;- xproposed[iaccept,]\n  plot(x, asp=1,main=\"MC-sampling\")"
+  },
+  {
+    "objectID": "ae/ae-2-mcmc.html#example-2-same-distribution-as-in-ex.-1-now-with-mcmc",
+    "href": "ae/ae-2-mcmc.html#example-2-same-distribution-as-in-ex.-1-now-with-mcmc",
+    "title": "MCMC",
+    "section": "EXAMPLE 2: Same distribution as in EX. 1, now with MCMC",
+    "text": "EXAMPLE 2: Same distribution as in EX. 1, now with MCMC\nWe begin with the same distribution that we already sampled using MC, but this time we sample using MCMC (Metropolis algorithm). So our distribution p(x) is again the bivariate uniform distribution within the overlap of the unit square and the unit circle.\n\npratio &lt;- function(xa,xb) { (xa[1]^2 + xa[2]^2 &lt; 1)  &&\n                            (xa[1]&gt;=0) && (xa[2]&gt;=0) }\n# SAMPLING FROM p(x) USING MCMC\n  n      &lt;- 2000\n  x      &lt;- vector(\"list\",n)\n  x[[1]] &lt;- c(0,0)\n  for (i in 2:n) {\n     xproposed &lt;- x[[i-1]] + runif(2,-1,1)\n     if ( runif(1,0,1) &lt; pratio( xproposed, x[[i-1]]) )\n        x[[i]] &lt;- xproposed\n     else\n        x[[i]] &lt;- x[[i-1]]\n     end }\nx &lt;- do.call(rbind,x)\n\nLet’s plot the Markov chain:\n\nplot( x[ 1: 2,],xlim=c(-0.5,1.5),ylim=c(-0.5,1.5), asp=1,\n      xlab=\"x[,1]\", ylab=\"x[,2]\") ; lines(x[1:2,],type=\"b\")\nlines(x[ 2: 3,],type=\"b\")\nlines(x[ 3: 4,],type=\"b\")\nlines(x[ 4: 5,],type=\"b\")\nlines(x[ 5: 6,],type=\"b\")\nlines(x[ 6: 7,],type=\"b\")\nlines(x[ 7: 8,],type=\"b\")\nlines(x[ 8: 9,],type=\"b\")\nlines(x[ 9:10,],type=\"b\")\nlines(x[10:11,],type=\"b\")\nlines(x[11:12,],type=\"b\")\nlines(x[12:13,],type=\"b\")\nlines(x[13:14,],type=\"b\")\nlines(x[14:15,],type=\"b\")\nlines(x[15:16,],type=\"b\")\nlines(x[16:17,],type=\"b\")\nlines(x[17:18,],type=\"b\")\nlines(x[18:19,],type=\"b\")\nlines(x[19:20,],type=\"b\")\nfor(i in 21:n) { lines(x[(i-1):i,],type=\"b\") }\n\n\n\n\nWe see that the MCMC gives the same result as the MC."
+  },
+  {
+    "objectID": "ae/ae-2-mcmc.html#example-3-univariate-distribution",
+    "href": "ae/ae-2-mcmc.html#example-3-univariate-distribution",
+    "title": "MCMC",
+    "section": "EXAMPLE 3 Univariate distribution",
+    "text": "EXAMPLE 3 Univariate distribution\nWe now turn to a distribution where the ratio is more complicated.\n\np(x): univariate, unknown distribution on [-Inf,Inf]\np(xa)/p(xb) = exp(xb2-xa2)\nMCMC-sampling from p(x) using Metropolis\n\n\npratio &lt;- function(xa,xb) { exp(xb^2-xa^2) }\n# SAMPLING FROM p(x) USING MCMC\n  n      &lt;- 5000\n  x      &lt;- vector(\"list\",n)\n  x[[1]] &lt;- 0\n  for (i in 2:n) {\n     xproposed &lt;- x[[i-1]] + runif(1,-1,1)\n     if ( runif(1,0,1) &lt; pratio( xproposed, x[[i-1]]) )\n        x[[i]] &lt;- xproposed\n     else\n        x[[i]] &lt;- x[[i-1]]\n     end }\nx &lt;- do.call(rbind,x)\n\n\npar(mfrow=c(2,2))\n\nplot(x,type=\"b\")\nhist(x) ; print(mean(x)) ; print(sd(x))\n\n[1] 0.004955363\n\n\n[1] 0.6992098\n\n# In this case, R could have given the answer directly\nxdirect &lt;- rnorm(n,0,0.7)\nplot(xdirect)\nhist(xdirect) ; print(mean(xdirect)) ; print(sd(xdirect))\n\n\n\n\n[1] -0.008299763\n\n\n[1] 0.6923803"
+  },
+  {
+    "objectID": "ae/ae-2-mcmc.html#example-4-bivariate-distribution",
+    "href": "ae/ae-2-mcmc.html#example-4-bivariate-distribution",
+    "title": "MCMC",
+    "section": "EXAMPLE 4: Bivariate distribution",
+    "text": "EXAMPLE 4: Bivariate distribution\n\np(x): bivariate, unknown distribution on the real number plane\np(xa)/p(xb) = exp(xb[1]2-xa[1]2) * exp(xb[2]2-xa[2]2)\nMCMC-sampling from p(x) using Metropolis\n\n\npratio &lt;- function(xa,xb) { exp(xb[1]^2-xa[1]^2) * exp(xb[2]^2-xa[2]^2) }\n# SAMPLING FROM p(x) USING MCMC\n  n      &lt;- 2000\n  x      &lt;- vector(\"list\",n)\n  x[[1]] &lt;- c(0,0)\n  for (i in 2:n) {\n     xproposed &lt;- x[[i-1]] + runif(2,-1,1)\n     if ( runif(1,0,1) &lt; pratio( xproposed, x[[i-1]]) )\n        x[[i]] &lt;- xproposed\n     else\n        x[[i]] &lt;- x[[i-1]]\n     end }\nx &lt;- do.call(rbind,x)\n\n\npar( mfrow=c(1,2) )\n\nplot(x,asp=1,type=\"b\")\n# In this case too, R could have given the answer directly\nrequire(mvtnorm) ; xdirect &lt;- rmvnorm( n, c(0,0), diag(c(0.5,0.5)) )\n\nLoading required package: mvtnorm\n\nplot(xdirect,asp=1)"
+  },
+  {
+    "objectID": "ae/ae-2-mcmc.html#example-5-disjoint-distribution",
+    "href": "ae/ae-2-mcmc.html#example-5-disjoint-distribution",
+    "title": "MCMC",
+    "section": "EXAMPLE 5: Disjoint distribution",
+    "text": "EXAMPLE 5: Disjoint distribution\nWe now show that MCMC can sample from multimodal distributions, even when the modal regions are separated by a region of zero-probability.\n\np(x): bivariate, disjoint, unknown distribution on the real number plane\np(xa)/p(xb) = (xa[1]^2 + xa[2]^2 &lt; 1) || ((xa[1]-2)^2 + (xa[2]-0.5)^2 &lt; 0.5)\nMCMC-sampling from p(x) using Metropolis\n\n\npratio &lt;- function(xa,xb) {  (xa[1]   ^2 +  xa[2]     ^2 &lt; 1  ) ||\n                            ((xa[1]-2)^2 + (xa[2]-0.5)^2 &lt; 0.5)    }\n# SAMPLING FROM p(x) USING MCMC\n  n      &lt;- 2000\n  x      &lt;- vector(\"list\",n)\n  x[[1]] &lt;- c(0,0)\n  for (i in 2:n) {\n     xproposed &lt;- x[[i-1]] + runif(2,-1,1)\n     if ( runif(1,0,1) &lt; pratio( xproposed, x[[i-1]]) )\n        x[[i]] &lt;- xproposed\n     else\n        x[[i]] &lt;- x[[i-1]]\n     end }\nx &lt;- do.call(rbind,x)\n\n\npar( mfrow=c(1,1) )\nplot(x[1:2,],xlim=c(-1,3),ylim=c(-1,1.5),asp=1) ; lines(x[1:2,],type=\"b\")\nfor(i in 3:n) { lines(x[(i-1):i,],type=\"b\",lty=3) }\n\n\n\nplot(x,xlim=c(-1,3),ylim=c(-1,1.5),asp=1)"
+  },
+  {
+    "objectID": "ae/ae-2-mcmc.html#why-is-mcmc-so-useful-for-bayesian-modelling",
+    "href": "ae/ae-2-mcmc.html#why-is-mcmc-so-useful-for-bayesian-modelling",
+    "title": "MCMC",
+    "section": "Why is MCMC so useful for Bayesian modelling?",
+    "text": "Why is MCMC so useful for Bayesian modelling?\nBayes’ Theorem tells us how to use data D to change a prior into a posterior: p(x|D) = p(x) p(D|x) / p(D). There is usually no problem specifying a prior p(x) and a likelihood function L(x) = p(D|x). But we usually do not know what p(D) is. So we cannot write down the formula for the posterior. But we can still use MCMC because the troublesome p(D) terms cancel out in the ratio p(xa|D) / p(xb|D) for any pair of points xa and xb in parameter space. The ratio of posterior probabilities for xa and xb is thus the ratio of “prior times likelihood” for xa and xb:\np(xa|D) / p(xb|D) = p(xa) p(D|xa) / (p(xb) p(D|xb)).\nBecause that posterior ratio is usually known for any pair of points, MCMC can be used to sample from posterior distributions."
+  },
+  {
+    "objectID": "ae/ae-2-mcmc.html#bayesian-linear-regression",
+    "href": "ae/ae-2-mcmc.html#bayesian-linear-regression",
+    "title": "MCMC",
+    "section": "Bayesian linear regression",
+    "text": "Bayesian linear regression\nWe begin by getting our data, defining our likelihood function, model and prior, and the settings of the MCMC that we are going to do.\n\nrequire(mvtnorm)\nchainLength &lt;- 20000\ndata &lt;- matrix( c(10,  6.09, 1.83,\n                  20,  8.81, 2.64,\n                  30, 10.66, 3.27),\n                nrow=3, ncol=3, byrow=T) ; nd &lt;- nrow(data)\nLi   &lt;- function( model, theta, data, i ) {\n          dnorm( (model(data[i,1],theta)-data[i,2])/data[i,3] ) }\nL    &lt;- function( model, theta, data    ) {\n          prod( sapply(1:nd,function(i){Li(model,theta,data,i)}) ) }\nlogL &lt;- function( model, theta, data  ) { log(L(model,theta,data)) }\n# We define a function 'model' that is the straight line:\nmodel       &lt;- function (x,theta) { theta[1]*x + theta[2] }\nnp           &lt;- 2\nprior        &lt;- matrix( c(0, 1,\n                          0,10), nrow=np, byrow=T )\npMin         &lt;- prior[,1] ; pMax &lt;- prior[,2]\npVector      &lt;- rowMeans(prior)\npChain       &lt;- matrix(, nrow=chainLength, ncol=np)\npChain[1,]   &lt;- pVector\nlogPrior0    &lt;- sum( log( dunif(pVector,pMin,pMax) ) )\n\nlogL0        &lt;- logL(model,pVector,data)\nlogLChain    &lt;- matrix(, nrow=chainLength, ncol=1)\nlogLChain[1] &lt;- logL0\n\nvcovProposal &lt;- diag( ( 0.2*(pMax-pMin) )^2 )\n\nNow we are ready to run the MCMC itself.\n\nfor (c in 2:chainLength) {\n  cint &lt;- min(1000,round(chainLength/10))\n  if (c%%cint == 0) cat(\"Iteration\",c,\"|\",logPrior0,\"|\",logL0,\"\\n\")\n  candidatepVector &lt;- rmvnorm(n=1, mean=pVector, sigma=vcovProposal)\n  logPrior1   &lt;- sum(log(dunif(candidatepVector, pMin, pMax)))\n  if (!is.na(logPrior1)) { \n    logL1    &lt;- logL(model,candidatepVector,data)\n    logalpha &lt;- logPrior1 + logL1 - logPrior0 - logL0\n    if (log(runif(1, min=0, max=1)) &lt; logalpha) {\n      pVector   &lt;- candidatepVector\n      logPrior0 &lt;- logPrior1\n      logL0     &lt;- logL1                       } }\n     pChain[c,]    &lt;- pVector\n     logLChain[c,] &lt;- logL0   }\n\nIteration 1000 | -2.302585 | -3.495158 \nIteration 2000 | -2.302585 | -3.500235 \nIteration 3000 | -2.302585 | -2.87472 \nIteration 4000 | -2.302585 | -3.672384 \nIteration 5000 | -2.302585 | -4.422576 \nIteration 6000 | -2.302585 | -3.23637 \nIteration 7000 | -2.302585 | -3.016112 \nIteration 8000 | -2.302585 | -3.083251 \nIteration 9000 | -2.302585 | -3.24425 \nIteration 10000 | -2.302585 | -4.255816 \nIteration 11000 | -2.302585 | -3.642816 \nIteration 12000 | -2.302585 | -3.07823 \nIteration 13000 | -2.302585 | -4.081337 \nIteration 14000 | -2.302585 | -2.786922 \nIteration 15000 | -2.302585 | -2.918381 \nIteration 16000 | -2.302585 | -3.626493 \nIteration 17000 | -2.302585 | -3.771179 \nIteration 18000 | -2.302585 | -3.291751 \nIteration 19000 | -2.302585 | -4.551895 \nIteration 20000 | -2.302585 | -3.349065 \n\n\nLet’s examine the MCMC-results.\n\nnAccepted  &lt;- length(unique(logLChain))\nacceptance &lt;- (paste(nAccepted, \"out of \", chainLength,\n                     \"candidates accepted ( = \",\n                     round(100*nAccepted/chainLength), \"%)\"))\nprint(acceptance)\n\n[1] \"6233 out of  20000 candidates accepted ( =  31 %)\"\n\nmp        &lt;- colMeans(pChain)                ; print(mp)\n\n[1] 0.2408432 3.8519836\n\niMAP      &lt;- match(max(logLChain),logLChain)\nMAP       &lt;- pChain[iMAP,]                  ; print(MAP)\n\n[1] 0.2354268 3.7975535\n\npCovMatrix&lt;- cov(pChain)                     ; print(pCovMatrix)\n\n            [,1]      [,2]\n[1,]  0.01556034 -0.214535\n[2,] -0.21453499  4.531865\n\npCorMatrix&lt;- cor(pChain)                     ; print(pCorMatrix)\n\n           [,1]       [,2]\n[1,]  1.0000000 -0.8078862\n[2,] -0.8078862  1.0000000\n\nsp        &lt;- sqrt( diag(pCovMatrix) )       ; print(sp)\n\n[1] 0.1247411 2.1288177\n\nplot  ( 1:30,model(1:30,mp ), col=\"black\",lwd=3,type=\"l\" )\nlines ( 1:30,model(1:30,MAP), col=\"red\"  ,lwd=3,type=\"p\" )\npoints( data                  , col='blue' ,lwd=3,cex=2    )"
   }
 ]

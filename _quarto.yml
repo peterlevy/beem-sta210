@@ -4,11 +4,11 @@ project:
   
 website:
   page-navigation: true
-  title: "STA 210 - Spring 2022"
-  description: "Homepage for STA 210 - Regression Analysis at Duke University, Spring 2022."
-  site-url: "https://sta210-s22.github.io/website/"
+  title: "BEEM - Bayesian methods for ecological and environmental modelling"
+  description: "Homepage for BEEM - Bayesian methods for ecological and environmental modelling"
+  site-url: "https://peterlevy.github.io/beem-sta210/"
 
-  repo-url: https://github.com/sta210-s22/website
+  repo-url: https://github.com/peterlevy/beem-sta210
   repo-actions: [edit, issue]
 
   open-graph: true
@@ -25,20 +25,11 @@ website:
     align: center
     tools:
       - icon: github
-        href: https://github.com/sta210-s22
+        href: https://github.com/peterlevy/beem-sta210
         text: "GitHub organization"
       - icon: code-square
-        href: https://cmgr.oit.duke.edu/containers
-        text: "RStudio Containers"
-      - icon: person-fill
-        text: "Sakai"
-        menu:
-          - text: Discussion forum
-            url: https://sakai.duke.edu/portal/site/779c3ebe-3b88-4bcc-bd01-1813e8396a23/tool/13b6446a-a6c6-4222-8cfb-c36d1f70802b
-          - text: Gradescope
-            url: https://sakai.duke.edu/portal/site/779c3ebe-3b88-4bcc-bd01-1813e8396a23/page/aec742dc-2972-4f02-a35b-1dd3315af889
-          - text: Gradebook
-            url: https://sakai.duke.edu/portal/site/779c3ebe-3b88-4bcc-bd01-1813e8396a23/tool/69078433-67a6-4054-a2e7-9e6c202ecdc3/
+        href: https://www.ceh.ac.uk/training/bayesian-methods-ecological-and-environmental-modelling
+        text: "CEH Training"
 
     style: "docked"
     search: true
@@ -66,44 +57,28 @@ website:
             text: Access
           - href: computing-troubleshooting.qmd
             text: Troubleshooting
-      - section: "Project"
-        contents:
-          - href: project-description.qmd
-            text: Description
-          - href: project-tips-resources.qmd
-            text: Tips + resources
-      - section: "Weekly materials"
+      - section: "Session materials"
         contents:
           - href: weeks/week-1.qmd
-            text: "Week 1"
+            text: "Session 1"
           - href: weeks/week-2.qmd
-            text: "Week 2"
+            text: "Session 2"
           - href: weeks/week-3.qmd
-            text: "Week 3"
+            text: "Session 3"
           - href: weeks/week-4.qmd
-            text: "Week 4"
+            text: "Session 4"
           - href: weeks/week-5.qmd
-            text: "Week 5"
+            text: "Session 5"
           - href: weeks/week-6.qmd
-            text: "Week 6"
+            text: "Session 6"
           - href: weeks/week-7.qmd
-            text: "Week 7"
+            text: "Session 7"
           - href: weeks/week-8.qmd
-            text: "Week 8"
+            text: "Session 8"
           - href: weeks/week-9.qmd
-            text: "Week 9"
+            text: "Session 9"
           - href: weeks/week-10.qmd
-            text: "Week 10"
-          - href: weeks/week-11.qmd
-            text: "Week 11"
-          - href: weeks/week-12.qmd
-            text: "Week 12"
-          - href: weeks/week-13.qmd
-            text: "Week 13"
-          - href: weeks/week-14.qmd
-            text: "Week 14"
-          - href: weeks/week-15.qmd
-            text: "Week 15"
+            text: "Session 10"
       - section: "Supplemental notes"
         contents:
           - href: supplemental/slr-derivations.qmd
