@@ -59,25 +59,25 @@ website:
             text: Troubleshooting
       - section: "Session materials"
         contents:
-          - href: weeks/week-1.qmd
+          - href: session/session-1.qmd
             text: "Session 1"
-          - href: weeks/week-2.qmd
+          - href: session/session-2.qmd
             text: "Session 2"
-          - href: weeks/week-3.qmd
+          - href: session/session-3.qmd
             text: "Session 3"
-          - href: weeks/week-4.qmd
+          - href: session/session-4.qmd
             text: "Session 4"
-          - href: weeks/week-5.qmd
+          - href: session/session-5.qmd
             text: "Session 5"
-          - href: weeks/week-6.qmd
+          - href: session/session-6.qmd
             text: "Session 6"
-          - href: weeks/week-7.qmd
+          - href: session/session-7.qmd
             text: "Session 7"
-          - href: weeks/week-8.qmd
+          - href: session/session-8.qmd
             text: "Session 8"
-          - href: weeks/week-9.qmd
+          - href: session/session-9.qmd
             text: "Session 9"
-          - href: weeks/week-10.qmd
+          - href: session/session-10.qmd
             text: "Session 10"
       - section: "Supplemental notes"
         contents:

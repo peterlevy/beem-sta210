@@ -2371,5 +2371,355 @@
     "title": "MCMC",
     "section": "Bayesian linear regression",
     "text": "Bayesian linear regression\nWe begin by getting our data, defining our likelihood function, model and prior, and the settings of the MCMC that we are going to do.\n\nrequire(mvtnorm)\nchainLength &lt;- 20000\ndata &lt;- matrix( c(10,  6.09, 1.83,\n                  20,  8.81, 2.64,\n                  30, 10.66, 3.27),\n                nrow=3, ncol=3, byrow=T) ; nd &lt;- nrow(data)\nLi   &lt;- function( model, theta, data, i ) {\n          dnorm( (model(data[i,1],theta)-data[i,2])/data[i,3] ) }\nL    &lt;- function( model, theta, data    ) {\n          prod( sapply(1:nd,function(i){Li(model,theta,data,i)}) ) }\nlogL &lt;- function( model, theta, data  ) { log(L(model,theta,data)) }\n# We define a function 'model' that is the straight line:\nmodel       &lt;- function (x,theta) { theta[1]*x + theta[2] }\nnp           &lt;- 2\nprior        &lt;- matrix( c(0, 1,\n                          0,10), nrow=np, byrow=T )\npMin         &lt;- prior[,1] ; pMax &lt;- prior[,2]\npVector      &lt;- rowMeans(prior)\npChain       &lt;- matrix(, nrow=chainLength, ncol=np)\npChain[1,]   &lt;- pVector\nlogPrior0    &lt;- sum( log( dunif(pVector,pMin,pMax) ) )\n\nlogL0        &lt;- logL(model,pVector,data)\nlogLChain    &lt;- matrix(, nrow=chainLength, ncol=1)\nlogLChain[1] &lt;- logL0\n\nvcovProposal &lt;- diag( ( 0.2*(pMax-pMin) )^2 )\n\nNow we are ready to run the MCMC itself.\n\nfor (c in 2:chainLength) {\n  cint &lt;- min(1000,round(chainLength/10))\n  if (c%%cint == 0) cat(\"Iteration\",c,\"|\",logPrior0,\"|\",logL0,\"\\n\")\n  candidatepVector &lt;- rmvnorm(n=1, mean=pVector, sigma=vcovProposal)\n  logPrior1   &lt;- sum(log(dunif(candidatepVector, pMin, pMax)))\n  if (!is.na(logPrior1)) { \n    logL1    &lt;- logL(model,candidatepVector,data)\n    logalpha &lt;- logPrior1 + logL1 - logPrior0 - logL0\n    if (log(runif(1, min=0, max=1)) &lt; logalpha) {\n      pVector   &lt;- candidatepVector\n      logPrior0 &lt;- logPrior1\n      logL0     &lt;- logL1                       } }\n     pChain[c,]    &lt;- pVector\n     logLChain[c,] &lt;- logL0   }\n\nIteration 1000 | -2.302585 | -3.495158 \nIteration 2000 | -2.302585 | -3.500235 \nIteration 3000 | -2.302585 | -2.87472 \nIteration 4000 | -2.302585 | -3.672384 \nIteration 5000 | -2.302585 | -4.422576 \nIteration 6000 | -2.302585 | -3.23637 \nIteration 7000 | -2.302585 | -3.016112 \nIteration 8000 | -2.302585 | -3.083251 \nIteration 9000 | -2.302585 | -3.24425 \nIteration 10000 | -2.302585 | -4.255816 \nIteration 11000 | -2.302585 | -3.642816 \nIteration 12000 | -2.302585 | -3.07823 \nIteration 13000 | -2.302585 | -4.081337 \nIteration 14000 | -2.302585 | -2.786922 \nIteration 15000 | -2.302585 | -2.918381 \nIteration 16000 | -2.302585 | -3.626493 \nIteration 17000 | -2.302585 | -3.771179 \nIteration 18000 | -2.302585 | -3.291751 \nIteration 19000 | -2.302585 | -4.551895 \nIteration 20000 | -2.302585 | -3.349065 \n\n\nLet’s examine the MCMC-results.\n\nnAccepted  &lt;- length(unique(logLChain))\nacceptance &lt;- (paste(nAccepted, \"out of \", chainLength,\n                     \"candidates accepted ( = \",\n                     round(100*nAccepted/chainLength), \"%)\"))\nprint(acceptance)\n\n[1] \"6233 out of  20000 candidates accepted ( =  31 %)\"\n\nmp        &lt;- colMeans(pChain)                ; print(mp)\n\n[1] 0.2408432 3.8519836\n\niMAP      &lt;- match(max(logLChain),logLChain)\nMAP       &lt;- pChain[iMAP,]                  ; print(MAP)\n\n[1] 0.2354268 3.7975535\n\npCovMatrix&lt;- cov(pChain)                     ; print(pCovMatrix)\n\n            [,1]      [,2]\n[1,]  0.01556034 -0.214535\n[2,] -0.21453499  4.531865\n\npCorMatrix&lt;- cor(pChain)                     ; print(pCorMatrix)\n\n           [,1]       [,2]\n[1,]  1.0000000 -0.8078862\n[2,] -0.8078862  1.0000000\n\nsp        &lt;- sqrt( diag(pCovMatrix) )       ; print(sp)\n\n[1] 0.1247411 2.1288177\n\nplot  ( 1:30,model(1:30,mp ), col=\"black\",lwd=3,type=\"l\" )\nlines ( 1:30,model(1:30,MAP), col=\"red\"  ,lwd=3,type=\"p\" )\npoints( data                  , col='blue' ,lwd=3,cex=2    )"
+  },
+  {
+    "objectID": "session/session-9.html",
+    "href": "session/session-9.html",
+    "title": "Week 9",
+    "section": "",
+    "text": "Important\n\n\n\nDue date: Exam 1 released on Fri, Feb 35, due Mon, Feb 28 at 11:59pm"
+  },
+  {
+    "objectID": "session/session-9.html#prepare",
+    "href": "session/session-9.html#prepare",
+    "title": "Week 9",
+    "section": "Prepare",
+    "text": "Prepare\nNo readings this week."
+  },
+  {
+    "objectID": "session/session-9.html#participate",
+    "href": "session/session-9.html#participate",
+    "title": "Week 9",
+    "section": "Participate",
+    "text": "Participate\n🖥️ Lecture 16 - MLR: Inference\n🖥️ Lecture 17 - MLR: Inference conditions + multicollinearity"
+  },
+  {
+    "objectID": "session/session-9.html#practice",
+    "href": "session/session-9.html#practice",
+    "title": "Week 9",
+    "section": "Practice",
+    "text": "Practice\n📋 Application Exercise 8 - Rail Trail"
+  },
+  {
+    "objectID": "session/session-9.html#perform",
+    "href": "session/session-9.html#perform",
+    "title": "Week 9",
+    "section": "Perform",
+    "text": "Perform\n✅ Exam 2\n\n\nBack to course schedule ⏎"
+  },
+  {
+    "objectID": "session/session-7.html",
+    "href": "session/session-7.html",
+    "title": "Week 7",
+    "section": "",
+    "text": "Important\n\n\n\nDue dates:\n\nHW 2 - Friday, Feb 18\nProject ideas - Friday, Feb 18"
+  },
+  {
+    "objectID": "session/session-7.html#prepare",
+    "href": "session/session-7.html#prepare",
+    "title": "Week 7",
+    "section": "Prepare",
+    "text": "Prepare\n📖 Read Tidy Modeling in R Chp 8: Feature engineering with recipes"
+  },
+  {
+    "objectID": "session/session-7.html#participate",
+    "href": "session/session-7.html#participate",
+    "title": "Week 7",
+    "section": "Participate",
+    "text": "Participate\n🖥️ Lecture 12 - MLR: Feature engineering\n🖥️ Lecture 13 - MLR: Feature engineering (cont.)"
+  },
+  {
+    "objectID": "session/session-7.html#practice",
+    "href": "session/session-7.html#practice",
+    "title": "Week 7",
+    "section": "Practice",
+    "text": "Practice\n📋 Application Exercise 5 - The Office"
+  },
+  {
+    "objectID": "session/session-7.html#perform",
+    "href": "session/session-7.html#perform",
+    "title": "Week 7",
+    "section": "Perform",
+    "text": "Perform\n✍️ HW 2 - Multiple linear regression\n📂 Project - Topic ideas\n\n\nBack to course schedule ⏎"
+  },
+  {
+    "objectID": "session/session-5.html",
+    "href": "session/session-5.html",
+    "title": "Week 5",
+    "section": "",
+    "text": "Important\n\n\n\n\nDue date: Lab 2 - Fri, Feb 4, 5pm ET\nExam 1 released on Fri, Feb 4, due Mon, Feb 7 at 11:59pm"
+  },
+  {
+    "objectID": "session/session-5.html#prepare",
+    "href": "session/session-5.html#prepare",
+    "title": "Week 5",
+    "section": "Prepare",
+    "text": "Prepare\n📖 Read Introduction to Modern Statistics, Sec 8.1: Indicator and categorical predictors\n📖 Read Introduction to Modern Statistics, Sec 8.2: Many predictors in a model\n📖 Read Introduction to Modern Statistics, Sec 8.3: Adjusted R-squared"
+  },
+  {
+    "objectID": "session/session-5.html#participate",
+    "href": "session/session-5.html#participate",
+    "title": "Week 5",
+    "section": "Participate",
+    "text": "Participate\n🖥️ Lab 3 - Coffee ratings\n🖥️ Lecture 8 - Multiple linear regression (MLR)\n🖥️ Lecture 9 - Exam 1 review"
+  },
+  {
+    "objectID": "session/session-5.html#practice",
+    "href": "session/session-5.html#practice",
+    "title": "Week 5",
+    "section": "Practice",
+    "text": "Practice\n📋 Application Exercise 4 - Exam 1 Review"
+  },
+  {
+    "objectID": "session/session-5.html#perform",
+    "href": "session/session-5.html#perform",
+    "title": "Week 5",
+    "section": "Perform",
+    "text": "Perform\n⌨️ Lab 3 - Coffee ratings\n✅ Exam 1\n\n\nBack to course schedule ⏎"
+  },
+  {
+    "objectID": "session/session-3.html",
+    "href": "session/session-3.html",
+    "title": "Week 3",
+    "section": "",
+    "text": "Important\n\n\n\n\nWe’re back to in person classes this week! See here for class locations. And don’t forget to wear your mask! 😷\nDue dates:\n\nAE 2: Fri, Jan 21, 11:59pm ET"
+  },
+  {
+    "objectID": "session/session-3.html#prepare",
+    "href": "session/session-3.html#prepare",
+    "title": "Week 3",
+    "section": "Prepare",
+    "text": "Prepare\n📖 Read Introduction to Modern Statistics, Sec 24.1: Case study: Sandwich store\n📖 Read Introduction to Modern Statistics, Sec 24.2: Randomization test for the slope\n📖 Read Introduction to Modern Statistics, Sec 24.3: Bootstrap confidence interval for the slope"
+  },
+  {
+    "objectID": "session/session-3.html#participate",
+    "href": "session/session-3.html#participate",
+    "title": "Week 3",
+    "section": "Participate",
+    "text": "Participate\n🖥️ Lecture 4 - SLR: Prediction + model evaluation\n🖥️ Lecture 5 - SLR: Simulation-based inference"
+  },
+  {
+    "objectID": "session/session-3.html#practice",
+    "href": "session/session-3.html#practice",
+    "title": "Week 3",
+    "section": "Practice",
+    "text": "Practice\n📋 Application Exercise 2 - Bike rentals in DC"
+  },
+  {
+    "objectID": "session/session-3.html#perform",
+    "href": "session/session-3.html#perform",
+    "title": "Week 3",
+    "section": "Perform",
+    "text": "Perform\nNone.\n\n\nBack to course schedule ⏎"
+  },
+  {
+    "objectID": "session/session-10.html",
+    "href": "session/session-10.html",
+    "title": "Week 10",
+    "section": "",
+    "text": "Important\n\n\n\nDue date: Project proposal due Fri, Mar 18 at 5:00 pm."
+  },
+  {
+    "objectID": "session/session-10.html#prepare",
+    "href": "session/session-10.html#prepare",
+    "title": "Week 10",
+    "section": "Prepare",
+    "text": "Prepare\n📖 Read Introduction to Modern Statistics, Chp 9: Logistic regression"
+  },
+  {
+    "objectID": "session/session-10.html#participate",
+    "href": "session/session-10.html#participate",
+    "title": "Week 10",
+    "section": "Participate",
+    "text": "Participate\n🖥️ Lecture 18 - Logistic regression\n🖥️ Lecture 19 - Probabilities, odds, odds ratios"
+  },
+  {
+    "objectID": "session/session-10.html#practice",
+    "href": "session/session-10.html#practice",
+    "title": "Week 10",
+    "section": "Practice",
+    "text": "Practice\n📋 Application Exercise 9 - Odds"
+  },
+  {
+    "objectID": "session/session-10.html#perform",
+    "href": "session/session-10.html#perform",
+    "title": "Week 10",
+    "section": "Perform",
+    "text": "Perform\n✍️ HW 3 - Logistic regression and log transformation\n\n\nBack to course schedule ⏎"
+  },
+  {
+    "objectID": "session/session-1.html",
+    "href": "session/session-1.html",
+    "title": "Week 1",
+    "section": "",
+    "text": "Important\n\n\n\nClasses are virtual this week. Find Zoom links here."
+  },
+  {
+    "objectID": "session/session-1.html#prepare",
+    "href": "session/session-1.html#prepare",
+    "title": "Week 1",
+    "section": "Prepare",
+    "text": "Prepare\n📖 Read the syllabus\n📖 Read the support resources"
+  },
+  {
+    "objectID": "session/session-1.html#participate",
+    "href": "session/session-1.html#participate",
+    "title": "Week 1",
+    "section": "Participate",
+    "text": "Participate\n🖥️ Lab 0 -Meet+ greet\n🖥️ Lecture 1 - Welcome to STA 210"
+  },
+  {
+    "objectID": "session/session-1.html#practice",
+    "href": "session/session-1.html#practice",
+    "title": "Week 1",
+    "section": "Practice",
+    "text": "Practice\n📋 AE 0 - Movies"
+  },
+  {
+    "objectID": "session/session-1.html#perform",
+    "href": "session/session-1.html#perform",
+    "title": "Week 1",
+    "section": "Perform",
+    "text": "Perform\n⌨️ Lab 0 - Meet + greet\n\n\nBack to course schedule ⏎"
+  },
+  {
+    "objectID": "session/session-2.html",
+    "href": "session/session-2.html",
+    "title": "Week 2",
+    "section": "",
+    "text": "Important\n\n\n\n\nClasses are virtual this week. Find Zoom links here.\nDue dates:\n\nLab 1: Fri, Jan 14, 5pm ET\nAE 1: Sun, Jan 16, 11:59pm ET"
+  },
+  {
+    "objectID": "session/session-2.html#prepare",
+    "href": "session/session-2.html#prepare",
+    "title": "Week 2",
+    "section": "Prepare",
+    "text": "Prepare\n📖 Read Introduction to Modern Statistics, Chp 7: Linear regression with a single predictor"
+  },
+  {
+    "objectID": "session/session-2.html#participate",
+    "href": "session/session-2.html#participate",
+    "title": "Week 2",
+    "section": "Participate",
+    "text": "Participate\n🖥️ Lab 1 - Meet the toolkit\n🖥️ Lecture 2 - Simple linear regression\n🖥️ Lecture 3 - Model fitting in R with tidymodels"
+  },
+  {
+    "objectID": "session/session-2.html#practice",
+    "href": "session/session-2.html#practice",
+    "title": "Week 2",
+    "section": "Practice",
+    "text": "Practice\n📋 Application Exercise 1 - Bike rentals in DC (Post-class note: complete only Part 1 - Daily counts and temperature)"
+  },
+  {
+    "objectID": "session/session-2.html#perform",
+    "href": "session/session-2.html#perform",
+    "title": "Week 2",
+    "section": "Perform",
+    "text": "Perform\n⌨️ Lab 1 - Meet the toolkit\n\n\nBack to course schedule ⏎"
+  },
+  {
+    "objectID": "session/session-4.html",
+    "href": "session/session-4.html",
+    "title": "Week 4",
+    "section": "",
+    "text": "Important\n\n\n\n\nIf you can’t be in class for the lectures, you can watch the live stream or watch the recording later on Panopto.\nDue dates:\n\nHW 1: Fri, Jan 28, 5pm ET\nLab 1: Fri, Jan 28, 5pm ET"
+  },
+  {
+    "objectID": "session/session-4.html#prepare",
+    "href": "session/session-4.html#prepare",
+    "title": "Week 4",
+    "section": "Prepare",
+    "text": "Prepare\n📖 Read Introduction to Modern Statistics, Sec 24.4: Mathematical model for testing the slope\n📖 Read Introduction to Modern Statistics, Sec 24.5: Mathematical model, interval for the slope\n📖 Read Introduction to Modern Statistics, Sec 24.6: Checking model conditions\n📖 Read Introduction to Modern Statistics, Sec 24.7: Chapter review"
+  },
+  {
+    "objectID": "session/session-4.html#participate",
+    "href": "session/session-4.html#participate",
+    "title": "Week 4",
+    "section": "Participate",
+    "text": "Participate\n🖥️ Lab 2 - College scorecard\n🖥️ Lecture 6 - SLR: Mathematical models for inference\n🖥️ Lecture 7 - SLR: Model diagnostics"
+  },
+  {
+    "objectID": "session/session-4.html#practice",
+    "href": "session/session-4.html#practice",
+    "title": "Week 4",
+    "section": "Practice",
+    "text": "Practice\n📋 Application Exercise 3 - Checking model conditions"
+  },
+  {
+    "objectID": "session/session-4.html#perform",
+    "href": "session/session-4.html#perform",
+    "title": "Week 4",
+    "section": "Perform",
+    "text": "Perform\n⌨️ Lab 2 - College scorecard\n✍️ HW 1 - In-person voting trends\n\n\nBack to course schedule ⏎"
+  },
+  {
+    "objectID": "session/session-6.html",
+    "href": "session/session-6.html",
+    "title": "Week 6",
+    "section": "",
+    "text": "Important\n\n\n\nDue dates: Exam 1 - Mon, Feb 7 at 11:59pm"
+  },
+  {
+    "objectID": "session/session-6.html#prepare",
+    "href": "session/session-6.html#prepare",
+    "title": "Week 6",
+    "section": "Prepare",
+    "text": "Prepare\nNo reading (take a break after the exam! 😴)"
+  },
+  {
+    "objectID": "session/session-6.html#participate",
+    "href": "session/session-6.html#participate",
+    "title": "Week 6",
+    "section": "Participate",
+    "text": "Participate\n🖥️ Lecture 10 - MLR: Types of predictors\n🖥️ Lecture 11 - MLR: Model comparison"
+  },
+  {
+    "objectID": "session/session-6.html#practice",
+    "href": "session/session-6.html#practice",
+    "title": "Week 6",
+    "section": "Practice",
+    "text": "Practice\nNo application exercises"
+  },
+  {
+    "objectID": "session/session-6.html#perform",
+    "href": "session/session-6.html#perform",
+    "title": "Week 6",
+    "section": "Perform",
+    "text": "Perform\nNo lab\n✅ Exam 1\n\n\nBack to course schedule ⏎"
+  },
+  {
+    "objectID": "session/session-8.html",
+    "href": "session/session-8.html",
+    "title": "Week 8",
+    "section": "",
+    "text": "Important\n\n\n\nDue date: Lab 4 - Friday, Feb 25"
+  },
+  {
+    "objectID": "session/session-8.html#prepare",
+    "href": "session/session-8.html#prepare",
+    "title": "Week 8",
+    "section": "Prepare",
+    "text": "Prepare\n📖 Read Tidy Modeling in R Chp 10: Resampling for evaluating performance"
+  },
+  {
+    "objectID": "session/session-8.html#participate",
+    "href": "session/session-8.html#participate",
+    "title": "Week 8",
+    "section": "Participate",
+    "text": "Participate\n🖥️ Lecture 14 - MLR: Cross validation\n🖥️ Lecture 15 - Exam 2 review"
+  },
+  {
+    "objectID": "session/session-8.html#practice",
+    "href": "session/session-8.html#practice",
+    "title": "Week 8",
+    "section": "Practice",
+    "text": "Practice\nApplication Exercise 6 - The office - CV\nApplication Exercise 7 - Exam 2 Review"
+  },
+  {
+    "objectID": "session/session-8.html#perform",
+    "href": "session/session-8.html#perform",
+    "title": "Week 8",
+    "section": "Perform",
+    "text": "Perform\n⌨️ Lab 4 - The Office, another look\n\n\nBack to course schedule ⏎"
   }
 ]
