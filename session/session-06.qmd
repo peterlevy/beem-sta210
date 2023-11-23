@@ -1,0 +1,27 @@
+---
+title: "Session 6"
+subtitle: "Measurement and uncertainty; Process-based modelling"
+editor: visual
+---
+
+## Prepare
+Statistical Rethinking 
+
+- Read: [Chapter 01](https://xcelab.net/rmpubs/sr2/statisticalrethinking2_chapters1and2.pdf) 
+- Watch on [YouTube](https://youtu.be/mt9WKbQJrI4?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
+
+## Participate
+
+🖥️ [Lecture 10 - Measurement and uncertainty](/slides/lec-10.html)
+
+🖥️ [Lecture 11 - Process-based modelling](/slides/lec-11.html)
+
+## Practice
+
+-   [Application Exercise - Monte Carlo Markov Chain](/ae/ae-2-mcmc.html)
+
+<br><br>
+
+::: {style="font-size: 0.875em;"}
+Back to [course schedule](/ "Course schedule") ⏎
+:::

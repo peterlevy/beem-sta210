@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="MvO">
+<meta name="dcterms.date" content="2023-11-23">
+
+<title>BEEM - Bayesian methods for ecological and environmental modelling - MCMC</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<meta property="og:title" content="BEEM - Bayesian methods for ecological and environmental modelling - MCMC">
+<meta property="og:description" content="An introduction with code examples in R">
+<meta property="og:image" content="https://peterlevy.github.io/beem-sta210/ae/ae-02-mcmc_files/figure-html/unnamed-chunk-1-1.png">
+<meta property="og:site-name" content="BEEM - Bayesian methods for ecological and environmental modelling">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="1344">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">MCMC</li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/peterlevy/beem-sta210" rel="" title="GitHub organization" class="quarto-navigation-tool px-1" aria-label="GitHub organization"><i class="bi bi-github"></i></a>
+    <a href="https://www.ceh.ac.uk/training/bayesian-methods-ecological-and-environmental-modelling" rel="" title="CEH Training" class="quarto-navigation-tool px-1" aria-label="CEH Training"><i class="bi bi-code-square"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Course information</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-support.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Support</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-team.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Teaching team</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-links.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Useful links</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+ <span class="menu-text">Computing</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../packages-required.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Installing R packages</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../computing-troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Troubleshooting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">Session materials</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session/session-01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session/session-02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session/session-03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session/session-04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session/session-05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 5</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session/session-06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 6</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session/session-07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 7</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session/session-08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 8</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#monte-carlo-sampling" id="toc-monte-carlo-sampling" class="nav-link" data-scroll-target="#monte-carlo-sampling">Monte Carlo sampling</a>
+  <ul class="collapse">
+  <li><a href="#example-1-mc-sampling-using-accept-reject-not-mcmc" id="toc-example-1-mc-sampling-using-accept-reject-not-mcmc" class="nav-link" data-scroll-target="#example-1-mc-sampling-using-accept-reject-not-mcmc">EXAMPLE 1: MC-sampling using Accept-Reject (not MCMC)</a></li>
+  </ul></li>
+  <li><a href="#mcmc" id="toc-mcmc" class="nav-link" data-scroll-target="#mcmc">MCMC</a>
+  <ul class="collapse">
+  <li><a href="#example-2-same-distribution-as-in-ex.-1-now-with-mcmc" id="toc-example-2-same-distribution-as-in-ex.-1-now-with-mcmc" class="nav-link" data-scroll-target="#example-2-same-distribution-as-in-ex.-1-now-with-mcmc">EXAMPLE 2: Same distribution as in EX. 1, now with MCMC</a></li>
+  <li><a href="#example-3-univariate-distribution" id="toc-example-3-univariate-distribution" class="nav-link" data-scroll-target="#example-3-univariate-distribution">EXAMPLE 3 Univariate distribution</a></li>
+  <li><a href="#example-4-bivariate-distribution" id="toc-example-4-bivariate-distribution" class="nav-link" data-scroll-target="#example-4-bivariate-distribution">EXAMPLE 4: Bivariate distribution</a></li>
+  <li><a href="#example-5-disjoint-distribution" id="toc-example-5-disjoint-distribution" class="nav-link" data-scroll-target="#example-5-disjoint-distribution">EXAMPLE 5: Disjoint distribution</a></li>
+  </ul></li>
+  <li><a href="#bayesian-regression" id="toc-bayesian-regression" class="nav-link" data-scroll-target="#bayesian-regression">Bayesian regression</a>
+  <ul class="collapse">
+  <li><a href="#why-is-mcmc-so-useful-for-bayesian-modelling" id="toc-why-is-mcmc-so-useful-for-bayesian-modelling" class="nav-link" data-scroll-target="#why-is-mcmc-so-useful-for-bayesian-modelling">Why is MCMC so useful for Bayesian modelling?</a></li>
+  <li><a href="#bayesian-linear-regression" id="toc-bayesian-linear-regression" class="nav-link" data-scroll-target="#bayesian-linear-regression">Bayesian linear regression</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">EXERCISES</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/peterlevy/beem-sta210/edit/main/ae/ae-02-mcmc.Rmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/peterlevy/beem-sta210/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MCMC</h1>
+<p class="subtitle lead">An introduction with code examples in R</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>MvO </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 23, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This document gives a basic introduction to Markov Chain Monte Carlo sampling (MCMC). MCMC is a method for sampling from a probability distribution p(x). The method is completely generic, it can produce a representative sample from any kind of distribution. So p(x) can be continuous or discrete, univariate or multivariate.</p>
+</section>
+<section id="monte-carlo-sampling" class="level1">
+<h1>Monte Carlo sampling</h1>
+<p>MCMC is a specific subset of Monte Carlo sampling. We begin by demonstrating a sampling method that is MC but not MCMC.</p>
+<p>Say we want to sample from a distribution p(x) that is bivariate, and is uniform within the overlapping area of the unit square and the unit circle. We can use MC to sample from that using the following code.</p>
+<section id="example-1-mc-sampling-using-accept-reject-not-mcmc" class="level2">
+<h2 class="anchored" data-anchor-id="example-1-mc-sampling-using-accept-reject-not-mcmc">EXAMPLE 1: MC-sampling using Accept-Reject (not MCMC)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  n         <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  xproposed <span class="ot">&lt;-</span> <span class="fu">cbind</span>( <span class="fu">runif</span>(n,<span class="dv">0</span>,<span class="dv">1</span>), <span class="fu">runif</span>(n,<span class="dv">0</span>,<span class="dv">1</span>) )</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(xproposed, <span class="at">asp=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ae-02-mcmc_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  iaccept   <span class="ot">&lt;-</span> xproposed[,<span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> xproposed[,<span class="dv">2</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">&lt;</span> <span class="dv">1</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  x         <span class="ot">&lt;-</span> xproposed[iaccept,]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(x, <span class="at">asp=</span><span class="dv">1</span>,<span class="at">main=</span><span class="st">"MC-sampling"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ae-02-mcmc_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="mcmc" class="level1">
+<h1>MCMC</h1>
+<p>Now we turn to MCMC.</p>
+<p>MCMC can be implemented in many different ways. Here we shall only use the oldest and simplest method: the Metropolis algorithm. The method does not require you to have a formula for your distribution (such as a probability density function). Let’s use ‘p(x)’ to denote the distribution that you want to sample from. All you need to know to run the Metropolis algorithm is how to calculate the <strong>ratio</strong> of the p(x) values for any two values of x.</p>
+<section id="example-2-same-distribution-as-in-ex.-1-now-with-mcmc" class="level2">
+<h2 class="anchored" data-anchor-id="example-2-same-distribution-as-in-ex.-1-now-with-mcmc">EXAMPLE 2: Same distribution as in EX. 1, now with MCMC</h2>
+<p>We begin with the same distribution that we already sampled using MC, but this time we sample using MCMC (Metropolis algorithm). So our distribution p(x) is again the bivariate uniform distribution within the overlap of the unit square and the unit circle.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pratio <span class="ot">&lt;-</span> <span class="cf">function</span>(xa,xb) { (xa[<span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> xa[<span class="dv">2</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">&lt;</span> <span class="dv">1</span>)  <span class="sc">&amp;&amp;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                            (xa[<span class="dv">1</span>]<span class="sc">&gt;=</span><span class="dv">0</span>) <span class="sc">&amp;&amp;</span> (xa[<span class="dv">2</span>]<span class="sc">&gt;=</span><span class="dv">0</span>) }</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># SAMPLING FROM p(x) USING MCMC</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  n      <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  x      <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>,n)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  x[[<span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>n) {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>     xproposed <span class="ot">&lt;-</span> x[[i<span class="dv">-1</span>]] <span class="sc">+</span> <span class="fu">runif</span>(<span class="dv">2</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>     <span class="cf">if</span> ( <span class="fu">runif</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fu">pratio</span>( xproposed, x[[i<span class="dv">-1</span>]]) )</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        x[[i]] <span class="ot">&lt;-</span> xproposed</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>     <span class="cf">else</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        x[[i]] <span class="ot">&lt;-</span> x[[i<span class="dv">-1</span>]]</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>     end }</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind,x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s plot the Markov chain:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( x[ <span class="dv">1</span><span class="sc">:</span> <span class="dv">2</span>,],<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>,<span class="fl">1.5</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>,<span class="fl">1.5</span>), <span class="at">asp=</span><span class="dv">1</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab=</span><span class="st">"x[,1]"</span>, <span class="at">ylab=</span><span class="st">"x[,2]"</span>) ; <span class="fu">lines</span>(x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[ <span class="dv">2</span><span class="sc">:</span> <span class="dv">3</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[ <span class="dv">3</span><span class="sc">:</span> <span class="dv">4</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[ <span class="dv">4</span><span class="sc">:</span> <span class="dv">5</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[ <span class="dv">5</span><span class="sc">:</span> <span class="dv">6</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[ <span class="dv">6</span><span class="sc">:</span> <span class="dv">7</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[ <span class="dv">7</span><span class="sc">:</span> <span class="dv">8</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[ <span class="dv">8</span><span class="sc">:</span> <span class="dv">9</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[ <span class="dv">9</span><span class="sc">:</span><span class="dv">10</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[<span class="dv">10</span><span class="sc">:</span><span class="dv">11</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[<span class="dv">11</span><span class="sc">:</span><span class="dv">12</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[<span class="dv">12</span><span class="sc">:</span><span class="dv">13</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[<span class="dv">13</span><span class="sc">:</span><span class="dv">14</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[<span class="dv">14</span><span class="sc">:</span><span class="dv">15</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[<span class="dv">15</span><span class="sc">:</span><span class="dv">16</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[<span class="dv">16</span><span class="sc">:</span><span class="dv">17</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[<span class="dv">17</span><span class="sc">:</span><span class="dv">18</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[<span class="dv">18</span><span class="sc">:</span><span class="dv">19</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x[<span class="dv">19</span><span class="sc">:</span><span class="dv">20</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">21</span><span class="sc">:</span>n) { <span class="fu">lines</span>(x[(i<span class="dv">-1</span>)<span class="sc">:</span>i,],<span class="at">type=</span><span class="st">"b"</span>) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ae-02-mcmc_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We see that the MCMC gives the same result as the MC.</p>
+</section>
+<section id="example-3-univariate-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="example-3-univariate-distribution">EXAMPLE 3 Univariate distribution</h2>
+<p>We now turn to a distribution where the ratio is more complicated.</p>
+<ul>
+<li>p(x): univariate, unknown distribution on [-Inf,Inf]</li>
+<li>p(xa)/p(xb) = exp(xb<sup>2-xa</sup>2)</li>
+<li>MCMC-sampling from p(x) using Metropolis</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pratio <span class="ot">&lt;-</span> <span class="cf">function</span>(xa,xb) { <span class="fu">exp</span>(xb<span class="sc">^</span><span class="dv">2</span><span class="sc">-</span>xa<span class="sc">^</span><span class="dv">2</span>) }</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># SAMPLING FROM p(x) USING MCMC</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  n      <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  x      <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>,n)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  x[[<span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>n) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>     xproposed <span class="ot">&lt;-</span> x[[i<span class="dv">-1</span>]] <span class="sc">+</span> <span class="fu">runif</span>(<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>     <span class="cf">if</span> ( <span class="fu">runif</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fu">pratio</span>( xproposed, x[[i<span class="dv">-1</span>]]) )</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        x[[i]] <span class="ot">&lt;-</span> xproposed</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>     <span class="cf">else</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        x[[i]] <span class="ot">&lt;-</span> x[[i<span class="dv">-1</span>]]</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>     end }</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind,x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x) ; <span class="fu">print</span>(<span class="fu">mean</span>(x)) ; <span class="fu">print</span>(<span class="fu">sd</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.02422589</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.711142</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In this case, R could have given the answer directly</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>xdirect <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n,<span class="dv">0</span>,<span class="fl">0.7</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xdirect)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(xdirect) ; <span class="fu">print</span>(<span class="fu">mean</span>(xdirect)) ; <span class="fu">print</span>(<span class="fu">sd</span>(xdirect))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ae-02-mcmc_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.001316615</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6937373</code></pre>
+</div>
+</div>
+</section>
+<section id="example-4-bivariate-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="example-4-bivariate-distribution">EXAMPLE 4: Bivariate distribution</h2>
+<ul>
+<li>p(x): bivariate, unknown distribution on the real number plane</li>
+<li>p(xa)/p(xb) = exp(xb[1]<sup>2-xa[1]</sup>2) * exp(xb[2]<sup>2-xa[2]</sup>2)</li>
+<li>MCMC-sampling from p(x) using Metropolis</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pratio <span class="ot">&lt;-</span> <span class="cf">function</span>(xa,xb) { <span class="fu">exp</span>(xb[<span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span><span class="sc">-</span>xa[<span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">exp</span>(xb[<span class="dv">2</span>]<span class="sc">^</span><span class="dv">2</span><span class="sc">-</span>xa[<span class="dv">2</span>]<span class="sc">^</span><span class="dv">2</span>) }</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># SAMPLING FROM p(x) USING MCMC</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  n      <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  x      <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>,n)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  x[[<span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>n) {</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>     xproposed <span class="ot">&lt;-</span> x[[i<span class="dv">-1</span>]] <span class="sc">+</span> <span class="fu">runif</span>(<span class="dv">2</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>     <span class="cf">if</span> ( <span class="fu">runif</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fu">pratio</span>( xproposed, x[[i<span class="dv">-1</span>]]) )</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        x[[i]] <span class="ot">&lt;-</span> xproposed</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>     <span class="cf">else</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        x[[i]] <span class="ot">&lt;-</span> x[[i<span class="dv">-1</span>]]</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>     end }</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind,x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>( <span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>) )</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,<span class="at">asp=</span><span class="dv">1</span>,<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># In this case too, R could have given the answer directly</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(mvtnorm) ; xdirect <span class="ot">&lt;-</span> <span class="fu">rmvnorm</span>( n, <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="fu">diag</span>(<span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">0.5</span>)) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: mvtnorm</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xdirect,<span class="at">asp=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ae-02-mcmc_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="example-5-disjoint-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="example-5-disjoint-distribution">EXAMPLE 5: Disjoint distribution</h2>
+<p>We now show that MCMC can sample from multimodal distributions, even when the modal regions are separated by a region of zero-probability.</p>
+<ul>
+<li>p(x): bivariate, disjoint, unknown distribution on the real number plane</li>
+<li>p(xa)/p(xb) = (xa[1]^2 + xa[2]^2 &lt; 1) || ((xa[1]-2)^2 + (xa[2]-0.5)^2 &lt; 0.5)</li>
+<li>MCMC-sampling from p(x) using Metropolis</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pratio <span class="ot">&lt;-</span> <span class="cf">function</span>(xa,xb) {  (xa[<span class="dv">1</span>]   <span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span>  xa[<span class="dv">2</span>]     <span class="sc">^</span><span class="dv">2</span> <span class="sc">&lt;</span> <span class="dv">1</span>  ) <span class="sc">||</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                            ((xa[<span class="dv">1</span>]<span class="sc">-</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (xa[<span class="dv">2</span>]<span class="sc">-</span><span class="fl">0.5</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">&lt;</span> <span class="fl">0.5</span>)    }</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># SAMPLING FROM p(x) USING MCMC</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  n      <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  x      <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>,n)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  x[[<span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>n) {</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>     xproposed <span class="ot">&lt;-</span> x[[i<span class="dv">-1</span>]] <span class="sc">+</span> <span class="fu">runif</span>(<span class="dv">2</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>     <span class="cf">if</span> ( <span class="fu">runif</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fu">pratio</span>( xproposed, x[[i<span class="dv">-1</span>]]) )</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        x[[i]] <span class="ot">&lt;-</span> xproposed</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>     <span class="cf">else</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        x[[i]] <span class="ot">&lt;-</span> x[[i<span class="dv">-1</span>]]</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>     end }</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind,x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>( <span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>) )</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,],<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">3</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="fl">1.5</span>),<span class="at">asp=</span><span class="dv">1</span>) ; <span class="fu">lines</span>(x[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,],<span class="at">type=</span><span class="st">"b"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span>n) { <span class="fu">lines</span>(x[(i<span class="dv">-1</span>)<span class="sc">:</span>i,],<span class="at">type=</span><span class="st">"b"</span>,<span class="at">lty=</span><span class="dv">3</span>) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ae-02-mcmc_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">3</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="fl">1.5</span>),<span class="at">asp=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ae-02-mcmc_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="bayesian-regression" class="level1">
+<h1>Bayesian regression</h1>
+<section id="why-is-mcmc-so-useful-for-bayesian-modelling" class="level2">
+<h2 class="anchored" data-anchor-id="why-is-mcmc-so-useful-for-bayesian-modelling">Why is MCMC so useful for Bayesian modelling?</h2>
+<p>Bayes’ Theorem tells us how to use data D to change a prior into a posterior: p(x|D) = p(x) p(D|x) / p(D). There is usually no problem specifying a prior p(x) and a likelihood function L(x) = p(D|x). But we usually do not know what p(D) is. So we cannot write down the formula for the posterior. But we can still use MCMC because the troublesome p(D) terms cancel out in the ratio p(xa|D) / p(xb|D) for any pair of points xa and xb in parameter space. The ratio of posterior probabilities for xa and xb is thus the ratio of “prior times likelihood” for xa and xb:</p>
+<p>p(xa|D) / p(xb|D) = p(xa) p(D|xa) / (p(xb) p(D|xb)).</p>
+<p>Because that posterior ratio is usually known for any pair of points, MCMC can be used to sample from posterior distributions.</p>
+</section>
+<section id="bayesian-linear-regression" class="level2">
+<h2 class="anchored" data-anchor-id="bayesian-linear-regression">Bayesian linear regression</h2>
+<p>We begin by getting our data, defining our likelihood function, model and prior, and the settings of the MCMC that we are going to do.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(mvtnorm)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>chainLength <span class="ot">&lt;-</span> <span class="dv">20000</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">matrix</span>( <span class="fu">c</span>(<span class="dv">10</span>,  <span class="fl">6.09</span>, <span class="fl">1.83</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                  <span class="dv">20</span>,  <span class="fl">8.81</span>, <span class="fl">2.64</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                  <span class="dv">30</span>, <span class="fl">10.66</span>, <span class="fl">3.27</span>),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow=</span>T) ; nd <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>Li   <span class="ot">&lt;-</span> <span class="cf">function</span>( model, theta, data, i ) {</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>          <span class="fu">dnorm</span>( (<span class="fu">model</span>(data[i,<span class="dv">1</span>],theta)<span class="sc">-</span>data[i,<span class="dv">2</span>])<span class="sc">/</span>data[i,<span class="dv">3</span>] ) }</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>L    <span class="ot">&lt;-</span> <span class="cf">function</span>( model, theta, data    ) {</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>          <span class="fu">prod</span>( <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nd,<span class="cf">function</span>(i){<span class="fu">Li</span>(model,theta,data,i)}) ) }</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>logL <span class="ot">&lt;-</span> <span class="cf">function</span>( model, theta, data  ) { <span class="fu">log</span>(<span class="fu">L</span>(model,theta,data)) }</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># We define a function 'model' that is the straight line:</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>model       <span class="ot">&lt;-</span> <span class="cf">function</span> (x,theta) { theta[<span class="dv">1</span>]<span class="sc">*</span>x <span class="sc">+</span> theta[<span class="dv">2</span>] }</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>np           <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>prior        <span class="ot">&lt;-</span> <span class="fu">matrix</span>( <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>                          <span class="dv">0</span>,<span class="dv">10</span>), <span class="at">nrow=</span>np, <span class="at">byrow=</span>T )</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>pMin         <span class="ot">&lt;-</span> prior[,<span class="dv">1</span>] ; pMax <span class="ot">&lt;-</span> prior[,<span class="dv">2</span>]</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>pVector      <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(prior)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>pChain       <span class="ot">&lt;-</span> <span class="fu">matrix</span>(, <span class="at">nrow=</span>chainLength, <span class="at">ncol=</span>np)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>pChain[<span class="dv">1</span>,]   <span class="ot">&lt;-</span> pVector</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>logPrior0    <span class="ot">&lt;-</span> <span class="fu">sum</span>( <span class="fu">log</span>( <span class="fu">dunif</span>(pVector,pMin,pMax) ) )</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>logL0        <span class="ot">&lt;-</span> <span class="fu">logL</span>(model,pVector,data)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>logLChain    <span class="ot">&lt;-</span> <span class="fu">matrix</span>(, <span class="at">nrow=</span>chainLength, <span class="at">ncol=</span><span class="dv">1</span>)</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>logLChain[<span class="dv">1</span>] <span class="ot">&lt;-</span> logL0</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>vcovProposal <span class="ot">&lt;-</span> <span class="fu">diag</span>( ( <span class="fl">0.2</span><span class="sc">*</span>(pMax<span class="sc">-</span>pMin) )<span class="sc">^</span><span class="dv">2</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we are ready to run the MCMC itself.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (c <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>chainLength) {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  cint <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="dv">1000</span>,<span class="fu">round</span>(chainLength<span class="sc">/</span><span class="dv">10</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (c<span class="sc">%%</span>cint <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">cat</span>(<span class="st">"Iteration"</span>,c,<span class="st">"|"</span>,logPrior0,<span class="st">"|"</span>,logL0,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  candidatepVector <span class="ot">&lt;-</span> <span class="fu">rmvnorm</span>(<span class="at">n=</span><span class="dv">1</span>, <span class="at">mean=</span>pVector, <span class="at">sigma=</span>vcovProposal)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  logPrior1   <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">dunif</span>(candidatepVector, pMin, pMax)))</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(logPrior1)) { </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    logL1    <span class="ot">&lt;-</span> <span class="fu">logL</span>(model,candidatepVector,data)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    logalpha <span class="ot">&lt;-</span> logPrior1 <span class="sc">+</span> logL1 <span class="sc">-</span> logPrior0 <span class="sc">-</span> logL0</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">log</span>(<span class="fu">runif</span>(<span class="dv">1</span>, <span class="at">min=</span><span class="dv">0</span>, <span class="at">max=</span><span class="dv">1</span>)) <span class="sc">&lt;</span> logalpha) {</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>      pVector   <span class="ot">&lt;-</span> candidatepVector</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>      logPrior0 <span class="ot">&lt;-</span> logPrior1</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>      logL0     <span class="ot">&lt;-</span> logL1                       } }</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>     pChain[c,]    <span class="ot">&lt;-</span> pVector</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>     logLChain[c,] <span class="ot">&lt;-</span> logL0   }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Iteration 1000 | -2.302585 | -3.624625 
+Iteration 2000 | -2.302585 | -2.978931 
+Iteration 3000 | -2.302585 | -2.99497 
+Iteration 4000 | -2.302585 | -2.779882 
+Iteration 5000 | -2.302585 | -3.648091 
+Iteration 6000 | -2.302585 | -2.901571 
+Iteration 7000 | -2.302585 | -3.055404 
+Iteration 8000 | -2.302585 | -3.529154 
+Iteration 9000 | -2.302585 | -2.953385 
+Iteration 10000 | -2.302585 | -3.620821 
+Iteration 11000 | -2.302585 | -3.975887 
+Iteration 12000 | -2.302585 | -3.205879 
+Iteration 13000 | -2.302585 | -2.994751 
+Iteration 14000 | -2.302585 | -3.505028 
+Iteration 15000 | -2.302585 | -3.275666 
+Iteration 16000 | -2.302585 | -3.562959 
+Iteration 17000 | -2.302585 | -3.013346 
+Iteration 18000 | -2.302585 | -4.644335 
+Iteration 19000 | -2.302585 | -2.961618 
+Iteration 20000 | -2.302585 | -3.39914 </code></pre>
+</div>
+</div>
+<p>Let’s examine the MCMC-results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>nAccepted  <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(logLChain))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>acceptance <span class="ot">&lt;-</span> (<span class="fu">paste</span>(nAccepted, <span class="st">"out of "</span>, chainLength,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"candidates accepted ( = "</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>nAccepted<span class="sc">/</span>chainLength), <span class="st">"%)"</span>))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(acceptance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "6126 out of  20000 candidates accepted ( =  31 %)"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mp        <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(pChain)                ; <span class="fu">print</span>(mp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2379781 3.8975903</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>iMAP      <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">max</span>(logLChain),logLChain)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>MAP       <span class="ot">&lt;-</span> pChain[iMAP,]                  ; <span class="fu">print</span>(MAP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2359441 3.8252820</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pCovMatrix<span class="ot">&lt;-</span> <span class="fu">cov</span>(pChain)                     ; <span class="fu">print</span>(pCovMatrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            [,1]       [,2]
+[1,]  0.01548194 -0.2200495
+[2,] -0.22004953  4.7335055</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pCorMatrix<span class="ot">&lt;-</span> <span class="fu">cor</span>(pChain)                     ; <span class="fu">print</span>(pCorMatrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]       [,2]
+[1,]  1.0000000 -0.8128611
+[2,] -0.8128611  1.0000000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>sp        <span class="ot">&lt;-</span> <span class="fu">sqrt</span>( <span class="fu">diag</span>(pCovMatrix) )       ; <span class="fu">print</span>(sp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1244264 2.1756621</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>  ( <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>,<span class="fu">model</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>,mp ), <span class="at">col=</span><span class="st">"black"</span>,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">type=</span><span class="st">"l"</span> )</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span> ( <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>,<span class="fu">model</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>,MAP), <span class="at">col=</span><span class="st">"red"</span>  ,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">type=</span><span class="st">"p"</span> )</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>( data                  , <span class="at">col=</span><span class="st">'blue'</span> ,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">cex=</span><span class="dv">2</span>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ae-02-mcmc_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercises" class="level1">
+<h1>EXERCISES</h1>
+<p>All these exercises ask you to modify the MCMC-code for linear regression. We want to keep the original code, so copy the code-chunks to this section (or to a new Rmd-file), and modify that copy.</p>
+<ol type="1">
+<li>Make the data more informative by reducing the standard deviation by a factor 10. What effects does that have on the Bayesian calibration of the straight-line model?</li>
+<li>Same question but <strong>increasing</strong> the uncertainty by a factor 10.</li>
+<li>If you would make the uncertainty about one of the three data points much higher than for the other points, how would that affect the calibration?</li>
+<li>Modify the code for linear regression: replace the straight line (2 parameters) by a quadratic curve (3 parameters). Can you get the code to work? How would you decide whether the linear or the quadratic curve is the best one? How would you define ‘best’ in a Bayesian way?</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© Copyright 2022, Mine Çetinkaya-Rundel</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">This page is built with <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

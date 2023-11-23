@@ -49,44 +49,28 @@ website:
             text: Useful links
       - section: "Computing"
         contents:
-          - href: computing-access.qmd
-            text: Access
+          - href: packages-required.qmd
+            text: Installing R packages
           - href: computing-troubleshooting.qmd
             text: Troubleshooting
       - section: "Session materials"
         contents:
-          - href: session/session-1.qmd
+          - href: session/session-01.qmd
             text: "Session 1"
-          - href: session/session-2.qmd
+          - href: session/session-02.qmd
             text: "Session 2"
-          - href: session/session-3.qmd
+          - href: session/session-03.qmd
             text: "Session 3"
-          - href: session/session-4.qmd
+          - href: session/session-04.qmd
             text: "Session 4"
-          - href: session/session-5.qmd
+          - href: session/session-05.qmd
             text: "Session 5"
-          - href: session/session-6.qmd
+          - href: session/session-06.qmd
             text: "Session 6"
-          - href: session/session-7.qmd
+          - href: session/session-07.qmd
             text: "Session 7"
-          - href: session/session-8.qmd
+          - href: session/session-08.qmd
             text: "Session 8"
-          - href: session/session-9.qmd
-            text: "Session 9"
-          - href: session/session-10.qmd
-            text: "Session 10"
-      - section: "Supplemental notes"
-        contents:
-          - href: supplemental/slr-derivations.qmd
-            text: SLR derivations
-          - href: supplemental/model-diagnostics-matrix.qmd
-            text: Model diagnostics
-          - href: supplemental/mlr-matrix.qmd
-            text: MLR matrix notation
-          - href: supplemental/log-transformations.qmd
-            text: Log transformations
-          - href: supplemental/model-selection-criteria.qmd
-            text: Model selection criteria
 
 format:
   html:

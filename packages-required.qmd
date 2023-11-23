@@ -1,0 +1,10 @@
+---
+title: "Installing R packages required for the course"
+---
+
+tbc
+
+```
+v_pkgs <- c("lme4", "brms")
+install.packages(v_pkgs)
+```

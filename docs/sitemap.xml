@@ -1,283 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/supplemental/slr-derivations.html</loc>
-    <lastmod>2023-11-23T11:25:16.014Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/supplemental/model-diagnostics-matrix.html</loc>
-    <lastmod>2023-11-23T11:25:13.727Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/supplemental/log-transformations.html</loc>
-    <lastmod>2023-11-23T11:25:11.509Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-8.html</loc>
-    <lastmod>2023-11-23T11:25:09.208Z</lastmod>
-  </url>
-  <url>
     <loc>https://peterlevy.github.io/beem-sta210/slides/lec-6.html</loc>
-    <lastmod>2023-11-23T11:25:05.884Z</lastmod>
+    <lastmod>2023-11-23T14:57:28.437Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-4.html</loc>
-    <lastmod>2023-11-23T11:25:00.771Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-09.html</loc>
+    <lastmod>2023-11-23T14:57:23.148Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-2.html</loc>
-    <lastmod>2023-11-23T11:24:57.412Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-07.html</loc>
+    <lastmod>2023-11-23T14:57:20.619Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-1.html</loc>
-    <lastmod>2023-11-23T11:24:52.897Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-04.html</loc>
+    <lastmod>2023-11-23T14:57:16.590Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/slides/lab-2.html</loc>
-    <lastmod>2023-11-23T11:24:50.041Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-02.html</loc>
+    <lastmod>2023-11-23T14:57:13.432Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/slides/lab-0.html</loc>
-    <lastmod>2023-11-23T11:24:47.631Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/session/session-08.html</loc>
+    <lastmod>2023-11-23T14:57:10.305Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/session/session-8.html</loc>
-    <lastmod>2023-11-23T11:24:45.283Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/session/session-06.html</loc>
+    <lastmod>2023-11-23T14:57:08.108Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/session/session-6.html</loc>
-    <lastmod>2023-11-23T11:24:43.082Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/session/session-04.html</loc>
+    <lastmod>2023-11-23T14:57:05.862Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/session/session-4.html</loc>
-    <lastmod>2023-11-23T11:24:40.997Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/session/session-2.html</loc>
-    <lastmod>2023-11-23T11:24:38.846Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/session/session-1.html</loc>
-    <lastmod>2023-11-23T11:24:36.720Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/project-description.html</loc>
-    <lastmod>2023-11-23T11:24:34.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/labs/lab-7.html</loc>
-    <lastmod>2023-11-23T11:24:30.559Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/labs/lab-5.html</loc>
-    <lastmod>2023-11-23T11:24:28.008Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/labs/lab-3.html</loc>
-    <lastmod>2023-11-23T11:24:24.580Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/labs/lab-1.html</loc>
-    <lastmod>2023-11-23T11:24:21.062Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/index.html</loc>
-    <lastmod>2023-11-23T11:24:17.950Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/hw/hw-4.html</loc>
-    <lastmod>2023-11-23T11:24:15.494Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/hw/hw-2.html</loc>
-    <lastmod>2023-11-23T11:24:12.375Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/exams/exam-3.html</loc>
-    <lastmod>2023-11-23T11:24:08.981Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/exams/exam-1.html</loc>
-    <lastmod>2023-11-23T11:24:06.801Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/course-support.html</loc>
-    <lastmod>2023-11-23T11:24:04.496Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/course-links.html</loc>
-    <lastmod>2023-11-23T11:24:02.193Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/computing-pipelines.html</loc>
-    <lastmod>2023-11-23T11:24:00.004Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-9-odds.html</loc>
-    <lastmod>2023-11-23T11:23:57.451Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-7-exam-2-review.html</loc>
-    <lastmod>2023-11-23T11:23:54.627Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-5-the-office.html</loc>
-    <lastmod>2023-11-23T11:23:51.667Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-3-duke-forest.html</loc>
-    <lastmod>2023-11-23T11:23:48.893Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-12-exam-3-review.html</loc>
-    <lastmod>2023-11-23T11:23:45.344Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-10-flight-delays.html</loc>
-    <lastmod>2023-11-23T11:23:42.186Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-1-dcbikeshare.html</loc>
-    <lastmod>2023-11-23T11:23:38.976Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-0-movies.html</loc>
-    <lastmod>2023-11-23T11:23:37.424Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-1-markdown.html</loc>
-    <lastmod>2023-11-23T11:23:40.718Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-11-volcanoes.html</loc>
-    <lastmod>2023-11-23T11:23:43.701Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-2-mcmc.html</loc>
-    <lastmod>2023-11-23T11:23:47.361Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-4-exam-1-review.html</loc>
-    <lastmod>2023-11-23T11:23:50.317Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-6-the-office-cv.html</loc>
-    <lastmod>2023-11-23T11:23:53.016Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-8-rail-trail.html</loc>
-    <lastmod>2023-11-23T11:23:56.013Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/computing-access.html</loc>
-    <lastmod>2023-11-23T11:23:58.533Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/computing-troubleshooting.html</loc>
-    <lastmod>2023-11-23T11:24:01.138Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/course-overview.html</loc>
-    <lastmod>2023-11-23T11:24:03.394Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/course-team.html</loc>
-    <lastmod>2023-11-23T11:24:05.636Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/exams/exam-2.html</loc>
-    <lastmod>2023-11-23T11:24:07.916Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/hw/hw-1.html</loc>
-    <lastmod>2023-11-23T11:24:10.679Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/hw/hw-3.html</loc>
-    <lastmod>2023-11-23T11:24:13.985Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/hw/hw-5.html</loc>
-    <lastmod>2023-11-23T11:24:16.675Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/labs/lab-0.html</loc>
-    <lastmod>2023-11-23T11:24:19.024Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/labs/lab-2.html</loc>
-    <lastmod>2023-11-23T11:24:22.695Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/labs/lab-4.html</loc>
-    <lastmod>2023-11-23T11:24:26.306Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/labs/lab-6.html</loc>
-    <lastmod>2023-11-23T11:24:29.562Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/LICENSE.html</loc>
-    <lastmod>2023-11-23T11:24:32.028Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/session/session-02.html</loc>
+    <lastmod>2023-11-23T14:57:03.680Z</lastmod>
   </url>
   <url>
     <loc>https://peterlevy.github.io/beem-sta210/project-tips-resources.html</loc>
-    <lastmod>2023-11-23T11:24:35.663Z</lastmod>
+    <lastmod>2023-11-23T14:57:01.626Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/session/session-10.html</loc>
-    <lastmod>2023-11-23T11:24:37.775Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/packages-required.html</loc>
+    <lastmod>2023-11-23T14:56:57.909Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/session/session-3.html</loc>
-    <lastmod>2023-11-23T11:24:39.938Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/index.html</loc>
+    <lastmod>2023-11-23T15:01:39.433Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/session/session-5.html</loc>
-    <lastmod>2023-11-23T11:24:42.026Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/exams/exam-2.html</loc>
+    <lastmod>2023-11-23T14:56:52.574Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/session/session-7.html</loc>
-    <lastmod>2023-11-23T11:24:44.167Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/course-team.html</loc>
+    <lastmod>2023-11-23T14:56:50.193Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/session/session-9.html</loc>
-    <lastmod>2023-11-23T11:24:46.366Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/course-overview.html</loc>
+    <lastmod>2023-11-23T14:56:47.972Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/slides/lab-1.html</loc>
-    <lastmod>2023-11-23T11:24:48.881Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/computing-troubleshooting.html</loc>
+    <lastmod>2023-11-23T14:56:45.408Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/slides/lab-3.html</loc>
-    <lastmod>2023-11-23T11:24:51.396Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-08-rail-trail.html</loc>
+    <lastmod>2023-11-23T14:56:40.533Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-01-markdown.html</loc>
+    <lastmod>2023-11-23T14:55:57.016Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-01-dcbikeshare.html</loc>
+    <lastmod>2023-11-23T14:55:39.469Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-02-mcmc.html</loc>
+    <lastmod>2023-11-23T14:56:20.171Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/ae/ae-11-volcanoes.html</loc>
+    <lastmod>2023-11-23T14:56:44.151Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/course-links.html</loc>
+    <lastmod>2023-11-23T14:56:46.705Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/course-support.html</loc>
+    <lastmod>2023-11-23T14:56:49.051Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/exams/exam-1.html</loc>
+    <lastmod>2023-11-23T14:56:51.409Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/exams/exam-3.html</loc>
+    <lastmod>2023-11-23T14:56:53.771Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/LICENSE.html</loc>
+    <lastmod>2023-11-23T14:56:56.843Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/project-description.html</loc>
+    <lastmod>2023-11-23T14:57:00.064Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/session/session-01.html</loc>
+    <lastmod>2023-11-23T14:57:02.603Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/session/session-03.html</loc>
+    <lastmod>2023-11-23T14:57:04.746Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/session/session-05.html</loc>
+    <lastmod>2023-11-23T14:57:07.017Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/session/session-07.html</loc>
+    <lastmod>2023-11-23T14:57:09.142Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-01.html</loc>
+    <lastmod>2023-11-23T14:57:11.887Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-03.html</loc>
+    <lastmod>2023-11-23T14:57:14.853Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-05.html</loc>
+    <lastmod>2023-11-23T14:57:18.690Z</lastmod>
+  </url>
+  <url>
+    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-08.html</loc>
+    <lastmod>2023-11-23T14:57:22.178Z</lastmod>
   </url>
   <url>
     <loc>https://peterlevy.github.io/beem-sta210/slides/lec-10.html</loc>
-    <lastmod>2023-11-23T11:24:55.571Z</lastmod>
+    <lastmod>2023-11-23T14:57:25.965Z</lastmod>
   </url>
   <url>
-    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-3.html</loc>
-    <lastmod>2023-11-23T11:24:58.937Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-5.html</loc>
-    <lastmod>2023-11-23T11:25:03.736Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-7.html</loc>
-    <lastmod>2023-11-23T11:25:07.790Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-9.html</loc>
-    <lastmod>2023-11-23T11:25:10.172Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/supplemental/mlr-matrix.html</loc>
-    <lastmod>2023-11-23T11:25:12.621Z</lastmod>
-  </url>
-  <url>
-    <loc>https://peterlevy.github.io/beem-sta210/supplemental/model-selection-criteria.html</loc>
-    <lastmod>2023-11-23T11:25:14.882Z</lastmod>
+    <loc>https://peterlevy.github.io/beem-sta210/slides/lec-06.html</loc>
+    <lastmod>2023-11-23T15:02:06.703Z</lastmod>
   </url>
 </urlset>

@@ -1,0 +1,32 @@
+---
+title: "Session 4"
+subtitle: "Model Comparison and Hierarchical Modelling"
+editor: visual
+---
+
+## Prepare
+
+Statistical Rethinking 
+
+- Read: [Chapter 01](https://xcelab.net/rmpubs/sr2/statisticalrethinking2_chapters1and2.pdf) 
+- Watch on [YouTube](https://youtu.be/FdnMWdICdRs?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
+
+## Participate
+
+🖥️ [Lecture 6 - Model selection & comparison](/slides/lec-06.html)
+
+🖥️ [Lecture 7 - Hierarchical modelling 1](/slides/lec-07.html)
+
+🖥️ [Lecture 8 - Hierarchical modelling 2](/slides/lec-08.html)
+
+🖥️ [Lecture 9 - Hierarchical modelling 3](/slides/lec-09.html)
+
+## Practice
+
+-   [Application Exercise - Monte Carlo Markov Chain](/ae/ae-02-mcmc.html)
+
+<br><br>
+
+::: {style="font-size: 0.875em;"}
+Back to [course schedule](/ "Course schedule") ⏎
+:::

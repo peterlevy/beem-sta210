@@ -1,0 +1,19 @@
+---
+title: "Session 8"
+subtitle: "Group Discussion"
+editor: visual
+---
+
+## Prepare
+
+Statistical Rethinking 
+
+- Read: [Chapter 01](https://xcelab.net/rmpubs/sr2/statisticalrethinking2_chapters1and2.pdf) 
+- Watch on [YouTube](https://youtu.be/FdnMWdICdRs?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
+
+
+<br><br>
+
+::: {style="font-size: 0.875em;"}
+Back to [course schedule](/ "Course schedule") ⏎
+:::

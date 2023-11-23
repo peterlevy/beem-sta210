@@ -1,0 +1,30 @@
+---
+title: "Session 2"
+subtitle: "More Basics"
+editor: visual
+---
+
+## Prepare
+
+Statistical Rethinking 
+
+- Read: [Chapter 01](https://xcelab.net/rmpubs/sr2/statisticalrethinking2_chapters1and2.pdf) 
+- Watch on [YouTube](https://youtu.be/FdnMWdICdRs?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
+
+MCMC
+
+- Watch on [YouTube](https://youtu.be/rZk2FqX2XnY?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus)
+
+## Participate
+
+🖥️ [Lecture 2 - More Basics](/slides/lec-02.html)
+
+## Practice
+
+-   [Application Exercise - Monte Carlo Markov Chain](/ae/ae-02-mcmc.html)
+
+<br><br>
+
+::: {style="font-size: 0.875em;"}
+Back to [course schedule](/ "Course schedule") ⏎
+:::
