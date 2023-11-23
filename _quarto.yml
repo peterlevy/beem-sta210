@@ -39,8 +39,6 @@ website:
         contents:
           - href: course-overview.qmd
             text: Overview
-          - href: course-syllabus.qmd
-            text: Syllabus
           - href: course-support.qmd
             text: Support
           - href: course-team.qmd
@@ -49,8 +47,6 @@ website:
             text: Schedule
           - href: course-links.qmd
             text: Useful links
-          - href: course-faq.qmd
-            text: FAQ
       - section: "Computing"
         contents:
           - href: computing-access.qmd
@@ -95,7 +91,7 @@ website:
 format:
   html:
     theme:
-      light: [cosmo, theme.scss]
+      light: [default, ceh3.scss]
       dark: [cosmo, theme-dark.scss]
     mainfont: "Atkinson Hyperlegible"
     code-copy: true

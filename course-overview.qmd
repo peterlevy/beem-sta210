@@ -1,10 +1,32 @@
 ---
-title: "STA 210: Regression Analysis"
+title: "Bayesian Methods for Ecological and Environmental Modelling"
 ---
 
-Learn approaches for analyzing multivariate data sets, emphasizing analysis of variance, linear regression, and logistic regression.
-Learn techniques for checking the appropriateness of proposed models, such as residual analyses and case influence diagnostics, and techniques for selecting models.
-Gain experience dealing with the challenges that arise in practice through assignments that utilize real-world data.
-This class emphasizes data analysis over mathematical theory.
+### Short course description:
+This interactive 5-day course will be a mixture of presentations and practical exercises. It will give you a solid grounding in Bayesian methods that you can use with any kind of model and data set to compare models, estimate parameters, analyse uncertainties and communicate results.
+
+The course will use examples of models and data from natural environment research. However, you will be able to transfer the methods and techniques to any other model, data set or research question. There will be time during practical exercises where you can opt to use the materials provided by the trainers, or use your own model(s) and data.
+
+### Learning objectives:
+By the end of the course, learners will be able to:
+
+- Understand scientific papers that use Bayesian methods and terminology
+- Know how to use Bayesian software 
+- Design and apply simple Bayesian statistical models
+- Know how to combine disparate data sets in a single analysis
+- Compare the relative plausibility of different models 
+- Comprehensively analyse uncertainties associated with model outputs
+- Communicate uncertainties clearly
+
+### Target audience:
+
+- PhD students
+- Early career researchers
+- Academics/ researchers, including those from industry or the charitable sector
+
+### Level:
+Intermediate
+
+Learners need to have some practical knowledge of the programming language [R](https://www.r-project.org/about.html). No previous exposure to probability theory or Bayesian methods is necessary, but students may want to read some introductory material beforehand. We recommend the reading listed below:
 
 ![](images/background-bikeshare.png){fig-alt="A series of six, generic data visualizations: a scatterplot, a density plot, a contour plot, a line plot, a box plot, and another scatterplot." width="700"}

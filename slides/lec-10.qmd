@@ -1,474 +1,401 @@
 ---
-title: "Types of predictors"
-subtitle: "STA 210 - Spring 2022"
-author: "Dr. Mine Çetinkaya-Rundel"
-footer: "[sta210-s22.github.io/website](https://sta210-s22.github.io/website/)"
-logo: "images/logo.png"
-format: 
+title: "Quarto Presentations"
+subtitle: "UKCEH template"
+author: "Peter Levy"
+date: "UKCEH Edinburgh </br> `r Sys.Date()`"
+footer:  "[BEEM website](https://peterlevy.github.io/beem-sta210/)"
+format:
   revealjs:
-    theme: slides.scss
-    multiplex: true
-    transition: fade
+    theme: [default, ceh3.scss]  
     slide-number: true
-    incremental: true 
-    chalkboard: true
-editor: visual
-execute:
-  freeze: auto
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    logo: images/logo/UKCEH-Logo_Short_Positive_RGB.png
 ---
 
-```{r}
-#| include: false
 
-# figure options
-knitr::opts_chunk$set(
-  fig.width = 10, fig.asp = 0.618,
-  fig.retina = 3, dpi = 300, fig.align = "center"
-)
+```{r render, eval = FALSE, include=FALSE}
+# use quarto installed with Rstudio; set path first time
+# Sys.setenv(QUARTO_PATH="C:/Program Files/RStudio/resources/app/bin/quarto/bin/quarto.exe")
+library(quarto)
+quarto_render("./index.qmd")
 ```
 
-# Welcome
 
-## Announcements
+## Hello, There
 
-::: nonincremental
--   Congratulations on finishing Exam 1!
--   Grading of AEs
--   Questions on feedback vs. regrades
-:::
+This presentation will show you examples of what you can do with Quarto and [Reveal.js](https://revealjs.com), including:
 
-## Topics
+-   Presenting code and LaTeX equations
+-   Including computations in slide output
+-   Image, video, and iframe backgrounds
+-   Fancy transitions and animations
+-   Printing to PDF
 
-::: nonincremental
--   Mean-centering quantitative predictors
+...and much more
 
--   Using indicator variables for categorical predictors
+# 1st level header
+## 2nd level header
+### 3rd level header
 
--   Using interaction terms
-:::
+## Pretty Code {auto-animate="true"}
 
-## Computational setup
+-   Over 20 syntax highlighting themes available
+-   Default theme optimized for accessibility
 
-```{r}
-#| echo: true
-
-# load packages
-library(tidyverse)
-library(tidymodels)
-library(openintro)
-library(patchwork)
-library(knitr)
-library(kableExtra)
-library(colorblindr)
-
-# set default theme and larger font size for ggplot2
-ggplot2::theme_set(ggplot2::theme_minimal(base_size = 20))
+``` r
+# Define a server for the Shiny app
+function(input, output) {
+  
+  # Fill in the spot we created for a plot
+  output$phonePlot <- renderPlot({
+    # Render a barplot
+  })
+}
 ```
 
-# Introduction
+## Code Animations {auto-animate="true"}
 
-## Data: Peer-to-peer lender
+-   Over 20 syntax highlighting themes available
+-   Default theme optimized for accessibility
 
-Today's data is a sample of 50 loans made through a peer-to-peer lending club.
-The data is in the `loan50` data frame in the **openintro** R package.
-
-```{r}
-loan50 %>%
-  select(annual_income, debt_to_income, verified_income, interest_rate)
+``` r
+# Define a server for the Shiny app
+function(input, output) {
+  
+  # Fill in the spot we created for a plot
+  output$phonePlot <- renderPlot({
+    # Render a barplot
+    barplot(WorldPhones[,input$region]*1000, 
+            main=input$region,
+            ylab="Number of Telephones",
+            xlab="Year")
+  })
+}
 ```
 
-## Variables {.smaller}
+## Line Highlighting
 
-**Predictors**:
+-   Highlight specific lines for emphasis
+-   Incrementally highlight additional lines
 
-::: nonincremental
--   `annual_income`: Annual income
--   `debt_to_income`: Debt-to-income ratio, i.e. the percentage of a borrower's total debt divided by their total income
--   `verified_income`: Whether borrower's income source and amount have been verified (`Not Verified`, `Source Verified`, `Verified`)
-:::
+``` {.python code-line-numbers="4-5|7|10"}
+import numpy as np
+import matplotlib.pyplot as plt
 
-**Outcome**: `interest_rate`: Interest rate for the loan
-
-## Outcome: `interest_rate`
-
-```{r}
-ggplot(loan50, aes(x = interest_rate)) +
-  geom_density() +
-  labs(title = "Distribution of interest rate")
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
 ```
 
-```{r}
-loan50 %>%
-  summarise(
-    min = min(interest_rate),
-    median = median(interest_rate),
-    max = max(interest_rate)
-  ) %>%
-  kable()
-```
-
-## Predictors
-
-```{r}
-p1 <- ggplot(loan50, aes(y = verified_income)) +
-  geom_bar() +
-  labs(title = "Verified Income")
-
-p2 <- ggplot(loan50, aes(x = debt_to_income)) +
-  geom_histogram(binwidth = 0.25) +
-  labs(title = "Debt to income ratio")
-
-p3 <- ggplot(loan50, aes(x = annual_income)) +
-  geom_histogram(binwidth = 20000) +
-  labs(title = "Annual income")
-
-p1 + p2 / p3
-```
-
-## Data manipulation 1: Rescale income
+## Executable Code
 
 ```{r}
 #| echo: true
-
-loan50 <- loan50 %>%
-  mutate(annual_income_th = annual_income / 1000)
-
-ggplot(loan50, aes(x = annual_income_th)) +
-  geom_histogram(binwidth = 20) +
-  labs(title = "Annual income (in $1000s)")
+#| fig-width: 10
+#| fig-height: 4.5
+library(ggplot2)
+ggplot(mtcars, aes(hp, mpg, color = am)) +
+  geom_point() +
+  geom_smooth(formula = y ~ x, method = "loess")
 ```
 
-## Outcome vs. predictors
-
-```{r}
-p4 <- ggplot(loan50, aes(x = verified_income, y = interest_rate)) +
-  geom_boxplot(fill = "#5B888C") +
-  labs(
-    y = "Interest Rate",
-    x = "Income verification"
-  )
-
-p5 <- ggplot(loan50, aes(x = debt_to_income, y = interest_rate)) +
-  geom_point(color = "#5B888C") +
-  labs(
-    y = NULL,
-    x = "Debt to income ratio"
-  )
-
-
-p6 <- ggplot(loan50, aes(x = annual_income_th, y = interest_rate)) +
-  geom_point(color = "#5B888C") +
-  labs(
-    y = NULL,
-    x = "Annual income (in $1000s)"
-  )
-
-p4 + p5 / p6
-```
-
-## Fit regression model
-
-```{r}
-#| echo: true
-int_fit <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(interest_rate ~ debt_to_income + verified_income  + annual_income_th,
-      data = loan50)
-```
-
-## Summarize model results {.smaller}
-
-```{r}
-tidy(int_fit, conf.int = TRUE) %>%
-  kable(digits = 3)
-```
-
-. . .
-
-<br>
-
-::: question
-Describe the subset of borrowers who are expected to get an interest rate of 10.726% based on our model.
-Is this interpretation meaningful?
-Why or why not?
+::: footer
+Learn more: [Executable Code](https://quarto.org/docs/presentations/revealjs/#executable-code)
 :::
 
-# Mean-centered variables
+## LaTeX Equations
 
-## Mean-centering
+[MathJax](https://www.mathjax.org/) rendering of equations to HTML
 
-If we are interested in interpreting the intercept, we can **mean-center** the quantitative predictors in the model.
+::: columns
+::: {.column width="40%"}
+``` tex
+\begin{gather*}
+a_1=b_1+c_1\\
+a_2=b_2+c_2-d_2+e_2
+\end{gather*}
 
-We can mean-center a quantitative predictor $X_j$ using the following:
-
-$$X_{j_{Cent}} = X_{j}- \bar{X}_{j}$$
-
-. . .
-
-If we mean-center all quantitative variables, then the intercept is interpreted as the expected value of the response variable when all quantitative variables are at their mean value.
-
-## Data manipulation 2: Mean-center numeric predictors
-
-```{r}
-#| echo: true
-loan50 <- loan50 %>%
-  mutate(
-    debt_inc_cent = debt_to_income - mean(debt_to_income), 
-    annual_income_th_cent = annual_income_th - mean(annual_income_th)
-    )
+\begin{align}
+a_{11}& =b_{11}&
+  a_{12}& =b_{12}\\
+a_{21}& =b_{21}&
+  a_{22}& =b_{22}+c_{22}
+\end{align}
 ```
+:::
 
-## Visualize mean-centered predictors
-
-```{r}
-p1 <- ggplot(loan50, aes(x = debt_to_income)) +
-  geom_density(fill = "#5B888C", alpha = 0.7) +
-  labs(x = NULL, title = "Debt to income ratio")
-
-p2 <- ggplot(loan50, aes(x = debt_inc_cent)) +
-  geom_density(fill = "#9dbdbf", alpha = 0.7) +
-  labs(x = NULL, title = "Mean-centered\nDebt to income ratio")
-
-p3 <- ggplot(loan50, aes(x = annual_income_th)) +
-  geom_density(fill = "#5B888C", alpha = 0.7) +
-  labs(x = NULL, title = "Annual income (in $1000s)")
-
-p4 <- ggplot(loan50, aes(x = annual_income_th_cent)) +
-  geom_density(fill = "#9dbdbf", alpha = 0.7) +
-  labs(x = NULL, title = "Mean-centered\nAnnual income (in $1000s)")
-
-(p1 + p3) / (p2 + p4)
+::: {.column width="60%"}
+```{=tex}
+\begin{gather*}
+a_1=b_1+c_1\\
+a_2=b_2+c_2-d_2+e_2
+\end{gather*}
 ```
+```{=tex}
+\begin{align}
+a_{11}& =b_{11}&
+  a_{12}& =b_{12}\\
+a_{21}& =b_{21}&
+  a_{22}& =b_{22}+c_{22}
+\end{align}
+```
+:::
+:::
 
-## Using mean-centered variables in the model {.smaller}
+::: footer
+Learn more: [LaTeX Equations](https://quarto.org/docs/authoring/markdown-basics.html#equations)
+:::
 
-::: question
-How do you expect the model to change if we use the `debt_inc_cent` and `annual_income_cent` in the model?
+## Column Layout {.smaller}
+
+Arrange content into columns of varying widths:
+
+::: columns
+::: {.column width="35%"}
+#### Motor Trend Car Road Tests
+
+The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles.
+:::
+
+::: {.column width="3%"}
+:::
+
+::: {.column width="62%"}
+```{r}
+knitr::kable(head(mtcars)[,c("mpg",	"cyl", "disp", "hp", "wt")])
+```
+:::
+:::
+
+::: footer
+Learn more: [Multiple Columns](https://quarto.org/docs/presentations/revealjs/#multiple-columns)
+:::
+
+## Incremental Lists
+
+Lists can optionally be displayed incrementally:
+
+::: incremental
+-   First item
+-   Second item
+-   Third item
 :::
 
 . . .
 
-```{r}
-int_cent_fit <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(interest_rate ~ debt_inc_cent + verified_income + annual_income_th_cent, 
-      data = loan50)
+<br/> Insert pauses to make other types of content display incrementally.
 
-tidy(int_cent_fit, conf.int = T)
+## Fragments
+
+Incremental text display and animation with fragments:
+
+<br/>
+
+::: {.fragment .fade-in}
+Fade in
+:::
+
+::: {.fragment .fade-up}
+Slide up while fading in
+:::
+
+::: {.fragment .fade-left}
+Slide left while fading in
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+Fade in then semi out
+:::
+
+. . .
+
+::: {.fragment .strike}
+Strike
+:::
+
+::: {.fragment .highlight-red}
+Highlight red
+:::
+
+## Slide Backgrounds {background="#43464B"}
+
+Set the `background` attribute on a slide to change the background color (all CSS color formats are supported).
+
+Different background transitions are available via the `background-transition` option.
+
+## Media Backgrounds {background="#43464B" background-image="img/milky-way.jpeg"}
+
+You can also use the following as a slide background:
+
+-   An image: `background-image`
+
+-   A video: `background-video`
+
+-   An iframe: `background-iframe`
+
+## Auto-Animate {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+Automatically animate matching elements across slides with Auto-Animate.
+
+::: r-hstack
+::: {data-id="box1" auto-animate-delay="0" style="background: #2780e3; width: 200px; height: 150px; margin: 10px;"}
+:::
+
+::: {data-id="box2" auto-animate-delay="0.1" style="background: #3fb618; width: 200px; height: 150px; margin: 10px;"}
+:::
+
+::: {data-id="box3" auto-animate-delay="0.2" style="background: #e83e8c; width: 200px; height: 150px; margin: 10px;"}
+:::
+:::
+
+## Auto-Animate {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+Automatically animate matching elements across slides with Auto-Animate.
+
+::: r-stack
+::: {data-id="box1" style="background: #2780e3; width: 350px; height: 350px; border-radius: 200px;"}
+:::
+
+::: {data-id="box2" style="background: #3fb618; width: 250px; height: 250px; border-radius: 200px;"}
+:::
+
+::: {data-id="box3" style="background: #e83e8c; width: 150px; height: 150px; border-radius: 200px;"}
+:::
+:::
+
+## Slide Transitions {.smaller}
+
+The next few slides will transition using the `slide` transition
+
+| Transition | Description                                                            |
+|------------|------------------------------------------------------------------------|
+| `none`     | No transition (default, switch instantly)                              |
+| `fade`     | Cross fade                                                             |
+| `slide`    | Slide horizontally                                                     |
+| `convex`   | Slide at a convex angle                                                |
+| `concave`  | Slide at a concave angle                                               |
+| `zoom`     | Scale the incoming slide so it grows in from the center of the screen. |
+
+
+## Tabsets {.smaller .scrollable transition="slide"}
+
+::: panel-tabset
+### Plot
+
+```{r}
+library(ggplot2)
+ggplot(mtcars, aes(hp, mpg, color = am)) +
+  geom_point() +
+  geom_smooth(formula = y ~ x, method = "loess")
 ```
 
-## Original vs. mean-centered model {.smaller}
+### Data
+
+```{r}
+knitr::kable(mtcars)
+```
+:::
+
+## Preview Links
+
+Navigate to hyperlinks without disrupting the flow of your presentation.
+
+Use the `preview-links` option to open links in an iframe on top of your slides. Try clicking the link below for a demonstration:
+
+::: {style="text-align: center; margin-top: 1em"}
+[Matplotlib: Visualization with Python](https://matplotlib.org/){preview-link="true" style="text-align: center"}
+:::
+
+## Themes
+
+10 Built-in Themes (or [create your own](https://quarto.org/docs/presentations/revealjs/themes.html#creating-themes))
+
+::: {layout-ncol="2"}
+![](img/moon.png)
+
+![](img/sky.png)
+:::
+
+## Easy Navigation
+
+::: {style="margin-bottom: 0.9em;"}
+Quickly jump to other parts of your presentation
+:::
+
+::: {layout="[1, 20]"}
+![](img/presentation-menu.png){width="41"}
+
+Toggle the slide menu with the menu button (bottom left of slide) to go to other slides and access presentation tools.
+:::
+
+You can also press `m` to toggle the menu open and closed.
+
+## Chalkboard {chalkboard-buttons="true"}
+
+::: {style="margin-bottom: 0.9em;"}
+Free form drawing and slide annotations
+:::
+
+::: {layout="[1, 20]"}
+![](img/presentation-chalkboard.png){width="41"}
+
+Use the chalkboard button at the bottom left of the slide to toggle the chalkboard.
+:::
+
+::: {layout="[1, 20]"}
+![](img/presentation-notes-canvas.png){width="41"}
+
+Use the notes canvas button at the bottom left of the slide to toggle drawing on top of the current slide.
+:::
+
+You can also press `b` to toggle the chalkboard or `c` to toggle the notes canvas.
+
+## Point of View
+
+Press `o` to toggle overview mode:
+
+![](img/overview-mode.png){.border}
+
+Hold down the `Alt` key (or `Ctrl` in Linux) and click on any element to zoom towards it---try it now on this slide.
+
+
+## Speaker View
+
+Press `s` (or use the presentation menu) to open speaker view
+
+![](img/speaker-view.png){fig-align="center" style="border: 3px solid #dee2e6;" width="780"}
+
+## Authoring Tools {.smaller}
+
+Live side-by-side preview for any notebook or text editor including Jupyter and VS Code
 
 ::: columns
 ::: {.column width="50%"}
-```{r}
-tidy(int_fit) %>%
-  select(term, estimate) %>%
-  kable(digits = 3)
-```
+![](img/jupyter-edit.png){.border .border-thick}
 :::
 
 ::: {.column width="50%"}
-```{r}
-tidy(int_cent_fit) %>%
-  select(term, estimate) %>%
-  kable(digits = 3)
-```
+![](img/jupyter-preview.png){.border .border-thick}
 :::
 :::
 
-# Indicator variables
+## Authoring Tools {.smaller}
 
-## Indicator variables
+RStudio includes an integrated presentation preview pane
 
--   Suppose there is a categorical variable with $K$ categories (levels)
+![](img/rstudio.png){.border width="900"}
 
--   We can make $K$ indicator variables - one indicator for each category
 
--   An **indicator variable** takes values 1 or 0
+## And More...
 
-    -   1 if the observation belongs to that category
-    -   0 if the observation does not belong to that category
+-   [Touch](https://quarto.org/docs/presentations/revealjs/advanced.html#touch-navigation) optimized (presentations look great on mobile, swipe to navigate slides)
+-   [Footer & Logo](https://quarto.org/docs/presentations/revealjs/#footer-logo) (optionally specify custom footer per-slide)
+-   [Auto-Slide](https://quarto.org/docs/presentations/revealjs/presenting.html#auto-slide) (step through slides automatically, without any user input)
+-   [Multiplex](https://quarto.org/docs/presentations/revealjs/presenting.html#multiplex) (allows your audience to follow the slides of the presentation you are controlling on their own phone, tablet or laptop).
 
-## Data manipulation 3: Create indicator variables for `verified_income`
-
-```{r}
-#| echo: true
-
-loan50 <- loan50 %>%
-  mutate(
-    not_verified = if_else(verified_income == "Not Verified", 1, 0),
-    source_verified = if_else(verified_income == "Source Verified", 1, 0),
-    verified = if_else(verified_income == "Verified", 1, 0)
-  )
-```
-
-. . .
-
-```{r}
-loan50 %>%
-  select(verified_income, not_verified, source_verified, verified) %>%
-  slice(1, 3, 6)
-```
-
-## Indicators in the model {.smaller}
-
--   We will use $K-1$ of the indicator variables in the model.
--   The **baseline** is the category that doesn't have a term in the model.
--   The coefficients of the indicator variables in the model are interpreted as the expected change in the response compared to the baseline, holding all other variables constant.
--   This approach is also called **dummy coding**.
-
-. . .
-
-```{r}
-loan50 %>%
-  select(verified_income, source_verified, verified) %>%
-  slice(1, 3, 6)
-```
-
-## Interpreting `verified_income` {.smaller}
-
-```{r}
-tidy(int_cent_fit, conf.int  = T) %>%
-  kable(digits = 3) %>%
-  row_spec(c(3,4), background = "#D9E3E4")
-```
-
-. . .
-
--   The baseline category is `Not verified`.
--   People with source verified income are expected to take a loan with an interest rate that is 2.211% higher, on average, than the rate on loans to those whose income is not verified, holding all else constant.
--   People with verified income are expected to take a loan with an interest rate that is 6.880% higher, on average, than the rate on loans to those whose income is not verified, holding all else constant.
-
-# Interaction terms
-
-## Interaction terms
-
--   Sometimes the relationship between a predictor variable and the response depends on the value of another predictor variable.
--   This is an **interaction effect**.
--   To account for this, we can include **interaction terms** in the model.
-
-## Interest rate vs. annual income
-
-The lines are not parallel indicating there is an **interaction effect**.
-The slope of annual income differs based on the income verification.
-
-```{r}
-p1 <- ggplot(loan50, 
-             aes(x = annual_income_th, y = interest_rate)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(
-    x = "Annual income (in $1000s)",
-    y = "Interest rate"
-  )
-
-p2 <- ggplot(loan50, 
-             aes(x = annual_income_th, y = interest_rate,
-                 color = verified_income)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "Annual income (in $1000s)", y = NULL, color = NULL) +
-  theme(legend.position = c(0.6, 0.9)) +
-  scale_color_OkabeIto()
-
-p1 + p2 +
-  plot_annotation(title = "Interest rate vs. annual income")
-```
-
-## Interaction term in model {.smaller}
-
-```{r}
-#| echo: true
-int_cent_int_fit <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(interest_rate ~ debt_inc_cent  +  debt_inc_cent + 
-        annual_income_th_cent + verified_income * annual_income_th_cent,
-      data = loan50)
-```
-
-```{r}
-tidy(int_cent_int_fit) %>%
-  kable(digits = 3) %>%
-  row_spec(c(6,7), background = "#D9E3E4")
-```
-
-## Interpreting interaction terms
-
--   What the interaction means: The effect of annual income on the interest rate differs by -0.016 when the income is source verified compared to when it is not verified, holding all else constant.
--   Interpreting `annual_income` for source verified: If the income is source verified, we expect the interest rate to decrease by 0.023% (-0.007 + -0.016) for each additional thousand dollars in annual income, holding all else constant.
-
-## Data manipulation 4: Create interaction variables {.smaller}
-
-Defining the interaction variable in the model formula as `verified_income * annual_income_th_cent` is an implicit data manipulation step as well
-
-```{r}
-library(hardhat)
-
-framed <- model_frame(interest_rate ~ debt_inc_cent  +  debt_inc_cent + annual_income_th_cent + verified_income * annual_income_th_cent, data = loan50)
-
-model_matrix(framed$terms, framed$data) %>%
-  glimpse()
-```
-
-# Wrap up
-
-## Recap
-
--   Mean-centering quantitative predictors
-
--   Using indicator variables for categorical predictors
-
--   Using interaction terms
-
-## Looking backward {.smaller}
-
-Data manipulation, with **dplyr** (from **tidyverse**):
-
-```{r}
-#| echo: true
-#| results: hide
-
-loan50 %>%
-  select(interest_rate, annual_income, debt_to_income, verified_income) %>%
-  mutate(
-    # 1. rescale income
-    annual_income_th = annual_income / 1000,
-    # 2. mean-center quantitative predictors
-    debt_inc_cent = debt_to_income - mean(debt_to_income),
-    annual_income_th_cent = annual_income_th - mean(annual_income_th),
-    # 3. create dummy variables for verified_income
-    source_verified = if_else(verified_income == "Source Verified", 1, 0),
-    verified = if_else(verified_income == "Verified", 1, 0),
-    # 4. create interaction variables
-    `annual_income_th_cent:verified_incomeSource Verified` = annual_income_th_cent * source_verified,
-    `annual_income_th_cent:verified_incomeVerified` = annual_income_th_cent * verified
-  )
-```
-
-## Looking forward {.smaller}
-
-**Feature engineering**, with **recipes** (from **tidymodels**):
-
-```{r}
-#| label: recipe
-#| echo: true
-
-loan_rec <- recipe( ~ ., data = loan50) %>%
-  # 1. rescale income
-  step_mutate(annual_income_th = annual_income / 1000) %>%
-  # 2. mean-center quantitative predictors
-  step_center(all_numeric_predictors()) %>%
-  # 3. create dummy variables for verified_income
-  step_dummy(verified_income) %>%
-  # 4. create interaction variables
-  step_interact(terms = ~ annual_income_th:verified_income)
-```
-
-## Recipe
-
-```{r}
-#| echo: true
-
-loan_rec
-```
